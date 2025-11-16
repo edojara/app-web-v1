@@ -1,0 +1,37 @@
+# Habilitar reescritura de URLs
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Establecer la base de reescritura
+    RewriteBase /app-web-v1/public/
+    
+    # Si el archivo o directorio existe, permitir acceso directo
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Reescribir todo a index.php
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
+
+# Seguridad
+<FilesMatch "\.php$">
+    Order Deny,Allow
+    Allow from all
+</FilesMatch>
+
+# Comprimir contenido
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+</IfModule>
+
+# Caché
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access 1 year"
+    ExpiresByType image/jpeg "access 1 year"
+    ExpiresByType image/gif "access 1 year"
+    ExpiresByType image/png "access 1 year"
+    ExpiresByType text/css "access 1 month"
+    ExpiresByType text/javascript "access 1 month"
+    ExpiresByType application/javascript "access 1 month"
+</IfModule>
