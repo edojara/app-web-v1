@@ -8,10 +8,14 @@ define('APP_NAME', 'App Web LAMP');
 define('APP_VERSION', '1.0.0');
 
 // ⚙️ CONFIGURACIÓN DE DOMINIO - Cambiar aquí para diferentes ambientes
-// Para desarrollo local: http://localhost/app-web-v1
-// Para producción: https://acreditacion.grupoeducar.cl (requiere SSL/TLS)
+// Para desarrollo local: http://localhost
+// Para producción: http://acreditacion.grupoeducar.cl (o https://acreditacion.grupoeducar.cl si configuras SSL)
 define('DOMAIN_URL', 'http://acreditacion.grupoeducar.cl');
-define('APP_URL', DOMAIN_URL . '/app-web-v1');
+
+// APP_URL debe apuntar a la raíz donde se expone la aplicación.
+// Si Apache está configurado con DocumentRoot -> /var/www/html/app-web-v1/public
+// entonces la aplicación se sirve desde la raíz del dominio y APP_URL debe ser DOMAIN_URL.
+define('APP_URL', DOMAIN_URL);
 
 // Rutas
 define('BASE_PATH', dirname(dirname(__FILE__)));
