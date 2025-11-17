@@ -4,8 +4,8 @@
  */
 
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', 'password');
+define('DB_USER', 'app_user');
+define('DB_PASS', 'app_password_2025');
 define('DB_NAME', 'app_web_db');
 
 // Crear conexión
