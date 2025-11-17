@@ -7,6 +7,9 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} !^/index\.php
     
+    # No reescribir si es solo app-web-v1 (directorio)
+    RewriteCond %{REQUEST_URI} !^/app-web-v1/?$
+    
     # Reescribir todo a index.php
     RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </IfModule>

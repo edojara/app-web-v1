@@ -9,6 +9,13 @@ require_once dirname(dirname(__FILE__)) . '/config/config.php';
 // Obtener la URL solicitada
 $url = isset($_GET['url']) ? $_GET['url'] : 'home';
 $url = rtrim($url, '/');
+$url = trim($url);
+
+// Si la URL está vacía o es solo app-web-v1, usar 'home'
+if (empty($url) || $url === 'app-web-v1') {
+    $url = 'home';
+}
+
 $url = explode('/', $url);
 
 // Obtener el controlador (por defecto: Home)
