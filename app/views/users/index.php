@@ -24,18 +24,18 @@
         
         <!-- Vista de tabla para desktop/tablet -->
         <div style="overflow-x: auto;">
-            <table class="table table-striped">
+            <table class="table table-striped" style="table-layout: auto; width: 100%;">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                        <th>Autenticación</th>
-                        <th>Último Acceso</th>
-                        <th>Estado</th>
+                        <th style="width: 50px;">ID</th>
+                        <th style="width: 150px;">Nombre</th>
+                        <th style="width: 200px;">Email</th>
+                        <th style="width: 120px;">Rol</th>
+                        <th style="width: 130px;">Autenticación</th>
+                        <th style="width: 140px;">Último Acceso</th>
+                        <th style="width: 100px;">Estado</th>
                         <?php if ($isAdmin): ?>
-                            <th style="text-align: center;">Acciones</th>
+                            <th style="text-align: center; width: 100px;">Acciones</th>
                         <?php endif; ?>
                     </tr>
                 </thead>
