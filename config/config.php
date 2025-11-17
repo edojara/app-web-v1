@@ -9,8 +9,9 @@ define('APP_VERSION', '1.0.0');
 
 // ⚙️ CONFIGURACIÓN DE DOMINIO - Cambiar aquí para diferentes ambientes
 // Para desarrollo local: http://localhost
-// Para producción: http://acreditacion.grupoeducar.cl (o https://acreditacion.grupoeducar.cl si configuras SSL)
-define('DOMAIN_URL', 'http://acreditacion.grupoeducar.cl');
+// Para servidor interno: http://acreditacion.grupoeducar.cl
+// Para internet público (ngrok): https://woodenly-asteraceous-jene.ngrok-free.dev
+define('DOMAIN_URL', 'https://woodenly-asteraceous-jene.ngrok-free.dev');
 
 // APP_URL debe apuntar a la raíz donde se expone la aplicación.
 // Si Apache está configurado con DocumentRoot -> /var/www/html/app-web-v1/public
