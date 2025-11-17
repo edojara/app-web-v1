@@ -7,6 +7,7 @@
     <?php 
     if (session_status() === PHP_SESSION_NONE) session_start();
     $isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 1;
+    // Debug: var_dump($_SESSION['user_role_id']); // Descomentar para debug
     ?>
 
     <?php if ($isAdmin): ?>
