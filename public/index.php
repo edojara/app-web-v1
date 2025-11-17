@@ -37,6 +37,9 @@ if (!$isAuthenticated && strtolower($controllerName) !== 'auth') {
 // Obtener la acción (por defecto: index)
 $action = isset($url[1]) ? $url[1] : 'index';
 
+// Convertir guiones a guiones bajos (google-login -> google_login)
+$action = str_replace('-', '_', $action);
+
 // Verificar si el controlador existe
 if (file_exists($controllerFile)) {
     require_once $controllerFile;
