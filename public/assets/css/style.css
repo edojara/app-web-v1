@@ -257,13 +257,14 @@ select:disabled {
 }
 
 .btn-primary {
-    background-color: var(--secondary-color);
+    background-color: #1976d2;
     color: white;
+    font-weight: 600;
 }
 
 .btn-primary:hover {
-    background-color: #2980b9;
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    background-color: #1565c0;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
 }
 
 .btn-success {
@@ -593,12 +594,12 @@ select:disabled {
 .google-btn {
     width: 100%;
     padding: 0.75rem;
-    border: 2px solid var(--light-color);
+    border: 2px solid #dadce0;
     background-color: white;
-    color: #333;
+    color: #1f1f1f;
     border-radius: var(--border-radius);
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
     transition: var(--transition);
     display: flex;
     align-items: center;
@@ -607,8 +608,9 @@ select:disabled {
 }
 
 .google-btn:hover {
-    border-color: var(--secondary-color);
+    border-color: #1976d2;
     background-color: #f8f9fa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .google-btn img {
