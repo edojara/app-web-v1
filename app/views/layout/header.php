@@ -16,7 +16,6 @@
             <div class="menu">
                 <a href="<?php echo APP_URL; ?>">Inicio</a>
                 <a href="<?php echo APP_URL; ?>/?url=home/about">Acerca de</a>
-                <a href="<?php echo APP_URL; ?>/?url=users">Usuarios</a>
                 <a href="<?php echo APP_URL; ?>/?url=instituciones">Instituciones</a>
                 <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
                 <?php if (isset($_SESSION['user_id'])): ?>
@@ -25,6 +24,7 @@
                             👤 <?php echo htmlspecialchars($_SESSION['user_email'] ?? 'Usuario'); ?>
                         </a>
                         <div class="dropdown-content" id="userDropdown">
+                            <a href="<?php echo APP_URL; ?>/?url=users">Gestión de Usuarios</a>
                             <a href="<?php echo APP_URL; ?>/?url=profile">Mi Perfil</a>
                             <a href="<?php echo APP_URL; ?>/?url=auth/logout">Salir</a>
                         </div>
