@@ -66,6 +66,12 @@ class AuditController {
         // Obtener estadísticas
         $estadisticas = $this->auditLog->getEstadisticas();
         
+        // Agregar estadísticas de usuarios del sistema
+        $estadisticas['total_usuarios'] = count($usuarios);
+        $estadisticas['usuarios_activos_sistema'] = count(array_filter($usuarios, function($u) {
+            return $u['estado'] === 'activo';
+        }));
+        
         require_once VIEWS_PATH . '/layout/header.php';
         require_once VIEWS_PATH . '/audit/index.php';
         require_once VIEWS_PATH . '/layout/footer.php';

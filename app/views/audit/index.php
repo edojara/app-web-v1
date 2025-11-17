@@ -8,20 +8,20 @@
     <?php if (!empty($estadisticas)): ?>
     <div class="stats-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
         <div class="card" style="text-align: center;">
-            <h3 style="color: var(--secondary-color); margin-bottom: 0.5rem;"><?php echo number_format($estadisticas['total_logs']); ?></h3>
-            <p style="color: #666; font-size: 0.9rem;">Total de Registros</p>
+            <h3 style="color: var(--secondary-color); margin-bottom: 0.5rem;"><?php echo number_format($estadisticas['total_usuarios'] ?? 0); ?></h3>
+            <p style="color: #666; font-size: 0.9rem;">Total Usuarios</p>
         </div>
         <div class="card" style="text-align: center;">
-            <h3 style="color: var(--success-color); margin-bottom: 0.5rem;"><?php echo number_format($estadisticas['usuarios_activos']); ?></h3>
+            <h3 style="color: var(--success-color); margin-bottom: 0.5rem;"><?php echo number_format($estadisticas['usuarios_activos_sistema'] ?? 0); ?></h3>
             <p style="color: #666; font-size: 0.9rem;">Usuarios Activos</p>
         </div>
         <div class="card" style="text-align: center;">
-            <h3 style="color: var(--warning-color); margin-bottom: 0.5rem;"><?php echo number_format($estadisticas['dias_activos']); ?></h3>
-            <p style="color: #666; font-size: 0.9rem;">Días con Actividad</p>
+            <h3 style="color: var(--warning-color); margin-bottom: 0.5rem;"><?php echo number_format($estadisticas['total_logs'] ?? 0); ?></h3>
+            <p style="color: #666; font-size: 0.9rem;">Registros de Auditoría</p>
         </div>
         <div class="card" style="text-align: center;">
             <h3 style="color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1rem;">
-                <?php echo $estadisticas['ultima_actividad'] ? date('d/m/Y H:i', strtotime($estadisticas['ultima_actividad'])) : 'N/A'; ?>
+                <?php echo !empty($estadisticas['ultima_actividad']) ? date('d/m/Y H:i', strtotime($estadisticas['ultima_actividad'])) : 'Sin actividad'; ?>
             </h3>
             <p style="color: #666; font-size: 0.9rem;">Última Actividad</p>
         </div>
