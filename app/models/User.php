@@ -53,6 +53,26 @@ class User {
             return null;
         }
     }
+
+    /**
+     * Obtener usuario por email
+     */
+    public function getByEmail($email) {
+        try {
+            $query = "SELECT * FROM " . $this->table . " WHERE email = ? LIMIT 1";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            return $result->fetch_assoc();
+        } catch (Exception $e) {
+            if (DEBUG) {
+                echo "Error: " . $e->getMessage();
+            }
+            return null;
+        }
+    }
     
     /**
      * Crear nuevo usuario

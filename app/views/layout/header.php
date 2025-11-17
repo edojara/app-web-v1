@@ -69,6 +69,13 @@
                 <a href="<?php echo APP_URL; ?>">Inicio</a>
                 <a href="<?php echo APP_URL; ?>/?url=home/about">Acerca de</a>
                 <a href="<?php echo APP_URL; ?>/?url=users">Usuarios</a>
+                <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <span style="color: #fff; margin-left: 0.8rem;">|</span>
+                    <a href="<?php echo APP_URL; ?>/?url=auth/logout">Cerrar sesión (<?php echo htmlspecialchars($_SESSION['user_name']); ?>)</a>
+                <?php else: ?>
+                    <a href="<?php echo APP_URL; ?>/?url=auth/login">Ingresar</a>
+                <?php endif; ?>
             </div>
         </nav>
     </header>
