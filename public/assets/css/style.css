@@ -97,6 +97,57 @@ nav a:hover {
     color: #3498db;
 }
 
+/* Menú desplegable de usuario */
+.user-menu-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-menu-dropdown .user-email {
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-menu-dropdown .user-email:hover {
+    background-color: rgba(52, 152, 219, 0.3);
+}
+
+.user-menu-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    z-index: 1000;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.user-menu-dropdown .dropdown-content.show {
+    display: block;
+}
+
+.user-menu-dropdown .dropdown-content a {
+    color: var(--primary-color);
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    display: block;
+    transition: var(--transition);
+}
+
+.user-menu-dropdown .dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: var(--secondary-color);
+}
+
 nav .user-menu {
     display: flex;
     gap: 1rem;

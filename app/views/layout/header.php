@@ -19,9 +19,14 @@
                 <a href="<?php echo APP_URL; ?>/?url=users">Usuarios</a>
                 <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <div class="user-menu">
-                        <a href="<?php echo APP_URL; ?>/?url=profile">👤 <?php echo htmlspecialchars($_SESSION['user_email'] ?? 'Mi Perfil'); ?></a>
-                        <a href="<?php echo APP_URL; ?>/?url=auth/logout">Salir</a>
+                    <div class="user-menu-dropdown">
+                        <a href="#" class="user-email" onclick="toggleUserMenu(event)">
+                            👤 <?php echo htmlspecialchars($_SESSION['user_email'] ?? 'Usuario'); ?>
+                        </a>
+                        <div class="dropdown-content" id="userDropdown">
+                            <a href="<?php echo APP_URL; ?>/?url=profile">Mi Perfil</a>
+                            <a href="<?php echo APP_URL; ?>/?url=auth/logout">Salir</a>
+                        </div>
                     </div>
                 <?php else: ?>
                     <a href="<?php echo APP_URL; ?>/?url=auth/login">Ingresar</a>
@@ -29,6 +34,24 @@
             </div>
         </nav>
     </header>
+    
+    <script>
+    function toggleUserMenu(event) {
+        event.preventDefault();
+        const dropdown = document.getElementById('userDropdown');
+        dropdown.classList.toggle('show');
+    }
+    
+    // Cerrar el dropdown si se hace clic fuera de él
+    window.onclick = function(event) {
+        if (!event.target.matches('.user-email')) {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown && dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        }
+    }
+    </script>
     
     <div class="page-wrapper">
         <div class="container">
