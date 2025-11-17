@@ -24,60 +24,74 @@ $isAdmin = true;
 
     <?php if (count($users) > 0): ?>
     
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th style="width: 50px;">ID</th>
-                <th style="width: 200px;">Nombre</th>
-                <th style="width: 250px;">Email</th>
-                <th style="width: 120px;">Rol</th>
-                <th style="width: 130px;">Autenticación</th>
-                <th style="width: 150px;">Último Acceso</th>
-                <th style="width: 100px;">Estado</th>
-                <th style="width: 120px; text-align: center;">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
-            <tr ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>'" style="cursor: pointer;" title="Doble click para ver detalles">
-                <td><?php echo $user['id']; ?></td>
-                <td><?php echo htmlspecialchars($user['name']); ?></td>
-                <td><?php echo htmlspecialchars($user['email']); ?></td>
-                <td>
-                    <span class="badge badge-primary">
-                        <?php echo $user['role_nombre'] ?? 'Sin rol'; ?>
-                    </span>
-                </td>
-                <td>
-                    <?php if ($user['auth_type'] === 'google'): ?>
-                    <span class="badge badge-danger">🔴 Google</span>
-                    <?php else: ?>
-                    <span class="badge badge-secondary">🔒 Local</span>
-                    <?php endif; ?>
-                </td>
-                <td>
-                    <?php if ($user['last_login']): ?>
-                        <?php echo date('d/m/Y H:i', strtotime($user['last_login'])); ?>
-                    <?php else: ?>
-                        <em>Nunca</em>
-                    <?php endif; ?>
-                </td>
-                <td>
-                    <?php if ($user['estado'] === 'activo'): ?>
-                    <span class="badge badge-success">✓ Activo</span>
-                    <?php else: ?>
-                    <span class="badge badge-warning">✗ Inactivo</span>
-                    <?php endif; ?>
-                </td>
-                <td style="text-align: center; white-space: nowrap;">
-                    <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" 
-                       class="btn btn-sm btn-primary" style="margin-right: 0.25rem;">✏️</a>
-                    <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" 
-                       class="btn btn-sm btn-danger"
-                       onclick="return confirm('¿Eliminar usuario <?php echo htmlspecialchars($user['name']); ?>?')">🗑️</a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <colgroup>
+                <col style="width: 50px;">
+                <col style="width: 200px;">
+                <col style="width: 250px;">
+                <col style="width: 120px;">
+                <col style="width: 130px;">
+                <col style="width: 150px;">
+                <col style="width: 100px;">
+                <col style="width: 120px;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Autenticación</th>
+                    <th>Último Acceso</th>
+                    <th>Estado</th>
+                    <th style="text-align: center;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $user): ?>
+                <tr ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>'" style="cursor: pointer;" title="Doble click para ver detalles">
+                    <td><?php echo $user['id']; ?></td>
+                    <td><?php echo htmlspecialchars($user['name']); ?></td>
+                    <td><?php echo htmlspecialchars($user['email']); ?></td>
+                    <td>
+                        <span class="badge badge-primary">
+                            <?php echo $user['role_nombre'] ?? 'Sin rol'; ?>
+                        </span>
+                    </td>
+                    <td>
+                        <?php if ($user['auth_type'] === 'google'): ?>
+                        <span class="badge badge-danger">🔴 Google</span>
+                        <?php else: ?>
+                        <span class="badge badge-secondary">🔒 Local</span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ($user['last_login']): ?>
+                            <?php echo date('d/m/Y H:i', strtotime($user['last_login'])); ?>
+                        <?php else: ?>
+                            <em>Nunca</em>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ($user['estado'] === 'activo'): ?>
+                        <span class="badge badge-success">✓ Activo</span>
+                        <?php else: ?>
+                        <span class="badge badge-warning">✗ Inactivo</span>
+                        <?php endif; ?>
+                    </td>
+                    <td style="text-align: center; white-space: nowrap;">
+                        <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" 
+                           class="btn btn-sm btn-primary" style="margin-right: 0.25rem;">✏️</a>
+                        <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" 
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('¿Eliminar usuario <?php echo htmlspecialchars($user['name']); ?>?')">🗑️</a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
         </tbody>
     </table>
 
