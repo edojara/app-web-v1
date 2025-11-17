@@ -68,6 +68,7 @@
             <div>
                 <a href="<?php echo APP_URL; ?>/public/index.php">Inicio</a>
                 <a href="<?php echo APP_URL; ?>/public/index.php?url=home/about">Acerca de</a>
+                <a href="<?php echo APP_URL; ?>/public/index.php?url=users">Usuarios</a>
             </div>
         </nav>
     </header>
