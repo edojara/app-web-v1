@@ -18,6 +18,7 @@
     <?php endif; ?>
 
     <?php if (count($users) > 0): ?>
+        <!-- Vista de tabla para desktop/tablet -->
         <div style="overflow-x: auto;">
             <table class="table table-striped">
                 <thead>
@@ -26,7 +27,7 @@
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Rol</th>
-                        <th>Tipo de Autenticación</th>
+                        <th>Tipo Auth</th>
                         <th>Último Acceso</th>
                         <th>Estado</th>
                         <?php if ($isAdmin): ?>
@@ -81,6 +82,66 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+        </div>
+
+        <!-- Vista de tarjetas para móvil -->
+        <div class="users-mobile-view" style="display: none;">
+            <?php foreach ($users as $user): ?>
+                <div class="user-card-mobile">
+                    <div class="user-header">
+                        <div class="user-name"><?php echo htmlspecialchars($user['name']); ?></div>
+                        <?php if ($user['estado'] === 'activo'): ?>
+                            <span class="badge badge-success">✓ Activo</span>
+                        <?php else: ?>
+                            <span class="badge badge-warning">✗ Inactivo</span>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="user-info">
+                        <div class="user-info-row">
+                            <span class="user-info-label">📧 Email:</span>
+                            <span style="font-size: 0.8rem;"><?php echo htmlspecialchars($user['email']); ?></span>
+                        </div>
+                        
+                        <div class="user-info-row">
+                            <span class="user-info-label">📋 Rol:</span>
+                            <span class="badge badge-primary">
+                                <?php echo $user['role_nombre'] ?? 'Sin rol'; ?>
+                            </span>
+                        </div>
+                        
+                        <div class="user-info-row">
+                            <span class="user-info-label">🔑 Autenticación:</span>
+                            <?php if ($user['auth_type'] === 'google'): ?>
+                                <span class="badge badge-danger">Google</span>
+                            <?php else: ?>
+                                <span class="badge badge-secondary">Local</span>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <div class="user-info-row">
+                            <span class="user-info-label">🕒 Último acceso:</span>
+                            <span style="font-size: 0.8rem;">
+                                <?php 
+                                if ($user['last_login']) {
+                                    echo date('d/m/Y H:i', strtotime($user['last_login']));
+                                } else {
+                                    echo '<em>Nunca</em>';
+                                }
+                                ?>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <?php if ($isAdmin): ?>
+                        <div class="user-actions">
+                            <a href="<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-outline">👁️ Ver</a>
+                            <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">✏️ Editar</a>
+                            <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirmDelete('<?php echo htmlspecialchars($user['name']); ?>')">🗑️</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
         </div>
     <?php else: ?>
         <div class="alerta alerta-info" style="text-align: center;">

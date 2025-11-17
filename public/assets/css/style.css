@@ -687,13 +687,20 @@ footer a:hover {
         padding: 1.5rem;
     }
 
+    /* TABLA RESPONSIVE - Ocultar columnas menos importantes en tablet */
+    .table thead th:nth-child(1),
+    .table tbody td:nth-child(1) {
+        display: none; /* Ocultar ID */
+    }
+
     .table {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     .table th,
     .table td {
-        padding: 0.75rem;
+        padding: 0.6rem 0.4rem;
+        white-space: nowrap;
     }
 
     .user-actions {
@@ -701,9 +708,12 @@ footer a:hover {
         gap: 0.25rem;
     }
 
-    .action-btn {
+    .action-btn,
+    .user-actions .btn {
         width: 100%;
         text-align: center;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.5rem;
     }
 
     h1 {
@@ -737,6 +747,73 @@ footer a:hover {
     nav .user-menu a {
         flex: 1;
         text-align: center;
+        font-size: 0.8rem;
+    }
+
+    /* VISTA DE TARJETAS PARA MÓVIL */
+    .table {
+        display: none; /* Ocultar tabla en móviles pequeños */
+    }
+
+    /* Mostrar vista de tarjetas en su lugar */
+    .users-mobile-view {
+        display: block !important;
+    }
+
+    .user-card-mobile {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .user-card-mobile .user-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .user-card-mobile .user-name {
+        font-weight: 600;
+        font-size: 1rem;
+        color: #2c3e50;
+    }
+
+    .user-card-mobile .user-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .user-card-mobile .user-info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.875rem;
+    }
+
+    .user-card-mobile .user-info-label {
+        color: #666;
+        font-weight: 500;
+    }
+
+    .user-card-mobile .user-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .user-card-mobile .btn-sm {
+        flex: 1;
+        padding: 0.5rem;
         font-size: 0.8rem;
     }
 }
