@@ -2,16 +2,35 @@
 /**
  * Configuración de Google OAuth2
  * 
- * Para configurar:
- * 1. Ve a https://console.cloud.google.com
- * 2. Crea un nuevo proyecto
- * 3. Habilita Google+ API
- * 4. Crea credenciales OAuth2 (Aplicación web)
- * 5. Autoriza redirect: http://acreditacion.grupoeducar.cl/?url=auth/google-callback
- * 6. Copia los valores aquí
+ * Configura las credenciales usando variables de entorno:
+ * 
+ * 1. En Apache, agrega a VirtualHost:
+ *    SetEnv GOOGLE_CLIENT_ID "your-client-id.apps.googleusercontent.com"
+ *    SetEnv GOOGLE_CLIENT_SECRET "your-client-secret"
+ * 
+ * 2. O en la terminal (bash):
+ *    export GOOGLE_CLIENT_ID="your-client-id.apps.googleusercontent.com"
+ *    export GOOGLE_CLIENT_SECRET="your-client-secret"
+ * 
+ * 3. O crea un archivo .env en la raíz del proyecto con:
+ *    GOOGLE_CLIENT_ID=your-client-id
+ *    GOOGLE_CLIENT_SECRET=your-client-secret
  */
 
-// Google OAuth2 Credentials
+// Cargar variables de entorno desde .env si existe
+$envFile = dirname(dirname(__FILE__)) . '/.env';
+if (file_exists($envFile)) {
+    $env = parse_ini_file($envFile);
+    if ($env) {
+        foreach ($env as $key => $value) {
+            if (!getenv($key)) {
+                putenv("$key=$value");
+            }
+        }
+    }
+}
+
+// Google OAuth2 Credentials (desde variables de entorno)
 define('GOOGLE_CLIENT_ID', getenv('GOOGLE_CLIENT_ID') ?: '');
 define('GOOGLE_CLIENT_SECRET', getenv('GOOGLE_CLIENT_SECRET') ?: '');
 define('GOOGLE_REDIRECT_URI', APP_URL . '/?url=auth/google-callback');
