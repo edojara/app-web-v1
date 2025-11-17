@@ -24,7 +24,7 @@ $isAdmin = true;
 
     <?php if (count($users) > 0): ?>
     
-    <table class="table table-striped">
+    <table class="table table-striped" style="table-layout: fixed; width: 100%;">
         <thead>
             <tr>
                 <th style="width: 50px;">ID</th>
@@ -34,7 +34,7 @@ $isAdmin = true;
                 <th style="width: 130px;">Autenticación</th>
                 <th style="width: 150px;">Último Acceso</th>
                 <th style="width: 100px;">Estado</th>
-                <th style="width: 120px; text-align: center;">Acciones</th>
+                <th style="text-align: center;">Acciones</th>
             </tr>
         </thead>
         <tbody>
