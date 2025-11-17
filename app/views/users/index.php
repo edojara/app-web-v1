@@ -71,6 +71,36 @@ $isAdmin = true;
         .text-center {
             text-align: center;
         }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            margin: 0 0.15rem;
+        }
+        .btn-edit {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        .btn-edit:hover {
+            background: #1976d2;
+            color: white;
+            transform: scale(1.1);
+        }
+        .btn-delete {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+        .btn-delete:hover {
+            background: #d32f2f;
+            color: white;
+            transform: scale(1.1);
+        }
     </style>
 
     <div class="users-grid">
@@ -120,9 +150,9 @@ $isAdmin = true;
             </div>
             <div class="text-center" style="white-space: normal;">
                 <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" 
-                   class="btn btn-sm btn-primary" style="margin-right: 0.25rem;">✏️</a>
+                   class="btn-action btn-edit" title="Editar">✏️</a>
                 <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" 
-                   class="btn btn-sm btn-danger"
+                   class="btn-action btn-delete" title="Eliminar"
                    onclick="return confirm('¿Eliminar usuario <?php echo htmlspecialchars($user['name']); ?>?')">🗑️</a>
             </div>
         </div>
