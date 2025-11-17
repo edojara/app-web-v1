@@ -39,6 +39,9 @@ class AuthController {
                         $_SESSION['user_email'] = $user['email'];
                         $_SESSION['auth_type'] = 'local';
 
+                        // Actualizar último login
+                        $this->userModel->updateLastLogin($user['id']);
+
                         header('Location: ' . APP_URL);
                         exit;
                     }
@@ -136,6 +139,9 @@ class AuthController {
                             $_SESSION['user_role_id'] = $user['role_id'];
                             $_SESSION['user_email'] = $user['email'];
                             $_SESSION['auth_type'] = 'google';
+
+                            // Actualizar último login
+                            $this->userModel->updateLastLogin($user['id']);
 
                             header('Location: ' . APP_URL);
                             exit;

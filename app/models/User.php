@@ -195,5 +195,66 @@ class User {
             return false;
         }
     }
+
+    /**
+     * Actualizar último login del usuario
+     */
+    public function updateLastLogin($id) {
+        try {
+            $query = "UPDATE " . $this->table . " SET last_login = NOW() WHERE id = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("i", $id);
+            
+            return $stmt->execute();
+        } catch (Exception $e) {
+            if (DEBUG) {
+                echo "Error: " . $e->getMessage();
+            }
+            return false;
+        }
+    }
+
+    /**
+     * Registrar cambio en auditoría
+     */
+    public function logAudit($adminId, $adminName, $targetUserId, $targetUserName, $action, $changes = []) {
+        try {
+            $query = "INSERT INTO user_audit_logs (admin_user_id, admin_user_name, target_user_id, target_user_name, action, changes) 
+                     VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $this->conn->prepare($query);
+            $changesJson = json_encode($changes);
+            $stmt->bind_param("isisss", $adminId, $adminName, $targetUserId, $targetUserName, $action, $changesJson);
+            
+            return $stmt->execute();
+        } catch (Exception $e) {
+            if (DEBUG) {
+                echo "Error: " . $e->getMessage();
+            }
+            return false;
+        }
+    }
+
+    /**
+     * Obtener logs de auditoría
+     */
+    public function getAuditLogs($limit = 50) {
+        try {
+            $query = "SELECT * FROM user_audit_logs ORDER BY created_at DESC LIMIT ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("i", $limit);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result && $result->num_rows > 0) {
+                return $result->fetch_all(MYSQLI_ASSOC);
+            }
+            return [];
+        } catch (Exception $e) {
+            if (DEBUG) {
+                echo "Error: " . $e->getMessage();
+            }
+            return [];
+        }
+    }
 }
 ?>
