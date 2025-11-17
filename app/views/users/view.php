@@ -42,8 +42,8 @@
 </div>
 
 <div>
-    <a href="<?php echo APP_URL; ?>/public/index.php?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-warning" style="display: inline-block; margin-right: 0.5rem;">Editar</a>
-    <a href="<?php echo APP_URL; ?>/public/index.php?url=users" class="btn btn-secondary" style="display: inline-block;">Volver</a>
+    <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-warning" style="display: inline-block; margin-right: 0.5rem;">Editar</a>
+    <a href="<?php echo APP_URL; ?>/?url=users" class="btn btn-secondary" style="display: inline-block;">Volver</a>
 </div>
 
 <style>

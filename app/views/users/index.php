@@ -1,6 +1,6 @@
 <h1>Gestión de Usuarios</h1>
 
-<a href="<?php echo APP_URL; ?>/public/index.php?url=users/create" class="btn btn-primary" style="display: inline-block; margin-bottom: 1.5rem;">
+<a href="<?php echo APP_URL; ?>/?url=users/create" class="btn btn-primary" style="display: inline-block; margin-bottom: 1.5rem;">
     + Nuevo Usuario
 </a>
 
@@ -33,9 +33,9 @@
                         </span>
                     </td>
                     <td style="padding: 1rem; border: 1px solid #ddd; text-align: center;">
-                        <a href="<?php echo APP_URL; ?>/public/index.php?url=users/view&id=<?php echo $user['id']; ?>" style="color: #3498db; text-decoration: none; margin: 0 0.5rem;">Ver</a>
-                        <a href="<?php echo APP_URL; ?>/public/index.php?url=users/edit&id=<?php echo $user['id']; ?>" style="color: #f39c12; text-decoration: none; margin: 0 0.5rem;">Editar</a>
-                        <a href="<?php echo APP_URL; ?>/public/index.php?url=users/delete&id=<?php echo $user['id']; ?>" style="color: #e74c3c; text-decoration: none; margin: 0 0.5rem;" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+                        <a href="<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>" style="color: #3498db; text-decoration: none; margin: 0 0.5rem;">Ver</a>
+                        <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" style="color: #f39c12; text-decoration: none; margin: 0 0.5rem;">Editar</a>
+                        <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" style="color: #e74c3c; text-decoration: none; margin: 0 0.5rem;" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

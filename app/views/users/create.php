@@ -32,7 +32,7 @@
     
     <div>
         <button type="submit" class="btn btn-success" style="display: inline-block; margin-right: 0.5rem;">Crear Usuario</button>
-        <a href="<?php echo APP_URL; ?>/public/index.php?url=users" class="btn btn-secondary" style="display: inline-block;">Cancelar</a>
+        <a href="<?php echo APP_URL; ?>/?url=users" class="btn btn-secondary" style="display: inline-block;">Cancelar</a>
     </div>
 </form>
 
