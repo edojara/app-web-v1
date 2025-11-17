@@ -6,15 +6,18 @@
 
 require_once MODELS_PATH . '/User.php';
 require_once MODELS_PATH . '/Role.php';
+require_once MODELS_PATH . '/AuditLog.php';
 
 class UsersController {
 
     private $userModel;
     private $roleModel;
+    private $auditLog;
 
     public function __construct() {
         $this->userModel = new User();
         $this->roleModel = new Role();
+        $this->auditLog = new AuditLog();
     }
 
     /**
@@ -105,15 +108,19 @@ class UsersController {
                     'auth_type' => $authType
                 ];
                 
-                if ($this->userModel->create($data)) {
+                if ($userId = $this->userModel->create($data)) {
                     // Registrar en auditoría
-                    $this->userModel->logAudit(
-                        $_SESSION['user_id'],
-                        $_SESSION['user_name'],
-                        0, // Se obtiene el ID del usuario creado
-                        $name,
-                        'create',
-                        ['auth_type' => $authType, 'email' => $email, 'role_id' => $roleId]
+                    $this->auditLog->log(
+                        'crear_usuario',
+                        $userId,
+                        [
+                            'despues' => [
+                                'name' => $name,
+                                'email' => $email,
+                                'auth_type' => $authType,
+                                'role_id' => $roleId
+                            ]
+                        ]
                     );
                     $mensaje = '<div class="alerta alerta-exito">Usuario creado exitosamente</div>';
                     header('Location: ' . APP_URL . '/?url=users');
@@ -166,22 +173,19 @@ class UsersController {
                 $mensaje = '<div class="alerta alerta-error">Nombre y email son requeridos</div>';
             } elseif ($this->userModel->update($id, $data)) {
                 // Registrar en auditoría
-                $changes = array_diff_assoc($data, [
-                    'name' => $user['name'],
-                    'email' => $user['email'],
-                    'role_id' => $user['role_id'],
-                    'estado' => $user['estado']
-                ]);
-                if (!empty($changes)) {
-                    $this->userModel->logAudit(
-                        $_SESSION['user_id'],
-                        $_SESSION['user_name'],
-                        $id,
-                        $user['name'],
-                        'update',
-                        $changes
-                    );
-                }
+                $this->auditLog->log(
+                    'editar_usuario',
+                    $id,
+                    [
+                        'antes' => [
+                            'name' => $user['name'],
+                            'email' => $user['email'],
+                            'role_id' => $user['role_id'],
+                            'estado' => $user['estado']
+                        ],
+                        'despues' => $data
+                    ]
+                );
                 $mensaje = '<div class="alerta alerta-exito">Usuario actualizado exitosamente</div>';
                 header('Location: ' . APP_URL . '/?url=users');
                 exit;
@@ -212,13 +216,16 @@ class UsersController {
 
         if ($this->userModel->delete($id)) {
             // Registrar en auditoría
-            $this->userModel->logAudit(
-                $_SESSION['user_id'],
-                $_SESSION['user_name'],
+            $this->auditLog->log(
+                'eliminar_usuario',
                 $id,
-                $user['name'] ?? 'Desconocido',
-                'delete',
-                ['email' => $user['email'] ?? null]
+                [
+                    'antes' => [
+                        'name' => $user['name'] ?? 'Desconocido',
+                        'email' => $user['email'] ?? null,
+                        'role_id' => $user['role_id'] ?? null
+                    ]
+                ]
             );
             $_SESSION['mensaje'] = 'Usuario eliminado exitosamente';
         } else {

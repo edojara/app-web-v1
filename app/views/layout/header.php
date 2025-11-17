@@ -19,6 +19,9 @@
                 <a href="<?php echo APP_URL; ?>/?url=users">Usuarios</a>
                 <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
                 <?php if (isset($_SESSION['user_id'])): ?>
+                    <?php if (isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 1): ?>
+                        <a href="<?php echo APP_URL; ?>/?url=audit">📋 Auditoría</a>
+                    <?php endif; ?>
                     <div class="user-menu">
                         <a href="<?php echo APP_URL; ?>/?url=profile">👤 Mi Perfil</a>
                         <a href="<?php echo APP_URL; ?>/?url=auth/logout">Salir</a>
