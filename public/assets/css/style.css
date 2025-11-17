@@ -469,8 +469,9 @@ select:disabled {
 }
 
 .badge-danger {
-    background-color: var(--danger-color);
-    color: white;
+    background-color: transparent;
+    color: #c0392b;
+    padding: 0.25rem 0.5rem;
 }
 
 .badge-warning {
@@ -479,8 +480,9 @@ select:disabled {
 }
 
 .badge-secondary {
-    background-color: var(--gray-color);
-    color: white;
+    background-color: transparent;
+    color: #5a6c7d;
+    padding: 0.25rem 0.5rem;
 }
 
 .badge-light {
