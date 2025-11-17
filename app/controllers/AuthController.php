@@ -198,6 +198,15 @@ class AuthController {
         header('Location: ' . APP_URL . '/?url=auth/login');
         exit;
     }
+
+    // Aliases para que el router encuentre los métodos con guiones
+    public function google_login() {
+        $this->googleLogin();
+    }
+
+    public function google_callback() {
+        $this->googleCallback();
+    }
 }
 
 ?>
