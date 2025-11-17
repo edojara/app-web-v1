@@ -35,55 +35,26 @@
                         <th style="width: 130px;">Autenticación</th>
                         <th style="width: 140px;">Último Acceso</th>
                         <th style="width: 100px;">Estado</th>
-                        <?php if ($isAdmin): ?>
-                            <th style="text-align: center; width: 100px;">Acciones</th>
-                        <?php endif; ?>
+<?php if ($isAdmin): ?>
+                        <th style="text-align: center; width: 100px;">Acciones</th>
+<?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($users as $user): ?>
-                        <tr ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>'" style="cursor: pointer;" title="Doble click para ver detalles">
-                            <td><strong><?php echo $user['id']; ?></strong></td>
-                            <td><?php echo htmlspecialchars($user['name']); ?></td>
-                            <td><?php echo htmlspecialchars($user['email']); ?></td>
-                            <td>
-                                <span class="badge badge-primary">
-                                    <?php echo $user['role_nombre'] ?? 'Sin rol'; ?>
-                                </span>
-                            </td>
-                            <td>
-                                <?php if ($user['auth_type'] === 'google'): ?>
-                                    <span class="badge badge-danger">🔴 Google</span>
-                                <?php else: ?>
-                                    <span class="badge badge-secondary">🔒 Local</span>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php 
-                                if ($user['last_login']) {
-                                    echo '<small>' . date('d/m/Y H:i', strtotime($user['last_login'])) . '</small>';
-                                } else {
-                                    echo '<span class="text-muted"><em>Nunca</em></span>';
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php if ($user['estado'] === 'activo'): ?>
-                                    <span class="badge badge-success">✓ Activo</span>
-                                <?php else: ?>
-                                    <span class="badge badge-warning">✗ Inactivo</span>
-                                <?php endif; ?>
-                            </td>
-                            <?php if ($isAdmin): ?>
-                            <td style="text-align: center;">
-                                <div class="user-actions">
-                                    <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;">✏️</a>
-                                    <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-danger" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;" onclick="return confirmDelete('<?php echo htmlspecialchars($user['name']); ?>')">🗑️</a>
-                                </div>
-                            </td>
-                            <?php endif; ?>
-                        </tr>
-                    <?php endforeach; ?>
+<?php foreach ($users as $user): ?>
+                    <tr ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>'" style="cursor: pointer;" title="Doble click para ver detalles">
+                        <td><strong><?php echo $user['id']; ?></strong></td>
+                        <td><?php echo htmlspecialchars($user['name']); ?></td>
+                        <td><?php echo htmlspecialchars($user['email']); ?></td>
+                        <td><span class="badge badge-primary"><?php echo $user['role_nombre'] ?? 'Sin rol'; ?></span></td>
+                        <td><?php if ($user['auth_type'] === 'google'): ?><span class="badge badge-danger">🔴 Google</span><?php else: ?><span class="badge badge-secondary">🔒 Local</span><?php endif; ?></td>
+                        <td><?php if ($user['last_login']) { echo '<small>' . date('d/m/Y H:i', strtotime($user['last_login'])) . '</small>'; } else { echo '<span class="text-muted"><em>Nunca</em></span>'; } ?></td>
+                        <td><?php if ($user['estado'] === 'activo'): ?><span class="badge badge-success">✓ Activo</span><?php else: ?><span class="badge badge-warning">✗ Inactivo</span><?php endif; ?></td>
+<?php if ($isAdmin): ?>
+                        <td style="text-align: center;"><div class="user-actions"><a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;">✏️</a><a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-danger" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;" onclick="return confirmDelete('<?php echo htmlspecialchars($user['name']); ?>')">🗑️</a></div></td>
+<?php endif; ?>
+                    </tr>
+<?php endforeach; ?>
                 </tbody>
             </table>
         </div>
