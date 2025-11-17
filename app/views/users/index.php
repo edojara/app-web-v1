@@ -1,94 +1,90 @@
-<h1>Gestión de Usuarios</h1>
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">👥 Gestión de Usuarios</h1>
+        <p class="card-subtitle">Administra los usuarios del sistema</p>
+    </div>
 
-<?php 
-if (session_status() === PHP_SESSION_NONE) session_start();
-$isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 1;
-?>
+    <?php 
+    if (session_status() === PHP_SESSION_NONE) session_start();
+    $isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 1;
+    ?>
 
-<?php if ($isAdmin): ?>
-    <a href="<?php echo APP_URL; ?>/?url=users/create" class="btn btn-primary" style="display: inline-block; margin-bottom: 1.5rem;">
-        + Nuevo Usuario
-    </a>
-<?php endif; ?>
+    <?php if ($isAdmin): ?>
+        <div class="mb-3">
+            <a href="<?php echo APP_URL; ?>/?url=users/create" class="btn btn-primary">
+                ➕ Crear Nuevo Usuario
+            </a>
+        </div>
+    <?php endif; ?>
 
-<?php if (count($users) > 0): ?>
-    <table style="width: 100%; border-collapse: collapse; background-color: white;">
-        <thead>
-            <tr style="background-color: #2c3e50; color: white;">
-                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">ID</th>
-                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Nombre</th>
-                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Email</th>
-                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Rol</th>
-                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Tipo Auth</th>
-                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Último Login</th>
-                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Estado</th>
-                <?php if ($isAdmin): ?>
-                    <th style="padding: 1rem; text-align: center; border: 1px solid #ddd;">Acciones</th>
-                <?php endif; ?>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
-                <tr style="border-bottom: 1px solid #ddd; hover: background-color: #f9f9f9;">
-                    <td style="padding: 1rem; border: 1px solid #ddd;"><?php echo $user['id']; ?></td>
-                    <td style="padding: 1rem; border: 1px solid #ddd;"><?php echo htmlspecialchars($user['name']); ?></td>
-                    <td style="padding: 1rem; border: 1px solid #ddd;"><?php echo htmlspecialchars($user['email']); ?></td>
-                    <td style="padding: 1rem; border: 1px solid #ddd;">
-                        <span style="background-color: #3498db; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem;">
-                            <?php echo $user['role_nombre'] ?? 'Sin rol'; ?>
-                        </span>
-                    </td>
-                    <td style="padding: 1rem; border: 1px solid #ddd;">
-                        <span style="background-color: <?php echo $user['auth_type'] === 'google' ? '#DB4437' : '#2c3e50'; ?>; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem;">
-                            <?php echo $user['auth_type'] === 'google' ? 'Google' : 'Local'; ?>
-                        </span>
-                    </td>
-                    <td style="padding: 1rem; border: 1px solid #ddd;">
-                        <?php 
-                        if ($user['last_login']) {
-                            echo date('d/m/Y H:i', strtotime($user['last_login']));
-                        } else {
-                            echo '<span style="color: #999; font-style: italic;">Nunca</span>';
-                        }
-                        ?>
-                    </td>
-                    <td style="padding: 1rem; border: 1px solid #ddd;">
-                        <span style="background-color: <?php echo $user['estado'] === 'activo' ? '#27ae60' : '#e74c3c'; ?>; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem;">
-                            <?php echo ucfirst($user['estado']); ?>
-                        </span>
-                    </td>
-                    <?php if ($isAdmin): ?>
-                        <td style="padding: 1rem; border: 1px solid #ddd; text-align: center;">
-                            <a href="<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>" style="color: #3498db; text-decoration: none; margin: 0 0.5rem;">Ver</a>
-                            <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" style="color: #f39c12; text-decoration: none; margin: 0 0.5rem;">Editar</a>
-                            <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" style="color: #e74c3c; text-decoration: none; margin: 0 0.5rem;" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
-                        </td>
-                    <?php endif; ?>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php else: ?>
-    <p style="color: #999; font-style: italic;">No hay usuarios registrados.</p>
-<?php endif; ?>
-
-<style>
-    .btn {
-        padding: 0.8rem 1.5rem;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 1rem;
-        text-decoration: none;
-        transition: background-color 0.3s;
-    }
-    
-    .btn-primary {
-        background-color: #3498db;
-        color: white;
-    }
-    
-    .btn-primary:hover {
-        background-color: #2980b9;
-    }
-</style>
+    <?php if (count($users) > 0): ?>
+        <div style="overflow-x: auto;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Tipo de Autenticación</th>
+                        <th>Último Acceso</th>
+                        <th>Estado</th>
+                        <?php if ($isAdmin): ?>
+                            <th>Acciones</th>
+                        <?php endif; ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($users as $user): ?>
+                        <tr>
+                            <td><strong><?php echo $user['id']; ?></strong></td>
+                            <td><?php echo htmlspecialchars($user['name']); ?></td>
+                            <td><?php echo htmlspecialchars($user['email']); ?></td>
+                            <td>
+                                <span class="badge badge-primary">
+                                    <?php echo $user['role_nombre'] ?? 'Sin rol'; ?>
+                                </span>
+                            </td>
+                            <td>
+                                <?php if ($user['auth_type'] === 'google'): ?>
+                                    <span class="badge badge-danger">🔴 Google</span>
+                                <?php else: ?>
+                                    <span class="badge badge-secondary">🔒 Local</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?php 
+                                if ($user['last_login']) {
+                                    echo '<small>' . date('d/m/Y H:i', strtotime($user['last_login'])) . '</small>';
+                                } else {
+                                    echo '<span class="text-muted"><em>Nunca</em></span>';
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <?php if ($user['estado'] === 'activo'): ?>
+                                    <span class="badge badge-success">✓ Activo</span>
+                                <?php else: ?>
+                                    <span class="badge badge-warning">✗ Inactivo</span>
+                                <?php endif; ?>
+                            </td>
+                            <?php if ($isAdmin): ?>
+                                <td>
+                                    <div class="user-actions">
+                                        <a href="<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-outline">👁️ Ver</a>
+                                        <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">✏️ Editar</a>
+                                        <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirmDelete('<?php echo htmlspecialchars($user['name']); ?>')">🗑️ Eliminar</a>
+                                    </div>
+                                </td>
+                            <?php endif; ?>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php else: ?>
+        <div class="alerta alerta-info" style="text-align: center;">
+            ℹ️ No hay usuarios registrados en el sistema.
+        </div>
+    <?php endif; ?>
+</div>

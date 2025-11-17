@@ -1,46 +1,91 @@
-<h1>Bienvenido a <?php echo APP_NAME; ?></h1>
-<p>Esta es tu aplicación web desarrollada con LAMP (Linux, Apache, MySQL, PHP).</p>
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">🎓 Bienvenido a <?php echo APP_NAME; ?></h1>
+        <p class="card-subtitle">Sistema web de acreditación educativa</p>
+    </div>
 
-<h2 style="margin-top: 2rem;">Características</h2>
-<ul style="margin-left: 2rem; margin-top: 1rem;">
-    <li>✓ Estructura MVC (Model-View-Controller)</li>
-    <li>✓ Enrutamiento limpio con .htaccess</li>
-    <li>✓ Configuración centralizada</li>
-    <li>✓ Seguridad básica implementada</li>
-    <li>✓ Conexión a Base de Datos MySQL</li>
-    <li>✓ Interfaz responsive</li>
-</ul>
+    <p>Aplicación desarrollada con la pila LAMP (Linux, Apache, MySQL, PHP) con arquitectura MVC profesional.</p>
 
-<h2 style="margin-top: 2rem;">Usuarios en la Base de Datos</h2>
-<?php if (count($users) > 0): ?>
-    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
-        <thead>
-            <tr style="background-color: #f0f0f0;">
-                <th style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">ID</th>
-                <th style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">Nombre</th>
-                <th style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
-                <tr>
-                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><?php echo $user['id']; ?></td>
-                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><?php echo $user['name']; ?></td>
-                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><?php echo $user['email']; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php else: ?>
-    <p style="color: #999; font-style: italic;">No hay usuarios registrados en la base de datos.</p>
-<?php endif; ?>
+    <h2 style="margin-top: 2rem;">✨ Características</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+        <div class="flex gap-1">
+            <span>✓</span>
+            <span>Estructura MVC moderna</span>
+        </div>
+        <div class="flex gap-1">
+            <span>✓</span>
+            <span>Enrutamiento limpio</span>
+        </div>
+        <div class="flex gap-1">
+            <span>✓</span>
+            <span>Autenticación dual (Local + OAuth2)</span>
+        </div>
+        <div class="flex gap-1">
+            <span>✓</span>
+            <span>Base de datos MySQL</span>
+        </div>
+        <div class="flex gap-1">
+            <span>✓</span>
+            <span>Control de acceso por roles</span>
+        </div>
+        <div class="flex gap-1">
+            <span>✓</span>
+            <span>Auditoría de cambios</span>
+        </div>
+        <div class="flex gap-1">
+            <span>✓</span>
+            <span>Interfaz responsive</span>
+        </div>
+        <div class="flex gap-1">
+            <span>✓</span>
+            <span>Diseño profesional</span>
+        </div>
+    </div>
+</div>
 
-<div style="background-color: #e8f4f8; padding: 1.5rem; border-left: 4px solid #3498db; margin-top: 2rem; border-radius: 4px;">
-    <strong>Próximos pasos:</strong>
-    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
-        <li>Crear la base de datos en MySQL</li>
-        <li>Ejecutar el script SQL para crear las tablas</li>
-        <li>Actualizar las credenciales en <code>config/database.php</code></li>
-        <li>Desarrollar tus controladores y vistas</li>
-    </ul>
+<div class="card" style="margin-top: 2rem;">
+    <div class="card-header">
+        <h2 class="card-title">👥 Usuarios del Sistema</h2>
+    </div>
+    
+    <?php if (count($users) > 0): ?>
+        <div style="overflow-x: auto;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($users as $user): ?>
+                        <tr>
+                            <td><strong><?php echo $user['id']; ?></strong></td>
+                            <td><?php echo htmlspecialchars($user['name']); ?></td>
+                            <td><?php echo htmlspecialchars($user['email']); ?></td>
+                            <td>
+                                <span class="badge badge-primary">
+                                    <?php echo isset($user['role_nombre']) ? htmlspecialchars($user['role_nombre']) : 'Sin rol'; ?>
+                                </span>
+                            </td>
+                            <td>
+                                <?php if ($user['estado'] === 'activo'): ?>
+                                    <span class="badge badge-success">Activo</span>
+                                <?php else: ?>
+                                    <span class="badge badge-warning">Inactivo</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php else: ?>
+        <div class="alerta alerta-info">
+            ℹ️ No hay usuarios registrados en la base de datos.
+        </div>
+    <?php endif; ?>
 </div>
