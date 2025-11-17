@@ -26,6 +26,7 @@
    ============================================ */
 html {
     scroll-behavior: smooth;
+    height: 100%;
 }
 
 body {
@@ -33,6 +34,7 @@ body {
     line-height: 1.6;
     color: #333;
     background-color: #f8f9fa;
+    min-height: 100%;
 }
 
 a {
@@ -523,7 +525,12 @@ select:disabled {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    width: 100%;
+    padding: 2rem 1rem;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .login-box {

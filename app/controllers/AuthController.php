@@ -52,9 +52,7 @@ class AuthController {
         }
 
         $pageTitle = 'Iniciar sesión';
-        require_once VIEWS_PATH . '/layout/header.php';
         require_once VIEWS_PATH . '/auth/login.php';
-        require_once VIEWS_PATH . '/layout/footer.php';
     }
 
     public function googleLogin() {
