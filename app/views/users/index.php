@@ -27,14 +27,14 @@ $isAdmin = true;
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Rol</th>
-                <th>Autenticación</th>
-                <th>Último Acceso</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th style="width: 50px;">ID</th>
+                <th style="width: 200px;">Nombre</th>
+                <th style="width: 250px;">Email</th>
+                <th style="width: 120px;">Rol</th>
+                <th style="width: 130px;">Autenticación</th>
+                <th style="width: 150px;">Último Acceso</th>
+                <th style="width: 100px;">Estado</th>
+                <th style="width: 120px; text-align: center;">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -69,7 +69,7 @@ $isAdmin = true;
                     <span class="badge badge-warning">✗ Inactivo</span>
                     <?php endif; ?>
                 </td>
-                <td>
+                <td style="text-align: center; white-space: nowrap;">
                     <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" 
                        class="btn btn-sm btn-primary" style="margin-right: 0.25rem;">✏️</a>
                     <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" 
