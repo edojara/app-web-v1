@@ -311,12 +311,13 @@ select:disabled {
 }
 
 .btn-secondary {
-    background-color: var(--gray-color);
+    background-color: #5a6c7d;
     color: white;
+    font-weight: 600;
 }
 
 .btn-secondary:hover {
-    background-color: #7f8c8d;
+    background-color: #4a5c6d;
 }
 
 .btn-outline {
