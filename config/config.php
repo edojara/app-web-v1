@@ -9,8 +9,8 @@ define('APP_VERSION', '1.0.0');
 
 // ⚙️ CONFIGURACIÓN DE DOMINIO - Cambiar aquí para diferentes ambientes
 // Para desarrollo local: http://localhost/app-web-v1
-// Para producción: https://acreditacion.grupoeducar.cl
-define('DOMAIN_URL', 'https://acreditacion.grupoeducar.cl');
+// Para producción: https://acreditacion.grupoeducar.cl (requiere SSL/TLS)
+define('DOMAIN_URL', 'http://acreditacion.grupoeducar.cl');
 define('APP_URL', DOMAIN_URL . '/app-web-v1');
 
 // Rutas
