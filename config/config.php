@@ -6,7 +6,12 @@
 // Datos de la aplicación
 define('APP_NAME', 'App Web LAMP');
 define('APP_VERSION', '1.0.0');
-define('APP_URL', 'http://localhost/app-web-v1');
+
+// ⚙️ CONFIGURACIÓN DE DOMINIO - Cambiar aquí para diferentes ambientes
+// Para desarrollo local: http://localhost/app-web-v1
+// Para producción: https://acreditacion.grupoeducar.cl
+define('DOMAIN_URL', 'https://acreditacion.grupoeducar.cl');
+define('APP_URL', DOMAIN_URL . '/app-web-v1');
 
 // Rutas
 define('BASE_PATH', dirname(dirname(__FILE__)));
