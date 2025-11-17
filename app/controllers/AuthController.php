@@ -99,28 +99,37 @@ class AuthController {
                 if (isset($userInfo['error'])) {
                     $error = 'Error al obtener información del usuario.';
                 } else {
-                    // Buscar o crear usuario
+                    // Buscar usuario por Google ID
                     $user = $this->userModel->getByGoogleId($userInfo['sub']);
 
+                    // Si no existe por Google ID, buscar por email
                     if (!$user) {
-                        // Crear nuevo usuario con Google OAuth
-                        $userData = [
-                            'name' => $userInfo['name'],
-                            'email' => $userInfo['email'],
-                            'google_id' => $userInfo['sub'],
-                        ];
-                        if ($this->userModel->createWithGoogle($userData)) {
-                            $user = $this->userModel->getByGoogleId($userInfo['sub']);
-                        } else {
-                            $error = 'No se pudo crear la cuenta.';
+                        $user = $this->userModel->getByEmail($userInfo['email']);
+                        
+                        // Si existe por email pero no tiene Google ID, vincular la cuenta
+                        if ($user && $user['auth_type'] === 'local') {
+                            // El usuario existe como local pero está intentando login con Google
+                            $error = 'Tu cuenta está registrada como cuenta local. Por favor, usa tu correo y contraseña.';
+                        } elseif (!$user) {
+                            // Usuario no existe en absoluto
+                            $error = 'Tu cuenta no está registrada en la plataforma. Por favor, solicita inscripción al administrador.';
                         }
                     }
 
                     if ($user && !$error) {
-                        // Verificar estado
+                        // Verificar estado del usuario
                         if ($user['estado'] !== 'activo') {
-                            $error = 'Usuario inactivo. Contacte al administrador.';
+                            $error = 'Tu cuenta está inactiva. Contacta al administrador.';
                         } else {
+                            // Actualizar Google ID si no lo tenía
+                            if (!$user['google_id']) {
+                                $updateQuery = "UPDATE users SET google_id = ?, auth_type = 'google' WHERE id = ?";
+                                global $conn;
+                                $stmt = $conn->prepare($updateQuery);
+                                $stmt->bind_param("si", $userInfo['sub'], $user['id']);
+                                $stmt->execute();
+                            }
+
                             // Iniciar sesión
                             $_SESSION['user_id'] = $user['id'];
                             $_SESSION['user_name'] = $user['name'];
