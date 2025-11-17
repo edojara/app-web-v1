@@ -11,15 +11,12 @@ $isAdmin = true;
 ?>
 
 <div class="card">
-    <div class="card-header">
-        <h1 class="card-title">👥 Gestión de Usuarios</h1>
-        <p class="card-subtitle">Administra los usuarios del sistema</p>
-    </div>
-
-    <div class="mb-3">
-        <a href="<?php echo APP_URL; ?>/?url=users/create" class="btn btn-primary">
-            ➕ Crear Nuevo Usuario
-        </a>
+        <div class="page-header">
+        <h1>👥 Gestión de Usuarios</h1>
+        <div class="page-actions">
+            <a href="<?php echo APP_URL; ?>/?url=audit" class="btn btn-secondary">📋 Ver Auditoría</a>
+            <a href="<?php echo APP_URL; ?>/?url=users/create" class="btn btn-success">➕ Crear Usuario</a>
+        </div>
     </div>
 
     <?php if (count($users) > 0): ?>
