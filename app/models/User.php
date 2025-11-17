@@ -73,6 +73,45 @@ class User {
             return null;
         }
     }
+
+    /**
+     * Obtener usuario por Google ID
+     */
+    public function getByGoogleId($googleId) {
+        try {
+            $query = "SELECT * FROM " . $this->table . " WHERE google_id = ? LIMIT 1";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("s", $googleId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            return $result->fetch_assoc();
+        } catch (Exception $e) {
+            if (DEBUG) {
+                echo "Error: " . $e->getMessage();
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Crear usuario con Google OAuth
+     */
+    public function createWithGoogle($data) {
+        try {
+            $query = "INSERT INTO " . $this->table . " (name, email, google_id, auth_type, role_id, estado) VALUES (?, ?, ?, 'google', ?, 'activo')";
+            $stmt = $this->conn->prepare($query);
+            $role_id = 2; // Lector por defecto
+            $stmt->bind_param("sssi", $data['name'], $data['email'], $data['google_id'], $role_id);
+
+            return $stmt->execute();
+        } catch (Exception $e) {
+            if (DEBUG) {
+                echo "Error: " . $e->getMessage();
+            }
+            return false;
+        }
+    }
     
     /**
      * Crear nuevo usuario
