@@ -7,6 +7,16 @@
 require_once MODELS_PATH . '/User.php';
 require_once MODELS_PATH . '/Role.php';
 
+class UsersController {
+
+    private $userModel;
+    private $roleModel;
+
+    public function __construct() {
+        $this->userModel = new User();
+        $this->roleModel = new Role();
+    }
+
     /**
      * Verificar si el usuario actual es administrador
      */
