@@ -10,8 +10,7 @@ define('APP_VERSION', '1.0.0');
 // ⚙️ CONFIGURACIÓN DE DOMINIO - Cambiar aquí para diferentes ambientes
 // Para desarrollo local: http://localhost
 // Para servidor interno: http://acreditacion.grupoeducar.cl
-// Para internet público (Cloudflare Tunnel): https://requested-proven-hold-termination.trycloudflare.com
-define('DOMAIN_URL', 'https://requested-proven-hold-termination.trycloudflare.com');
+define('DOMAIN_URL', 'http://acreditacion.grupoeducar.cl');
 
 // APP_URL debe apuntar a la raíz donde se expone la aplicación.
 // Si Apache está configurado con DocumentRoot -> /var/www/html/app-web-v1/public
