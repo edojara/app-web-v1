@@ -39,7 +39,7 @@ $isAdmin = true;
         </thead>
         <tbody>
             <?php foreach ($users as $user): ?>
-            <tr>
+            <tr ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>'" style="cursor: pointer;" title="Doble click para ver detalles">
                 <td><?php echo $user['id']; ?></td>
                 <td><?php echo htmlspecialchars($user['name']); ?></td>
                 <td><?php echo htmlspecialchars($user['email']); ?></td>
@@ -70,13 +70,11 @@ $isAdmin = true;
                     <?php endif; ?>
                 </td>
                 <td>
-                    <a href="<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>" 
-                       class="btn btn-sm btn-info">Ver</a>
                     <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" 
-                       class="btn btn-sm btn-primary">Editar</a>
+                       class="btn btn-sm btn-primary" style="margin-right: 0.25rem;">✏️</a>
                     <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" 
                        class="btn btn-sm btn-danger"
-                       onclick="return confirm('¿Eliminar usuario <?php echo htmlspecialchars($user['name']); ?>?')">Eliminar</a>
+                       onclick="return confirm('¿Eliminar usuario <?php echo htmlspecialchars($user['name']); ?>?')">🗑️</a>
                 </td>
             </tr>
             <?php endforeach; ?>
