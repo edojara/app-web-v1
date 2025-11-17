@@ -27,11 +27,21 @@ $isAdmin = true;
     <style>
         .users-grid {
             display: grid;
-            grid-template-columns: 50px 200px 250px 120px 130px 150px 100px 120px;
+            grid-template-columns: 
+                minmax(40px, 60px)      /* ID */
+                minmax(150px, 1fr)      /* Nombre */
+                minmax(180px, 1.5fr)    /* Email */
+                minmax(100px, 0.8fr)    /* Rol */
+                minmax(110px, 0.9fr)    /* Autenticación */
+                minmax(120px, 1fr)      /* Último Acceso */
+                minmax(80px, 0.6fr)     /* Estado */
+                minmax(100px, 0.7fr);   /* Acciones */
+            gap: 0;
             border: 1px solid #ddd;
             border-radius: 8px;
             overflow: hidden;
             background: white;
+            width: 100%;
         }
         .users-grid-header {
             display: contents;
@@ -39,8 +49,9 @@ $isAdmin = true;
         .users-grid-header > div {
             background: var(--primary-color);
             color: white;
-            padding: 1rem;
+            padding: 0.75rem 0.5rem;
             font-weight: 600;
+            font-size: 0.9rem;
             border-bottom: 2px solid #fff;
         }
         .users-grid-row {
@@ -48,11 +59,14 @@ $isAdmin = true;
             cursor: pointer;
         }
         .users-grid-row > div {
-            padding: 1rem;
+            padding: 0.75rem 0.5rem;
             border-bottom: 1px solid #f0f0f0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .users-grid-row:hover > div {
-            background-color: #f8f9fa;
+            background-color: #e3f2fd;
         }
         .text-center {
             text-align: center;
@@ -76,8 +90,8 @@ $isAdmin = true;
         <?php foreach ($users as $user): ?>
         <div class="users-grid-row" ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>'" title="Doble click para ver detalles">
             <div><?php echo $user['id']; ?></div>
-            <div><?php echo htmlspecialchars($user['name']); ?></div>
-            <div><?php echo htmlspecialchars($user['email']); ?></div>
+            <div title="<?php echo htmlspecialchars($user['name']); ?>"><?php echo htmlspecialchars($user['name']); ?></div>
+            <div title="<?php echo htmlspecialchars($user['email']); ?>"><?php echo htmlspecialchars($user['email']); ?></div>
             <div>
                 <span class="badge badge-primary">
                     <?php echo $user['role_nombre'] ?? 'Sin rol'; ?>
@@ -92,7 +106,7 @@ $isAdmin = true;
             </div>
             <div>
                 <?php if ($user['last_login']): ?>
-                    <?php echo date('d/m/Y H:i', strtotime($user['last_login'])); ?>
+                    <small><?php echo date('d/m/Y H:i', strtotime($user['last_login'])); ?></small>
                 <?php else: ?>
                     <em>Nunca</em>
                 <?php endif; ?>
@@ -104,7 +118,7 @@ $isAdmin = true;
                 <span class="badge badge-warning">✗ Inactivo</span>
                 <?php endif; ?>
             </div>
-            <div class="text-center">
+            <div class="text-center" style="white-space: normal;">
                 <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" 
                    class="btn btn-sm btn-primary" style="margin-right: 0.25rem;">✏️</a>
                 <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" 
