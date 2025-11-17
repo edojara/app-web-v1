@@ -4,7 +4,8 @@ class AuditLog {
     private $db;
 
     public function __construct() {
-        $this->db = getDBConnection();
+        global $conn;
+        $this->db = $conn;
     }
 
     /**
