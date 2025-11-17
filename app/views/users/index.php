@@ -31,11 +31,11 @@
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Rol</th>
-                        <th>Tipo Auth</th>
+                        <th>Autenticación</th>
                         <th>Último Acceso</th>
                         <th>Estado</th>
                         <?php if ($isAdmin): ?>
-                            <th>Acciones</th>
+                            <th style="text-align: center;">Acciones</th>
                         <?php endif; ?>
                     </tr>
                 </thead>
@@ -74,7 +74,7 @@
                                 <?php endif; ?>
                             </td>
                             <?php if ($isAdmin): ?>
-                                <td>
+                                <td style="text-align: center;">
                                     <div class="user-actions">
                                         <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;">✏️</a>
                                         <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-danger" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;" onclick="return confirmDelete('<?php echo htmlspecialchars($user['name']); ?>')">🗑️</a>
