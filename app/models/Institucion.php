@@ -15,10 +15,15 @@ class Institucion {
     }
     
     /**
-     * Obtener todas las instituciones
+     * Obtener todas las instituciones con el conteo de contactos
      */
     public function getAll() {
-        $sql = "SELECT * FROM {$this->table} ORDER BY nombre ASC";
+        $sql = "SELECT i.*, 
+                COUNT(c.id) as total_contactos 
+                FROM {$this->table} i 
+                LEFT JOIN contactos_institucion c ON i.id = c.institucion_id 
+                GROUP BY i.id 
+                ORDER BY i.nombre ASC";
         $result = $this->conn->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }

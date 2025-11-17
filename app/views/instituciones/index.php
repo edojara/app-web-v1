@@ -35,10 +35,11 @@
                 .instituciones-grid {
                     display: grid;
                     grid-template-columns: 
-                        minmax(40px, 60px)      /* ID */
+                        minmax(40px, 60px)      /* # */
                         minmax(200px, 2fr)      /* Nombre */
                         minmax(120px, 1fr)      /* Ciudad */
                         minmax(180px, 1.5fr)    /* Dirección */
+                        minmax(100px, 0.7fr)    /* Contactos */
                         minmax(80px, 0.6fr)     /* Estado */
                         minmax(120px, 0.8fr);   /* Acciones */
                     gap: 0;
@@ -120,21 +121,28 @@
             <div class="instituciones-grid">
                 <!-- Header -->
                 <div class="instituciones-grid-header">
-                    <div>ID</div>
+                    <div>#</div>
                     <div>Nombre</div>
                     <div>Ciudad</div>
                     <div>Dirección</div>
+                    <div class="text-center">Contactos</div>
                     <div>Estado</div>
                     <div class="text-center">Acciones</div>
                 </div>
                 
                 <!-- Rows -->
-                <?php foreach ($instituciones as $inst): ?>
+                <?php 
+                $contador = 1;
+                foreach ($instituciones as $inst): 
+                ?>
                 <div class="instituciones-grid-row" ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=instituciones/view&id=<?php echo $inst['id']; ?>'" title="Doble click para ver detalles">
-                    <div><?php echo $inst['id']; ?></div>
+                    <div><?php echo $contador++; ?></div>
                     <div title="<?php echo htmlspecialchars($inst['nombre']); ?>"><strong><?php echo htmlspecialchars($inst['nombre']); ?></strong></div>
                     <div title="<?php echo htmlspecialchars($inst['ciudad']); ?>"><?php echo htmlspecialchars($inst['ciudad']); ?></div>
                     <div title="<?php echo htmlspecialchars($inst['direccion']); ?>"><?php echo htmlspecialchars($inst['direccion']); ?></div>
+                    <div class="text-center">
+                        <span class="badge badge-primary"><?php echo $inst['total_contactos']; ?></span>
+                    </div>
                     <div>
                         <?php if ($inst['estado'] === 'activa'): ?>
                             <span class="badge badge-success">✓ Activa</span>
