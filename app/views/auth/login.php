@@ -21,12 +21,24 @@
             <!-- Formulario de login local -->
             <form method="post" action="<?php echo APP_URL; ?>/?url=auth/login">
                 <div class="form-group">
-                    <label for="email">📧 Correo Electrónico</label>
+                    <label for="email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                            <path d="m2 7 10 7 10-7"/>
+                        </svg>
+                        Correo Electrónico
+                    </label>
                     <input type="email" id="email" name="email" placeholder="tu@correo.com" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="password">🔐 Contraseña</label>
+                    <label for="password">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        Contraseña
+                    </label>
                     <input type="password" id="password" name="password" placeholder="Tu contraseña" required>
                 </div>
                 
@@ -40,7 +52,12 @@
 
             <!-- Login con Google -->
             <a href="<?php echo APP_URL; ?>/?url=auth/google-login" class="google-btn">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 48 48'%3E%3Cpath fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.9C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l8.02 6.21c1.91-5.22 7.02-9.03 13.42-9.03z'/%3E%3Cpath fill='%2334A853' d='M46.98 24.55c0-1.6-.15-3.09-.38-4.55H24v8.5h12.94c-.58 2.96-2.26 5.48-4.69 7.07l7.73 5.95c4.49-4.14 7.28-10.24 7.28-17.07z'/%3E%3Cpath fill='%234285F4' d='M10.88 28.75c-.85 2.41-1.37 5.05-1.37 7.75 0 2.7.52 5.34 1.37 7.75l-8.03 6.22C1.91 41.49 0 33.38 0 24c0-9.38 1.91-17.49 5.85-23.47l8.03 6.22z'/%3E%3Cpath fill='%23FBBC04' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-5.95c-2.15 1.45-4.92 2.3-8.16 2.3-6.4 0-11.51-3.81-13.42-9.03l-8.02 6.21C6.51 42.62 14.62 48 24 48z'/%3E%3Cpath fill='none' d='M0 0h48v48H0z'/%3E%3C/svg%3E" alt="Google">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="margin-right: 10px;">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
                 Continuar con Google
             </a>
         </div>
