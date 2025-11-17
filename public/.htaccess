@@ -2,12 +2,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Establecer la base de reescritura
-    RewriteBase /app-web-v1/public/
-    
     # Si el archivo o directorio existe, permitir acceso directo
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !^/index\.php
     
     # Reescribir todo a index.php
     RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
