@@ -1,6 +1,13 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
-$isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 1;
+
+// Solo administradores pueden ver esta página
+if (!isset($_SESSION['user_role_id']) || $_SESSION['user_role_id'] != 1) {
+    header('Location: ' . APP_URL . '/?url=home');
+    exit();
+}
+
+$isAdmin = true;
 ?>
 
 <div class="card">
@@ -9,13 +16,11 @@ $isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 1;
         <p class="card-subtitle">Administra los usuarios del sistema</p>
     </div>
 
-    <?php if ($isAdmin): ?>
     <div class="mb-3">
         <a href="<?php echo APP_URL; ?>/?url=users/create" class="btn btn-primary">
             ➕ Crear Nuevo Usuario
         </a>
     </div>
-    <?php endif; ?>
 
     <?php if (count($users) > 0): ?>
     
@@ -29,9 +34,7 @@ $isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 1;
                 <th>Autenticación</th>
                 <th>Último Acceso</th>
                 <th>Estado</th>
-                <?php if ($isAdmin): ?>
                 <th>Acciones</th>
-                <?php endif; ?>
             </tr>
         </thead>
         <tbody>
@@ -66,7 +69,6 @@ $isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 1;
                     <span class="badge badge-warning">✗ Inactivo</span>
                     <?php endif; ?>
                 </td>
-                <?php if ($isAdmin): ?>
                 <td>
                     <a href="<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>" 
                        class="btn btn-sm btn-info">Ver</a>
@@ -76,7 +78,6 @@ $isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 1;
                        class="btn btn-sm btn-danger"
                        onclick="return confirm('¿Eliminar usuario <?php echo htmlspecialchars($user['name']); ?>?')">Eliminar</a>
                 </td>
-                <?php endif; ?>
             </tr>
             <?php endforeach; ?>
         </tbody>
