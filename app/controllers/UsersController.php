@@ -65,21 +65,33 @@ class UsersController {
         $mensaje = '';
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = [
-                'name' => $_POST['name'] ?? '',
-                'email' => $_POST['email'] ?? '',
-                'password' => $_POST['password'] ?? '',
-                'role_id' => $_POST['role_id'] ?? null
-            ];
+            $authType = $_POST['auth_type'] ?? 'local';
+            $name = $_POST['name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $roleId = $_POST['role_id'] ?? null;
             
-            if (empty($data['name']) || empty($data['email']) || empty($data['password'])) {
-                $mensaje = '<div class="alerta alerta-error">Todos los campos son requeridos</div>';
-            } elseif ($this->userModel->create($data)) {
-                $mensaje = '<div class="alerta alerta-exito">Usuario creado exitosamente</div>';
-                header('Location: ' . APP_URL . '/public/index.php?url=users');
-                exit;
+            // Validar campos requeridos
+            if (empty($name) || empty($email)) {
+                $mensaje = '<div class="alerta alerta-error">Nombre y email son requeridos</div>';
+            } elseif ($authType === 'local' && empty($password)) {
+                $mensaje = '<div class="alerta alerta-error">La contraseña es requerida para cuentas locales</div>';
             } else {
-                $mensaje = '<div class="alerta alerta-error">Error al crear el usuario</div>';
+                $data = [
+                    'name' => $name,
+                    'email' => $email,
+                    'password' => $authType === 'local' ? $password : 'google_oauth_' . uniqid(),
+                    'role_id' => $roleId,
+                    'auth_type' => $authType
+                ];
+                
+                if ($this->userModel->create($data)) {
+                    $mensaje = '<div class="alerta alerta-exito">Usuario creado exitosamente</div>';
+                    header('Location: ' . APP_URL . '/?url=users');
+                    exit;
+                } else {
+                    $mensaje = '<div class="alerta alerta-error">Error al crear el usuario</div>';
+                }
             }
         }
         

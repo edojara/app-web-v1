@@ -12,10 +12,21 @@
         <label for="email" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Email:</label>
         <input type="email" id="email" name="email" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
     </div>
-    
+
     <div style="margin-bottom: 1.5rem;">
+        <label for="auth_type" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Tipo de Autenticación:</label>
+        <select id="auth_type" name="auth_type" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;" onchange="togglePasswordField()">
+            <option value="local">Cuenta Local (con contraseña)</option>
+            <option value="google">Google OAuth2 (sin contraseña)</option>
+        </select>
+        <small style="color: #666; display: block; margin-top: 0.3rem;">
+            Los usuarios con Google OAuth ingresan con sus credenciales de Google
+        </small>
+    </div>
+    
+    <div id="passwordField" style="margin-bottom: 1.5rem;">
         <label for="password" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Contraseña:</label>
-        <input type="password" id="password" name="password" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+        <input type="password" id="password" name="password" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
     </div>
     
     <div style="margin-bottom: 1.5rem;">
@@ -35,6 +46,27 @@
         <a href="<?php echo APP_URL; ?>/?url=users" class="btn btn-secondary" style="display: inline-block;">Cancelar</a>
     </div>
 </form>
+
+<script>
+function togglePasswordField() {
+    const authType = document.getElementById('auth_type').value;
+    const passwordField = document.getElementById('passwordField');
+    const passwordInput = document.getElementById('password');
+    
+    if (authType === 'google') {
+        passwordField.style.display = 'none';
+        passwordInput.removeAttribute('required');
+    } else {
+        passwordField.style.display = 'block';
+        passwordInput.setAttribute('required', 'required');
+    }
+}
+
+// Llamar la función cuando carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    togglePasswordField();
+});
+</script>
 
 <style>
     input, select {

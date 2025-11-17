@@ -99,10 +99,11 @@ class User {
      */
     public function create($data) {
         try {
-            $query = "INSERT INTO " . $this->table . " (name, email, password, role_id, estado) VALUES (?, ?, ?, ?, ?)";
+            $authType = $data['auth_type'] ?? 'local';
+            $query = "INSERT INTO " . $this->table . " (name, email, password, role_id, estado, auth_type) VALUES (?, ?, ?, ?, 'activo', ?)";
             $stmt = $this->conn->prepare($query);
-            $estado = 'activo';
-            $stmt->bind_param("sssss", $data['name'], $data['email'], password_hash($data['password'], PASSWORD_BCRYPT), $data['role_id'], $estado);
+            $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
+            $stmt->bind_param("sssss", $data['name'], $data['email'], $hashedPassword, $data['role_id'], $authType);
             
             return $stmt->execute();
         } catch (Exception $e) {
