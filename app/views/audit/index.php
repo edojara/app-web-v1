@@ -66,8 +66,8 @@
             </div>
 
             <div style="display: flex; gap: 0.5rem; align-items: end;">
-                <button type="submit" class="btn btn-primary" style="flex: 1;">🔍 Filtrar</button>
-                <a href="<?php echo APP_URL; ?>/?url=audit" class="btn btn-secondary">🔄 Limpiar</a>
+                <button type="submit" class="btn btn-primary" style="flex: 1; height: 42px; white-space: nowrap;">🔍 Filtrar</button>
+                <a href="<?php echo APP_URL; ?>/?url=audit" class="btn btn-secondary" style="height: 42px; display: flex; align-items: center; justify-content: center; padding: 0 1rem; white-space: nowrap;">🔄 Limpiar</a>
             </div>
         </form>
     </div>
