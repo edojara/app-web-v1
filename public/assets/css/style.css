@@ -412,6 +412,15 @@ select:disabled {
 
 .table tbody tr:hover {
     background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr[ondblclick] {
+    cursor: pointer;
+}
+
+.table tbody tr[ondblclick]:hover {
+    background-color: #e3f2fd;
 }
 
 .table tbody tr:last-child td {
@@ -613,6 +622,7 @@ select:disabled {
 .user-actions {
     display: flex;
     gap: 0.5rem;
+    justify-content: center;
 }
 
 .action-btn {
@@ -636,6 +646,14 @@ select:disabled {
 
 .status-inactive .status-indicator {
     background-color: var(--gray-color);
+}
+
+/* Tooltip para indicar doble click */
+.table tbody tr[ondblclick]::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
 }
 
 /* ============================================

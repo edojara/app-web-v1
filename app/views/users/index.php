@@ -18,6 +18,10 @@
     <?php endif; ?>
 
     <?php if (count($users) > 0): ?>
+        <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+            💡 <em>Haz doble clic en una fila para ver los detalles del usuario</em>
+        </p>
+        
         <!-- Vista de tabla para desktop/tablet -->
         <div style="overflow-x: auto;">
             <table class="table table-striped">
@@ -37,7 +41,7 @@
                 </thead>
                 <tbody>
                     <?php foreach ($users as $user): ?>
-                        <tr>
+                        <tr ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>'" style="cursor: pointer;" title="Doble click para ver detalles">
                             <td><strong><?php echo $user['id']; ?></strong></td>
                             <td><?php echo htmlspecialchars($user['name']); ?></td>
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
@@ -72,9 +76,8 @@
                             <?php if ($isAdmin): ?>
                                 <td>
                                     <div class="user-actions">
-                                        <a href="<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-outline">👁️ Ver</a>
-                                        <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">✏️ Editar</a>
-                                        <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirmDelete('<?php echo htmlspecialchars($user['name']); ?>')">🗑️ Eliminar</a>
+                                        <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;">✏️</a>
+                                        <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-danger" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;" onclick="return confirmDelete('<?php echo htmlspecialchars($user['name']); ?>')">🗑️</a>
                                     </div>
                                 </td>
                             <?php endif; ?>
@@ -87,7 +90,7 @@
         <!-- Vista de tarjetas para móvil -->
         <div class="users-mobile-view" style="display: none;">
             <?php foreach ($users as $user): ?>
-                <div class="user-card-mobile">
+                <div class="user-card-mobile" ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>'" style="cursor: pointer;">
                     <div class="user-header">
                         <div class="user-name"><?php echo htmlspecialchars($user['name']); ?></div>
                         <?php if ($user['estado'] === 'activo'): ?>
@@ -135,9 +138,8 @@
                     
                     <?php if ($isAdmin): ?>
                         <div class="user-actions">
-                            <a href="<?php echo APP_URL; ?>/?url=users/view&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-outline">👁️ Ver</a>
-                            <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">✏️ Editar</a>
-                            <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirmDelete('<?php echo htmlspecialchars($user['name']); ?>')">🗑️</a>
+                            <a href="<?php echo APP_URL; ?>/?url=users/edit&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary" onclick="event.stopPropagation();" style="padding: 0.4rem 0.7rem; font-size: 0.8rem;">✏️ Editar</a>
+                            <a href="<?php echo APP_URL; ?>/?url=users/delete&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-danger" onclick="event.stopPropagation(); return confirmDelete('<?php echo htmlspecialchars($user['name']); ?>');" style="padding: 0.4rem 0.7rem; font-size: 0.8rem;">🗑️ Eliminar</a>
                         </div>
                     <?php endif; ?>
                 </div>
