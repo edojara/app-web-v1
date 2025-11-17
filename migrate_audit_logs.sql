@@ -19,7 +19,7 @@ DEALLOCATE PREPARE alterIfNotExists;
 -- Crear tabla de auditoría para logs de cambios en usuarios
 CREATE TABLE IF NOT EXISTS user_audit_logs (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    admin_user_id INT NOT NULL,
+    admin_user_id INT,
     admin_user_name VARCHAR(100),
     target_user_id INT NOT NULL,
     target_user_name VARCHAR(100),
