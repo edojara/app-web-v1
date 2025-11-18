@@ -3,8 +3,9 @@ class Participante {
     private $conn;
     private $table = 'participantes';
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public function __construct() {
+        global $conn;
+        $this->conn = $conn;
     }
 
     /**

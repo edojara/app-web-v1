@@ -8,10 +8,10 @@ class ParticipantesController {
     private $institucionModel;
     private $auditoriaModel;
 
-    public function __construct($db) {
-        $this->participanteModel = new Participante($db);
-        $this->institucionModel = new Institucion($db);
-        $this->auditoriaModel = new AuditoriaApp($db);
+    public function __construct() {
+        $this->participanteModel = new Participante();
+        $this->institucionModel = new Institucion();
+        $this->auditoriaModel = new AuditoriaApp();
     }
 
     /**
