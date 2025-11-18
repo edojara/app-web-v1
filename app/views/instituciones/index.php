@@ -161,7 +161,7 @@
                     <div title="<?php echo htmlspecialchars($inst['ciudad']); ?>"><?php echo htmlspecialchars($inst['ciudad']); ?></div>
                     <div title="<?php echo htmlspecialchars($inst['direccion']); ?>"><?php echo htmlspecialchars($inst['direccion']); ?></div>
                     <div class="text-center">
-                        <span class="badge badge-primary"><?php echo $inst['total_contactos']; ?></span>
+                        <?php echo $inst['total_contactos']; ?>
                     </div>
                     <div>
                         <?php if ($inst['estado'] === 'activa'): ?>
