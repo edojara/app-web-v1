@@ -162,20 +162,20 @@
 
     <!-- Participantes -->
     <div class="card">
-        <div class="section-header">
-            <h2>👨‍🎓 Participantes</h2>
-            <button onclick="toggleParticipanteForm()" class="btn btn-success" id="btnShowParticipanteForm">➕ Agregar Participante</button>
-        </div>
+        <h2>👨‍🎓 Participantes</h2>
 
-        <!-- Campo de búsqueda para participantes -->
-        <?php if (!empty($participantes)): ?>
-            <div style="margin-top: 1rem; margin-bottom: 1rem;">
+        <!-- Barra de búsqueda y botón de agregar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; margin-bottom: 1rem; gap: 1rem;">
+            <?php if (!empty($participantes)): ?>
                 <input type="text" 
                        id="searchParticipantes" 
                        placeholder="🔍 Buscar participante por nombre, RUT o teléfono..." 
-                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
-            </div>
-        <?php endif; ?>
+                       style="flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+            <?php else: ?>
+                <div style="flex: 1;"></div>
+            <?php endif; ?>
+            <button onclick="toggleParticipanteForm()" class="btn btn-success" id="btnShowParticipanteForm" style="white-space: nowrap;">➕ Agregar Participante</button>
+        </div>
 
         <!-- Formulario para agregar participante -->
         <div id="participanteForm" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background-color: #f8f9fa; border-radius: 4px;">
