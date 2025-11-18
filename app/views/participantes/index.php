@@ -214,8 +214,8 @@
 <style>
 .table-header {
     display: grid;
-    grid-template-columns: 60px 2.5fr 1.2fr 2.5fr 1.2fr 2fr 280px;
-    gap: 1rem;
+    grid-template-columns: 50px 3fr 1.5fr 3fr 1.5fr 2.5fr 200px;
+    gap: 0.75rem;
     padding: 1rem;
     background-color: #f8f9fa;
     font-weight: bold;
@@ -224,8 +224,8 @@
 
 .table-row {
     display: grid;
-    grid-template-columns: 60px 2.5fr 1.2fr 2.5fr 1.2fr 2fr 280px;
-    gap: 1rem;
+    grid-template-columns: 50px 3fr 1.5fr 3fr 1.5fr 2.5fr 200px;
+    gap: 0.75rem;
     padding: 1rem;
     border-bottom: 1px solid #dee2e6;
     align-items: center;
