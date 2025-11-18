@@ -140,7 +140,9 @@
                 </thead>
                 <tbody>
                     <?php foreach ($contactos as $contacto): ?>
-                        <tr>
+                        <tr ondblclick="viewContacto(<?php echo htmlspecialchars(json_encode($contacto)); ?>)" 
+                            style="cursor: pointer;" 
+                            title="Doble click para ver detalles">
                             <td><strong><?php echo htmlspecialchars($contacto['nombre_completo']); ?></strong></td>
                             <td><?php echo htmlspecialchars($contacto['ocupacion']); ?></td>
                             <td><?php echo $contacto['telefono'] ? htmlspecialchars($contacto['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
@@ -261,6 +263,19 @@
                 </tbody>
             </table>
         <?php endif; ?>
+    </div>
+</div>
+
+<!-- Modal para ver detalles del contacto -->
+<div id="contactoModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+    <div style="background-color: white; margin: 5% auto; padding: 2rem; border-radius: 8px; width: 90%; max-width: 600px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 1rem;">
+            <h2 style="margin: 0; color: var(--primary-color);">👤 Detalles del Contacto</h2>
+            <button onclick="closeContactoModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
+        </div>
+        <div id="contactoDetails" style="display: grid; gap: 1rem;">
+            <!-- Detalles serán insertados aquí -->
+        </div>
     </div>
 </div>
 
@@ -494,6 +509,45 @@ function filterParticipantes() {
             row.style.display = 'none';
         }
     });
+}
+
+function viewContacto(contacto) {
+    const modal = document.getElementById('contactoModal');
+    const details = document.getElementById('contactoDetails');
+    
+    details.innerHTML = `
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--primary-color);">
+            <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Nombre Completo</strong>
+            <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; color: #333;">${contacto.nombre_completo}</p>
+        </div>
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--secondary-color);">
+            <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Ocupación</strong>
+            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${contacto.ocupacion}</p>
+        </div>
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--success-color);">
+            <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Teléfono</strong>
+            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${contacto.telefono || '<em style="color: #999;">No especificado</em>'}</p>
+        </div>
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--warning-color);">
+            <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Email</strong>
+            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${contacto.email || '<em style="color: #999;">No especificado</em>'}</p>
+        </div>
+    `;
+    
+    modal.style.display = 'block';
+}
+
+function closeContactoModal() {
+    const modal = document.getElementById('contactoModal');
+    modal.style.display = 'none';
+}
+
+// Cerrar modal al hacer click fuera de él
+window.onclick = function(event) {
+    const modal = document.getElementById('contactoModal');
+    if (event.target === modal) {
+        closeContactoModal();
+    }
 }
 
 // Inicializar event listeners al cargar la página
