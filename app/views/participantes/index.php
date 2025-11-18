@@ -214,7 +214,7 @@
 <style>
 .table-header {
     display: grid;
-    grid-template-columns: 50px 3fr 1.5fr 3fr 1.5fr 2.5fr 200px;
+    grid-template-columns: 50px 3fr 1.5fr 3fr 1.5fr 2.5fr 140px;
     gap: 0.75rem;
     padding: 1rem;
     background-color: #f8f9fa;
@@ -224,7 +224,7 @@
 
 .table-row {
     display: grid;
-    grid-template-columns: 50px 3fr 1.5fr 3fr 1.5fr 2.5fr 200px;
+    grid-template-columns: 50px 3fr 1.5fr 3fr 1.5fr 2.5fr 140px;
     gap: 0.75rem;
     padding: 1rem;
     border-bottom: 1px solid #dee2e6;
