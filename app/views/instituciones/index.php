@@ -60,6 +60,9 @@
                     font-size: 0.9rem;
                     border-bottom: 2px solid #fff;
                 }
+                .instituciones-grid-header .sortable:hover {
+                    background: #1565c0;
+                }
                 .instituciones-grid-row {
                     display: contents;
                     cursor: pointer;
@@ -122,11 +125,21 @@
                 <!-- Header -->
                 <div class="instituciones-grid-header">
                     <div>#</div>
-                    <div>Nombre</div>
-                    <div>Ciudad</div>
-                    <div>Dirección</div>
-                    <div class="text-center">Contactos</div>
-                    <div>Estado</div>
+                    <div class="sortable" onclick="sortTable('nombre')" style="cursor: pointer;" title="Click para ordenar">
+                        Nombre <span id="sort-nombre">↕️</span>
+                    </div>
+                    <div class="sortable" onclick="sortTable('ciudad')" style="cursor: pointer;" title="Click para ordenar">
+                        Ciudad <span id="sort-ciudad">↕️</span>
+                    </div>
+                    <div class="sortable" onclick="sortTable('direccion')" style="cursor: pointer;" title="Click para ordenar">
+                        Dirección <span id="sort-direccion">↕️</span>
+                    </div>
+                    <div class="sortable text-center" onclick="sortTable('contactos')" style="cursor: pointer;" title="Click para ordenar">
+                        Contactos <span id="sort-contactos">↕️</span>
+                    </div>
+                    <div class="sortable" onclick="sortTable('estado')" style="cursor: pointer;" title="Click para ordenar">
+                        Estado <span id="sort-estado">↕️</span>
+                    </div>
                     <div class="text-center">Acciones</div>
                 </div>
                 
@@ -135,8 +148,15 @@
                 $contador = 1;
                 foreach ($instituciones as $inst): 
                 ?>
-                <div class="instituciones-grid-row" ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=instituciones/view&id=<?php echo $inst['id']; ?>'" title="Doble click para ver detalles">
-                    <div><?php echo $contador++; ?></div>
+                <div class="instituciones-grid-row" 
+                     ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=instituciones/view&id=<?php echo $inst['id']; ?>'" 
+                     title="Doble click para ver detalles"
+                     data-nombre="<?php echo htmlspecialchars($inst['nombre']); ?>"
+                     data-ciudad="<?php echo htmlspecialchars($inst['ciudad']); ?>"
+                     data-direccion="<?php echo htmlspecialchars($inst['direccion']); ?>"
+                     data-contactos="<?php echo $inst['total_contactos']; ?>"
+                     data-estado="<?php echo $inst['estado']; ?>">
+                    <div class="row-numero"><?php echo $contador++; ?></div>
                     <div title="<?php echo htmlspecialchars($inst['nombre']); ?>"><strong><?php echo htmlspecialchars($inst['nombre']); ?></strong></div>
                     <div title="<?php echo htmlspecialchars($inst['ciudad']); ?>"><?php echo htmlspecialchars($inst['ciudad']); ?></div>
                     <div title="<?php echo htmlspecialchars($inst['direccion']); ?>"><?php echo htmlspecialchars($inst['direccion']); ?></div>
@@ -165,6 +185,70 @@
                 </div>
                 <?php endforeach; ?>
             </div>
+
+            <script>
+            let sortOrders = {
+                nombre: 'asc',
+                ciudad: 'asc',
+                direccion: 'asc',
+                contactos: 'asc',
+                estado: 'asc'
+            };
+
+            function sortTable(column) {
+                const grid = document.querySelector('.instituciones-grid');
+                const rows = Array.from(document.querySelectorAll('.instituciones-grid-row'));
+                
+                // Toggle sort order
+                sortOrders[column] = sortOrders[column] === 'asc' ? 'desc' : 'asc';
+                const order = sortOrders[column];
+                
+                // Sort rows
+                rows.sort((a, b) => {
+                    let aVal = a.getAttribute('data-' + column);
+                    let bVal = b.getAttribute('data-' + column);
+                    
+                    // Convert to numbers if it's contactos
+                    if (column === 'contactos') {
+                        aVal = parseInt(aVal);
+                        bVal = parseInt(bVal);
+                    } else {
+                        aVal = aVal.toLowerCase();
+                        bVal = bVal.toLowerCase();
+                    }
+                    
+                    if (order === 'asc') {
+                        return aVal > bVal ? 1 : -1;
+                    } else {
+                        return aVal < bVal ? 1 : -1;
+                    }
+                });
+                
+                // Remove existing rows
+                rows.forEach(row => row.remove());
+                
+                // Re-append sorted rows
+                rows.forEach(row => grid.appendChild(row));
+                
+                // Update row numbers
+                const numeroElements = document.querySelectorAll('.row-numero');
+                numeroElements.forEach((el, index) => {
+                    el.textContent = index + 1;
+                });
+                
+                // Update sort indicators
+                Object.keys(sortOrders).forEach(col => {
+                    const indicator = document.getElementById('sort-' + col);
+                    if (indicator) {
+                        if (col === column) {
+                            indicator.textContent = order === 'asc' ? '🔼' : '🔽';
+                        } else {
+                            indicator.textContent = '↕️';
+                        }
+                    }
+                });
+            }
+            </script>
         <?php endif; ?>
     </div>
 </div>
