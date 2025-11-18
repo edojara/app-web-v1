@@ -167,6 +167,16 @@
             <button onclick="toggleParticipanteForm()" class="btn btn-success" id="btnShowParticipanteForm">➕ Agregar Participante</button>
         </div>
 
+        <!-- Campo de búsqueda para participantes -->
+        <?php if (!empty($participantes)): ?>
+            <div style="margin-top: 1rem; margin-bottom: 1rem;">
+                <input type="text" 
+                       id="searchParticipantes" 
+                       placeholder="🔍 Buscar participante por nombre, RUT o teléfono..." 
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+            </div>
+        <?php endif; ?>
+
         <!-- Formulario para agregar participante -->
         <div id="participanteForm" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background-color: #f8f9fa; border-radius: 4px;">
             <h3 style="margin-top: 0;">Nuevo Participante</h3>
@@ -231,7 +241,10 @@
                 </thead>
                 <tbody>
                     <?php foreach ($participantes as $participante): ?>
-                        <tr>
+                        <tr class="participante-row" 
+                            data-nombre="<?= htmlspecialchars(strtolower($participante['nombre_completo'])) ?>"
+                            data-rut="<?= htmlspecialchars(strtolower($participante['rut'])) ?>"
+                            data-telefono="<?= htmlspecialchars(strtolower($participante['telefono'] ?? '')) ?>">
                             <td><strong><?php echo htmlspecialchars($participante['nombre_completo']); ?></strong></td>
                             <td><?php echo htmlspecialchars($participante['rut']); ?></td>
                             <td><?php echo $participante['telefono'] ? htmlspecialchars($participante['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
@@ -456,4 +469,50 @@ function toggleParticipanteForm() {
         form.querySelector('form').reset();
     }
 }
+
+function filterParticipantes() {
+    const searchInput = document.getElementById('searchParticipantes');
+    if (!searchInput) return;
+    
+    const searchValue = searchInput.value.toLowerCase().trim();
+    const rows = document.querySelectorAll('.participante-row');
+    
+    let visibleCount = 0;
+    rows.forEach(row => {
+        const nombre = (row.getAttribute('data-nombre') || '').toLowerCase();
+        const rut = (row.getAttribute('data-rut') || '').toLowerCase();
+        const telefono = (row.getAttribute('data-telefono') || '').toLowerCase();
+        
+        const matches = nombre.includes(searchValue) || 
+                       rut.includes(searchValue) || 
+                       telefono.includes(searchValue);
+        
+        if (matches) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+// Inicializar event listeners al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchParticipantes');
+    if (searchInput) {
+        // Filtrado en tiempo real
+        searchInput.addEventListener('input', function() {
+            filterParticipantes();
+        });
+        
+        // Limpiar filtro con Escape
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                filterParticipantes();
+                searchInput.blur();
+            }
+        });
+    }
+});
 </script>
