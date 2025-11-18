@@ -1,5 +1,3 @@
-<?php require_once __DIR__ . '/../layout/header.php'; ?>
-
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8 offset-md-2">
@@ -122,5 +120,3 @@
     }
 }
 </style>
-
-<?php require_once __DIR__ . '/../layout/footer.php'; ?>

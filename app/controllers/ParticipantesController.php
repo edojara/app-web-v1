@@ -19,7 +19,9 @@ class ParticipantesController {
      */
     public function index() {
         $participantes = $this->participanteModel->getAll();
-        require_once __DIR__ . '/../views/participantes/index.php';
+        require_once VIEWS_PATH . '/layout/header.php';
+        require_once VIEWS_PATH . '/participantes/index.php';
+        require_once VIEWS_PATH . '/layout/footer.php';
     }
 
     /**
@@ -27,7 +29,9 @@ class ParticipantesController {
      */
     public function create() {
         $instituciones = $this->institucionModel->getAll();
-        require_once __DIR__ . '/../views/participantes/create.php';
+        require_once VIEWS_PATH . '/layout/header.php';
+        require_once VIEWS_PATH . '/participantes/create.php';
+        require_once VIEWS_PATH . '/layout/footer.php';
     }
 
     /**
@@ -100,7 +104,9 @@ class ParticipantesController {
             exit;
         }
 
-        require_once __DIR__ . '/../views/participantes/view.php';
+        require_once VIEWS_PATH . '/layout/header.php';
+        require_once VIEWS_PATH . '/participantes/view.php';
+        require_once VIEWS_PATH . '/layout/footer.php';
     }
 
     /**
@@ -123,7 +129,9 @@ class ParticipantesController {
         }
 
         $instituciones = $this->institucionModel->getAll();
-        require_once __DIR__ . '/../views/participantes/edit.php';
+        require_once VIEWS_PATH . '/layout/header.php';
+        require_once VIEWS_PATH . '/participantes/edit.php';
+        require_once VIEWS_PATH . '/layout/footer.php';
     }
 
     /**

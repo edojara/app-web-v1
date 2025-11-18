@@ -1,5 +1,3 @@
-<?php require_once __DIR__ . '/../layout/header.php'; ?>
-
 <div class="container mt-4">
     <div class="content-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
         <input 
@@ -400,5 +398,3 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDisplay();
 });
 </script>
-
-<?php require_once __DIR__ . '/../layout/footer.php'; ?>
