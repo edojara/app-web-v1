@@ -140,7 +140,12 @@
                 </thead>
                 <tbody>
                     <?php foreach ($contactos as $contacto): ?>
-                        <tr style="cursor: pointer;" 
+                        <tr class="contacto-row" 
+                            data-nombre="<?php echo htmlspecialchars($contacto['nombre_completo']); ?>"
+                            data-ocupacion="<?php echo htmlspecialchars($contacto['ocupacion']); ?>"
+                            data-telefono="<?php echo htmlspecialchars($contacto['telefono'] ?? ''); ?>"
+                            data-email="<?php echo htmlspecialchars($contacto['email'] ?? ''); ?>"
+                            style="cursor: pointer;" 
                             title="Doble click para ver detalles">
                             <td><strong><?php echo htmlspecialchars($contacto['nombre_completo']); ?></strong></td>
                             <td><?php echo htmlspecialchars($contacto['ocupacion']); ?></td>
@@ -561,6 +566,7 @@ window.onclick = function(event) {
 
 // Inicializar event listeners al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
+    // Event listeners para filtrado de participantes
     const searchInput = document.getElementById('searchParticipantes');
     if (searchInput) {
         // Filtrado en tiempo real
@@ -573,6 +579,23 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.key === 'Escape') {
                 searchInput.value = '';
                 filterParticipantes();
+                searchInput.blur();
+            }
+        });
+    }
+    
+    // Event listeners para doble click en contactos
+    const contactoRows = document.querySelectorAll('.contacto-row');
+    contactoRows.forEach(row => {
+        row.addEventListener('dblclick', function() {
+            const nombre = this.getAttribute('data-nombre');
+            const ocupacion = this.getAttribute('data-ocupacion');
+            const telefono = this.getAttribute('data-telefono');
+            const email = this.getAttribute('data-email');
+            viewContacto(nombre, ocupacion, telefono, email);
+        });
+    });
+});
                 searchInput.blur();
             }
         });
