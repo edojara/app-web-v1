@@ -21,6 +21,7 @@
                 <a href="<?php echo APP_URL; ?>/?url=home/about">Acerca de</a>
                 <a href="<?php echo APP_URL; ?>/?url=instituciones">Instituciones</a>
                 <a href="<?php echo APP_URL; ?>/?url=participantes">Participantes</a>
+                <a href="<?php echo APP_URL; ?>/?url=eventos">Eventos</a>
                 <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div class="user-menu-dropdown">
