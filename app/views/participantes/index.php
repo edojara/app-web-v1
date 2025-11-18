@@ -52,10 +52,6 @@
                     <span>Institución</span>
                     <span class="sort-icon" id="sort-institucion">↕️</span>
                 </div>
-                <div class="column-header" onclick="sortTable('telefono')" style="display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
-                    <span>Teléfono</span>
-                    <span class="sort-icon" id="sort-telefono">↕️</span>
-                </div>
                 <div class="column-header" onclick="sortTable('email')" style="display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
                     <span>Email</span>
                     <span class="sort-icon" id="sort-email">↕️</span>
@@ -75,7 +71,6 @@
                          data-nombre="<?= htmlspecialchars(strtolower($participante['nombre_completo'])) ?>"
                          data-rut="<?= htmlspecialchars(strtolower($participante['rut'])) ?>"
                          data-institucion="<?= htmlspecialchars(strtolower($participante['institucion_nombre'] ?? '')) ?>"
-                         data-telefono="<?= htmlspecialchars(strtolower($participante['telefono'] ?? '')) ?>"
                          data-email="<?= htmlspecialchars(strtolower($participante['email'] ?? '')) ?>"
                          data-visible="true">
                         <div class="row-numero"><?= $numero++ ?></div>
@@ -90,7 +85,6 @@
                                 <span class="text-muted">Sin institución</span>
                             <?php endif; ?>
                         </div>
-                        <div data-label="Teléfono: "><?= htmlspecialchars($participante['telefono'] ?? '-') ?></div>
                         <div data-label="Email: "><?= htmlspecialchars($participante['email'] ?? '-') ?></div>
                         <div class="action-buttons" style="text-align: center; white-space: normal;">
                             <a href="/?url=participantes/view&id=<?= $participante['id'] ?>" 
@@ -214,7 +208,7 @@
 <style>
 .table-header {
     display: grid;
-    grid-template-columns: 50px 3fr 1.5fr 3fr 1.5fr 2.5fr 140px;
+    grid-template-columns: 50px 3fr 1.5fr 3fr 2.5fr 140px;
     gap: 0.75rem;
     padding: 1rem;
     background-color: #f8f9fa;
@@ -224,7 +218,7 @@
 
 .table-row {
     display: grid;
-    grid-template-columns: 50px 3fr 1.5fr 3fr 1.5fr 2.5fr 140px;
+    grid-template-columns: 50px 3fr 1.5fr 3fr 2.5fr 140px;
     gap: 0.75rem;
     padding: 1rem;
     border-bottom: 1px solid #dee2e6;
