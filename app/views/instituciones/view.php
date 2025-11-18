@@ -273,6 +273,66 @@
     </div>
 </div>
 
+<!-- Modal para editar contacto -->
+<div id="editContactoModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+    <div style="background-color: white; margin: 50px auto; padding: 0; border-radius: 8px; width: 90%; max-width: 600px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 2px solid #e0e0e0; background-color: #2196f3; color: white; border-radius: 8px 8px 0 0;">
+            <h2 style="margin: 0; font-size: 1.5rem;">✏️ Editar Contacto</h2>
+            <button onclick="closeEditModal()" style="background: none; border: none; font-size: 2rem; cursor: pointer; color: white; line-height: 1; padding: 0; width: 30px; height: 30px;">&times;</button>
+        </div>
+        <div style="padding: 2rem;">
+            <form id="editContactoForm" method="POST">
+                <input type="hidden" id="edit_contacto_id" name="contacto_id">
+                
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label for="edit_nombre_completo" class="required">Nombre Completo</label>
+                        <input type="text" 
+                               id="edit_nombre_completo" 
+                               name="nombre_completo" 
+                               class="form-control" 
+                               required
+                               maxlength="255">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="edit_ocupacion" class="required">Ocupación</label>
+                        <input type="text" 
+                               id="edit_ocupacion" 
+                               name="ocupacion" 
+                               class="form-control" 
+                               required
+                               maxlength="100">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="edit_telefono">Teléfono</label>
+                        <input type="text" 
+                               id="edit_telefono" 
+                               name="telefono" 
+                               class="form-control" 
+                               maxlength="20">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="edit_email">Email</label>
+                        <input type="email" 
+                               id="edit_email" 
+                               name="email" 
+                               class="form-control" 
+                               maxlength="255">
+                    </div>
+                </div>
+
+                <div class="form-actions" style="margin-top: 1.5rem; padding-top: 0; border-top: none;">
+                    <button type="button" onclick="closeEditModal()" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">💾 Actualizar Contacto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <style>
 .info-grid {
     display: grid;
@@ -519,7 +579,6 @@
 function toggleContactForm() {
     const form = document.getElementById('contactForm');
     const btn = document.getElementById('btnShowForm');
-    const formElement = form.querySelector('form');
     
     if (form.style.display === 'none') {
         form.style.display = 'block';
@@ -531,11 +590,8 @@ function toggleContactForm() {
         btn.textContent = '➕ Agregar Contacto';
         btn.classList.remove('btn-secondary');
         btn.classList.add('btn-success');
-        // Limpiar formulario y restaurar action original
-        formElement.reset();
-        formElement.action = '<?php echo APP_URL; ?>/?url=instituciones/addContacto&institucion_id=<?php echo $institucion['id']; ?>';
-        const submitBtn = formElement.querySelector('button[type="submit"]');
-        submitBtn.textContent = '💾 Guardar Contacto';
+        // Limpiar formulario
+        form.querySelector('form').reset();
     }
 }
 
@@ -585,33 +641,41 @@ function filterParticipantes() {
 }
 
 function editContacto(id, nombre, ocupacion, telefono, email) {
-    const form = document.getElementById('contactForm');
-    const btn = document.getElementById('btnShowForm');
-    const formElement = form.querySelector('form');
+    // Abrir el modal
+    const modal = document.getElementById('editContactoModal');
+    const form = document.getElementById('editContactoForm');
     
-    // Mostrar el formulario si está oculto
-    if (form.style.display === 'none') {
-        form.style.display = 'block';
-        btn.textContent = '✖ Cancelar';
-        btn.classList.remove('btn-success');
-        btn.classList.add('btn-secondary');
-    }
-    
-    // Cambiar el action del formulario para editar
-    formElement.action = '<?php echo APP_URL; ?>/?url=instituciones/updateContacto&id=' + id + '&institucion_id=<?php echo $institucion['id']; ?>';
+    // Configurar el action del formulario
+    form.action = '<?php echo APP_URL; ?>/?url=instituciones/updateContacto&id=' + id + '&institucion_id=<?php echo $institucion['id']; ?>';
     
     // Rellenar los campos con los datos actuales
-    formElement.querySelector('#nombre_completo').value = nombre;
-    formElement.querySelector('#ocupacion').value = ocupacion;
-    formElement.querySelector('#telefono').value = telefono;
-    formElement.querySelector('#email').value = email;
+    document.getElementById('edit_contacto_id').value = id;
+    document.getElementById('edit_nombre_completo').value = nombre;
+    document.getElementById('edit_ocupacion').value = ocupacion;
+    document.getElementById('edit_telefono').value = telefono;
+    document.getElementById('edit_email').value = email;
     
-    // Cambiar el texto del botón submit
-    const submitBtn = formElement.querySelector('button[type="submit"]');
-    submitBtn.textContent = '💾 Actualizar Contacto';
+    // Mostrar el modal
+    modal.style.display = 'block';
+}
+
+function closeEditModal() {
+    const modal = document.getElementById('editContactoModal');
+    const form = document.getElementById('editContactoForm');
     
-    // Hacer scroll al formulario
-    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Ocultar el modal
+    modal.style.display = 'none';
+    
+    // Limpiar el formulario
+    form.reset();
+}
+
+// Cerrar modal al hacer click fuera de él
+window.onclick = function(event) {
+    const modal = document.getElementById('editContactoModal');
+    if (event.target === modal) {
+        closeEditModal();
+    }
 }
 
 // Inicializar event listeners al cargar la página
