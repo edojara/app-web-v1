@@ -9,31 +9,26 @@
 </head>
 <body>
     <header>
-        <nav>
-            <div class="logo">
-                🎓 <?php echo APP_NAME; ?>
-            </div>
-            <div class="menu">
-                <a href="<?php echo APP_URL; ?>">Inicio</a>
-                <a href="<?php echo APP_URL; ?>/?url=home/about">Acerca de</a>
-                <a href="<?php echo APP_URL; ?>/?url=instituciones">Instituciones</a>
-                <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <div class="user-menu-dropdown">
-                        <a href="#" class="user-email" onclick="toggleUserMenu(event)">
-                            👤 <?php echo htmlspecialchars($_SESSION['user_email'] ?? 'Usuario'); ?>
-                        </a>
-                        <div class="dropdown-content" id="userDropdown">
-                            <a href="<?php echo APP_URL; ?>/?url=users">Gestión de Usuarios</a>
-                            <a href="<?php echo APP_URL; ?>/?url=profile">Mi Perfil</a>
-                            <a href="<?php echo APP_URL; ?>/?url=auth/logout">Salir</a>
-                        </div>
-                    </div>
-                <?php else: ?>
-                    <a href="<?php echo APP_URL; ?>/?url=auth/login">Ingresar</a>
-                <?php endif; ?>
-            </div>
-        </nav>
+                <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="<?= APP_URL ?>">Sistema de Acreditación</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= APP_URL ?>">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= APP_URL ?>/?url=home/about">Acerca de</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= APP_URL ?>/?url=instituciones">Instituciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= APP_URL ?>/?url=participantes">Participantes</a>
+                    </li>
+                </ul>
     </header>
     
     <script>
