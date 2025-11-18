@@ -527,6 +527,15 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Evento input disparado');
             filterTable();
         });
+        
+        // Limpiar filtro al presionar Escape
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                filterTable();
+                searchInput.blur(); // Opcional: quitar el foco del input
+            }
+        });
     } else {
         console.error('No se encontró el input searchInput');
     }
