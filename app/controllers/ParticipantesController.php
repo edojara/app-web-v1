@@ -246,18 +246,15 @@ class ParticipantesController {
         fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
         
         // Encabezados
-        fputcsv($output, ['ID', 'Nombre Completo', 'RUT', 'Teléfono', 'Institución', 'ID Institución', 'Fecha Creación']);
+        fputcsv($output, ['Nombre Completo', 'RUT', 'Teléfono', 'Institución']);
         
         // Datos
         foreach ($participantes as $participante) {
             fputcsv($output, [
-                $participante['id'],
                 $participante['nombre_completo'],
                 $participante['rut'],
                 $participante['telefono'] ?? '',
-                $participante['institucion_nombre'] ?? '',
-                $participante['institucion_id'],
-                $participante['created_at']
+                $participante['institucion_nombre'] ?? ''
             ]);
         }
         
@@ -315,7 +312,7 @@ class ParticipantesController {
         while (($data = fgetcsv($handle)) !== false) {
             $linea++;
             
-            // Validar que tenga al menos 4 columnas (nombre, rut, telefono, institucion_id)
+            // Validar que tenga al menos 4 columnas (nombre, rut, telefono, institucion)
             if (count($data) < 4) {
                 $errores[] = "Línea $linea: Datos incompletos";
                 continue;
@@ -324,11 +321,18 @@ class ParticipantesController {
             $nombre_completo = trim($data[0]);
             $rut = trim($data[1]);
             $telefono = trim($data[2] ?? '');
-            $institucion_id = trim($data[3]);
+            $institucion_nombre = trim($data[3]);
 
             // Validar campos requeridos
-            if (empty($nombre_completo) || empty($rut) || empty($institucion_id)) {
+            if (empty($nombre_completo) || empty($rut) || empty($institucion_nombre)) {
                 $errores[] = "Línea $linea: Nombre, RUT e Institución son obligatorios";
+                continue;
+            }
+
+            // Buscar institución por nombre
+            $institucion = $this->institucionModel->getByNombre($institucion_nombre);
+            if (!$institucion) {
+                $errores[] = "Línea $linea: Institución '$institucion_nombre' no encontrada o inactiva";
                 continue;
             }
 
@@ -340,7 +344,7 @@ class ParticipantesController {
 
             // Crear participante
             $participanteData = [
-                'institucion_id' => $institucion_id,
+                'institucion_id' => $institucion['id'],
                 'nombre_completo' => $nombre_completo,
                 'rut' => $rut,
                 'telefono' => $telefono

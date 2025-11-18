@@ -49,6 +49,17 @@ class Institucion {
     }
     
     /**
+     * Obtener una institución por nombre exacto
+     */
+    public function getByNombre($nombre) {
+        $stmt = $this->conn->prepare("SELECT * FROM {$this->table} WHERE nombre = ? AND estado = 'activa' LIMIT 1");
+        $stmt->bind_param("s", $nombre);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+    
+    /**
      * Obtener institución con sus contactos
      */
     public function getWithContactos($id) {
