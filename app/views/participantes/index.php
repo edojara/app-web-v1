@@ -138,8 +138,8 @@
             <button onclick="closeEditModal()" style="background: none; border: none; font-size: 2rem; cursor: pointer; color: white; line-height: 1; padding: 0; width: 30px; height: 30px;">&times;</button>
         </div>
         <div style="padding: 2rem;">
-            <form id="editParticipanteForm" method="POST">
-                <input type="hidden" id="edit_participante_id" name="participante_id">
+            <form id="editParticipanteForm" method="POST" action="/?url=participantes/update">
+                <input type="hidden" id="edit_participante_id" name="id">
                 
                 <div style="margin-bottom: 1rem;">
                     <label for="edit_nombre_completo" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
