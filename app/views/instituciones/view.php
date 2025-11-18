@@ -327,13 +327,20 @@
     color: white;
 }
 
-.table th,
+.table th {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .table td {
     padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid #ddd;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap: break-word;
 }
 
 .table tbody tr:hover {
