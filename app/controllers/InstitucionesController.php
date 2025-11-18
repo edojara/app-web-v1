@@ -40,13 +40,16 @@ class InstitucionesController {
             exit;
         }
         
-        $institucion = $this->institucionModel->getWithContactos($id);
+        $institucion = $this->institucionModel->getById($id);
         
         if (!$institucion) {
             header('HTTP/1.0 404 Not Found');
             echo "Institución no encontrada";
             exit;
         }
+        
+        // Obtener contactos de la institución
+        $contactos = $this->institucionModel->getContactos($id);
         
         $pageTitle = "Detalles de Institución";
         
