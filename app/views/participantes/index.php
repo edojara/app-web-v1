@@ -5,7 +5,7 @@
             id="searchInput" 
             class="form-control" 
             placeholder="Buscar por nombre, RUT, institución..." 
-            onkeyup="filterTable()"
+            oninput="filterTable()"
             style="flex: 1; max-width: 50%;">
         <a href="/?url=participantes/export" class="btn btn-success" style="white-space: nowrap;">
             📥 Exportar CSV
