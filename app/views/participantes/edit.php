@@ -22,11 +22,11 @@
                             <select class="form-control" id="institucion_id" name="institucion_id" required>
                                 <option value="">Seleccione una institución</option>
                                 <?php foreach ($instituciones as $institucion): ?>
-                                    <?php if ($institucion['estado'] === 'activo' || $institucion['id'] == $participante['institucion_id']): ?>
+                                    <?php if ($institucion['estado'] === 'activa' || $institucion['id'] == $participante['institucion_id']): ?>
                                         <option value="<?= $institucion['id'] ?>" 
                                                 <?= ($participante['institucion_id'] == $institucion['id']) ? 'selected' : '' ?>>
                                             <?= htmlspecialchars($institucion['nombre']) ?>
-                                            <?= $institucion['estado'] !== 'activo' ? ' (Inactiva)' : '' ?>
+                                            <?= $institucion['estado'] !== 'activa' ? ' (Inactiva)' : '' ?>
                                         </option>
                                     <?php endif; ?>
                                 <?php endforeach; ?>

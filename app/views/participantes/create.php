@@ -20,7 +20,7 @@
                             <select class="form-control" id="institucion_id" name="institucion_id" required>
                                 <option value="">Seleccione una institución</option>
                                 <?php foreach ($instituciones as $institucion): ?>
-                                    <?php if ($institucion['estado'] === 'activo'): ?>
+                                    <?php if ($institucion['estado'] === 'activa'): ?>
                                         <option value="<?= $institucion['id'] ?>" 
                                                 <?= (isset($_POST['institucion_id']) && $_POST['institucion_id'] == $institucion['id']) ? 'selected' : '' ?>>
                                             <?= htmlspecialchars($institucion['nombre']) ?>
