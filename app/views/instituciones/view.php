@@ -128,41 +128,43 @@
                 No hay contactos registrados para esta institución.
             </p>
         <?php else: ?>
-            <table class="table" style="margin-top: 1.5rem;">
-                <thead>
-                    <tr>
-                        <th style="width: 30%;">Nombre Completo</th>
-                        <th style="width: 20%;">Ocupación</th>
-                        <th style="width: 20%;">Teléfono</th>
-                        <th style="width: 20%;">Email</th>
-                        <th class="text-center" style="width: 10%;">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($contactos as $contacto): ?>
-                        <tr class="contacto-row" 
-                            data-nombre="<?php echo htmlspecialchars($contacto['nombre_completo']); ?>"
-                            data-ocupacion="<?php echo htmlspecialchars($contacto['ocupacion']); ?>"
-                            data-telefono="<?php echo htmlspecialchars($contacto['telefono'] ?? ''); ?>"
-                            data-email="<?php echo htmlspecialchars($contacto['email'] ?? ''); ?>"
-                            style="cursor: pointer;" 
-                            title="Doble click para ver detalles">
-                            <td><strong><?php echo htmlspecialchars($contacto['nombre_completo']); ?></strong></td>
-                            <td><?php echo htmlspecialchars($contacto['ocupacion']); ?></td>
-                            <td><?php echo $contacto['telefono'] ? htmlspecialchars($contacto['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
-                            <td><?php echo $contacto['email'] ? htmlspecialchars($contacto['email']) : '<em style="color: #999;">No especificado</em>'; ?></td>
-                            <td class="text-center">
-                                <a href="<?php echo APP_URL; ?>/?url=instituciones/deleteContacto&id=<?php echo $contacto['id']; ?>&institucion_id=<?php echo $institucion['id']; ?>" 
-                                   class="btn-action btn-delete" 
-                                   title="Eliminar contacto"
-                                   onclick="return confirm('¿Estás seguro de eliminar este contacto?');">
-                                    🗑️
-                                </a>
-                            </td>
+            <div class="table-responsive" style="margin-top: 1.5rem;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">Nombre Completo</th>
+                            <th style="width: 20%;">Ocupación</th>
+                            <th style="width: 20%;">Teléfono</th>
+                            <th style="width: 20%;">Email</th>
+                            <th class="text-center" style="width: 10%;">Acciones</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($contactos as $contacto): ?>
+                            <tr class="contacto-row" 
+                                data-nombre="<?php echo htmlspecialchars($contacto['nombre_completo']); ?>"
+                                data-ocupacion="<?php echo htmlspecialchars($contacto['ocupacion']); ?>"
+                                data-telefono="<?php echo htmlspecialchars($contacto['telefono'] ?? ''); ?>"
+                                data-email="<?php echo htmlspecialchars($contacto['email'] ?? ''); ?>"
+                                style="cursor: pointer;" 
+                                title="Doble click para ver detalles">
+                                <td data-label="Nombre"><strong><?php echo htmlspecialchars($contacto['nombre_completo']); ?></strong></td>
+                                <td data-label="Ocupación"><?php echo htmlspecialchars($contacto['ocupacion']); ?></td>
+                                <td data-label="Teléfono"><?php echo $contacto['telefono'] ? htmlspecialchars($contacto['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
+                                <td data-label="Email"><?php echo $contacto['email'] ? htmlspecialchars($contacto['email']) : '<em style="color: #999;">No especificado</em>'; ?></td>
+                                <td data-label="Acciones" class="text-center">
+                                    <a href="<?php echo APP_URL; ?>/?url=instituciones/deleteContacto&id=<?php echo $contacto['id']; ?>&institucion_id=<?php echo $institucion['id']; ?>" 
+                                       class="btn-action btn-delete" 
+                                       title="Eliminar contacto"
+                                       onclick="return confirm('¿Estás seguro de eliminar este contacto?');">
+                                        🗑️
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         <?php endif; ?>
     </div>
 
@@ -236,36 +238,38 @@
                 No hay participantes registrados para esta institución.
             </p>
         <?php else: ?>
-            <table class="table" style="margin-top: 1.5rem;">
-                <thead>
-                    <tr>
-                        <th style="width: 40%;">Nombre Completo</th>
-                        <th style="width: 25%;">RUT</th>
-                        <th style="width: 25%;">Teléfono</th>
-                        <th class="text-center" style="width: 10%;">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($participantes as $participante): ?>
-                        <tr class="participante-row" 
-                            data-nombre="<?= htmlspecialchars(strtolower($participante['nombre_completo'])) ?>"
-                            data-rut="<?= htmlspecialchars(strtolower($participante['rut'])) ?>"
-                            data-telefono="<?= htmlspecialchars(strtolower($participante['telefono'] ?? '')) ?>">
-                            <td><strong><?php echo htmlspecialchars($participante['nombre_completo']); ?></strong></td>
-                            <td><?php echo htmlspecialchars($participante['rut']); ?></td>
-                            <td><?php echo $participante['telefono'] ? htmlspecialchars($participante['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
-                            <td class="text-center">
-                                <a href="<?php echo APP_URL; ?>/?url=instituciones/deleteParticipante&id=<?php echo $participante['id']; ?>&institucion_id=<?php echo $institucion['id']; ?>" 
-                                   class="btn-action btn-delete" 
-                                   title="Eliminar participante"
-                                   onclick="return confirm('¿Estás seguro de eliminar este participante?');">
-                                    🗑️
-                                </a>
-                            </td>
+            <div class="table-responsive" style="margin-top: 1.5rem;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">Nombre Completo</th>
+                            <th style="width: 25%;">RUT</th>
+                            <th style="width: 25%;">Teléfono</th>
+                            <th class="text-center" style="width: 10%;">Acciones</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($participantes as $participante): ?>
+                            <tr class="participante-row" 
+                                data-nombre="<?= htmlspecialchars(strtolower($participante['nombre_completo'])) ?>"
+                                data-rut="<?= htmlspecialchars(strtolower($participante['rut'])) ?>"
+                                data-telefono="<?= htmlspecialchars(strtolower($participante['telefono'] ?? '')) ?>">
+                                <td data-label="Nombre"><strong><?php echo htmlspecialchars($participante['nombre_completo']); ?></strong></td>
+                                <td data-label="RUT"><?php echo htmlspecialchars($participante['rut']); ?></td>
+                                <td data-label="Teléfono"><?php echo $participante['telefono'] ? htmlspecialchars($participante['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
+                                <td data-label="Acciones" class="text-center">
+                                    <a href="<?php echo APP_URL; ?>/?url=instituciones/deleteParticipante&id=<?php echo $participante['id']; ?>&institucion_id=<?php echo $institucion['id']; ?>" 
+                                       class="btn-action btn-delete" 
+                                       title="Eliminar participante"
+                                       onclick="return confirm('¿Estás seguro de eliminar este participante?');">
+                                        🗑️
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         <?php endif; ?>
     </div>
 </div>
@@ -457,6 +461,59 @@
 
 .btn-success:hover {
     background-color: #229954;
+}
+
+/* Responsive tables para móvil */
+@media screen and (max-width: 768px) {
+    .table-responsive {
+        overflow-x: visible;
+    }
+    
+    .table thead {
+        display: none;
+    }
+    
+    .table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .table tbody tr:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border: none;
+        border-bottom: 1px solid #f0f0f0;
+        text-align: right;
+    }
+    
+    .table tbody td:last-child {
+        border-bottom: none;
+        justify-content: center;
+        padding: 1rem;
+    }
+    
+    .table tbody td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-align: left;
+        color: #666;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .table tbody td:last-child::before {
+        content: none;
+    }
 }
 </style>
 
