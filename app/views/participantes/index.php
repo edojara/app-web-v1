@@ -148,6 +148,10 @@
     background-color: #f8f9fa;
 }
 
+.table-row.hidden-row {
+    display: none !important;
+}
+
 .column-header {
     cursor: pointer;
     user-select: none;
@@ -248,13 +252,17 @@
     }
     
     .table-row {
-        display: block !important;
+        display: block;
         grid-template-columns: none !important;
         border: 1px solid #ddd;
         border-radius: 8px;
         margin-bottom: 1rem;
         padding: 1rem;
         background: white;
+    }
+    
+    .table-row.hidden-row {
+        display: none !important;
     }
     
     .table-row > div {
@@ -437,13 +445,15 @@ function updateDisplay() {
     const startIndex = recordsPerPage === 'all' ? 0 : (currentPage - 1) * recordsPerPage;
     const endIndex = recordsPerPage === 'all' ? totalRecords : startIndex + parseInt(recordsPerPage);
     
+    // Ocultar todas las filas usando clase
     rows.forEach(row => {
-        row.style.display = 'none';
+        row.classList.add('hidden-row');
     });
     
+    // Mostrar solo las filas visibles en la página actual
     visibleRows.forEach((row, index) => {
         if (index >= startIndex && index < endIndex) {
-            row.style.display = '';
+            row.classList.remove('hidden-row');
         }
     });
     
