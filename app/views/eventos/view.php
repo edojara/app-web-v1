@@ -20,6 +20,13 @@
                             <span><?= htmlspecialchars($evento['nombre']) ?></span>
                         </div>
 
+                        <?php if (!empty($evento['descripcion'])): ?>
+                            <div class="info-item">
+                                <strong>Descripción:</strong>
+                                <span><?= nl2br(htmlspecialchars($evento['descripcion'])) ?></span>
+                            </div>
+                        <?php endif; ?>
+
                         <div class="info-item">
                             <strong>Fecha y Hora de Inicio:</strong>
                             <span><?= date('d/m/Y H:i', strtotime($evento['fecha_inicio'])) ?></span>

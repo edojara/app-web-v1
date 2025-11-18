@@ -37,11 +37,12 @@ class Evento {
      */
     public function create($data) {
         $stmt = $this->conn->prepare("INSERT INTO " . $this->table . " 
-                                       (nombre, fecha_inicio, fecha_termino, lugar) 
-                                       VALUES (?, ?, ?, ?)");
+                                       (nombre, descripcion, fecha_inicio, fecha_termino, lugar) 
+                                       VALUES (?, ?, ?, ?, ?)");
         
-        $stmt->bind_param("ssss", 
+        $stmt->bind_param("sssss", 
             $data['nombre'],
+            $data['descripcion'],
             $data['fecha_inicio'],
             $data['fecha_termino'],
             $data['lugar']
@@ -59,13 +60,15 @@ class Evento {
     public function update($id, $data) {
         $stmt = $this->conn->prepare("UPDATE " . $this->table . " 
                                        SET nombre = ?, 
+                                           descripcion = ?,
                                            fecha_inicio = ?, 
                                            fecha_termino = ?, 
                                            lugar = ?
                                        WHERE id = ?");
         
-        $stmt->bind_param("ssssi",
+        $stmt->bind_param("sssssi",
             $data['nombre'],
+            $data['descripcion'],
             $data['fecha_inicio'],
             $data['fecha_termino'],
             $data['lugar'],

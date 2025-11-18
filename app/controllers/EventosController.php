@@ -55,6 +55,7 @@ class EventosController {
 
         $data = [
             'nombre' => trim($_POST['nombre']),
+            'descripcion' => trim($_POST['descripcion'] ?? ''),
             'fecha_inicio' => $_POST['fecha_inicio'],
             'fecha_termino' => $_POST['fecha_termino'],
             'lugar' => trim($_POST['lugar'])
@@ -164,6 +165,7 @@ class EventosController {
 
         $data = [
             'nombre' => trim($_POST['nombre']),
+            'descripcion' => trim($_POST['descripcion'] ?? ''),
             'fecha_inicio' => $_POST['fecha_inicio'],
             'fecha_termino' => $_POST['fecha_termino'],
             'lugar' => trim($_POST['lugar'])
