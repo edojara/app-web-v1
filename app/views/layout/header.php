@@ -13,7 +13,10 @@
             <div class="logo">
                 🎓 <?php echo APP_NAME; ?>
             </div>
-            <div class="menu">
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                ☰
+            </button>
+            <div class="menu" id="mainMenu">
                 <a href="<?php echo APP_URL; ?>">Inicio</a>
                 <a href="<?php echo APP_URL; ?>/?url=home/about">Acerca de</a>
                 <a href="<?php echo APP_URL; ?>/?url=instituciones">Instituciones</a>
@@ -38,21 +41,48 @@
     </header>
     
     <script>
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mainMenu');
+        menu.classList.toggle('show');
+    }
+    
     function toggleUserMenu(event) {
         event.preventDefault();
         const dropdown = document.getElementById('userDropdown');
         dropdown.classList.toggle('show');
     }
     
-    // Cerrar el dropdown si se hace clic fuera de él
+    // Cerrar menús si se hace clic fuera de ellos
     window.onclick = function(event) {
-        if (!event.target.matches('.user-email')) {
+        if (!event.target.matches('.user-email') && !event.target.matches('.mobile-menu-toggle')) {
             const dropdown = document.getElementById('userDropdown');
+            const mobileMenu = document.getElementById('mainMenu');
+            
             if (dropdown && dropdown.classList.contains('show')) {
                 dropdown.classList.remove('show');
             }
+            
+            // Solo cerrar menú móvil en pantallas pequeñas
+            if (window.innerWidth <= 768 && mobileMenu && mobileMenu.classList.contains('show')) {
+                mobileMenu.classList.remove('show');
+            }
         }
     }
+    
+    // Cerrar menú móvil al hacer clic en un enlace
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuLinks = document.querySelectorAll('.menu > a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    const menu = document.getElementById('mainMenu');
+                    if (menu) {
+                        menu.classList.remove('show');
+                    }
+                }
+            });
+        });
+    });
     </script>
     
     <div class="page-wrapper">

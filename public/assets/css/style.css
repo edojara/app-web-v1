@@ -97,6 +97,24 @@ nav a:hover {
     color: #3498db;
 }
 
+/* Botón de menú móvil (hamburguesa) */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: var(--transition);
+}
+
+.mobile-menu-toggle:hover {
+    color: var(--secondary-color);
+    transform: scale(1.1);
+}
+
 /* Menú desplegable de usuario */
 .user-menu-dropdown {
     position: relative;
@@ -904,6 +922,78 @@ footer a:hover {
         flex: 1;
         padding: 0.5rem;
         font-size: 0.8rem;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - MENÚ MÓVIL
+   ============================================ */
+@media (max-width: 768px) {
+    /* Mostrar botón hamburguesa en móviles */
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    /* Ajustar nav para móviles */
+    nav {
+        padding: 0 1rem;
+        flex-wrap: wrap;
+        position: relative;
+    }
+
+    /* Ocultar menú por defecto en móviles */
+    nav .menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        gap: 0;
+        z-index: 1000;
+        margin-top: 0.5rem;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+    }
+
+    /* Mostrar menú cuando tiene clase .show */
+    nav .menu.show {
+        display: flex;
+    }
+
+    /* Estilos de enlaces en menú móvil */
+    nav .menu a {
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: block;
+        width: 100%;
+    }
+
+    nav .menu a:last-child {
+        border-bottom: none;
+    }
+
+    nav .menu a:hover {
+        background-color: rgba(52, 152, 219, 0.3);
+    }
+
+    /* Ajustar dropdown de usuario en menú móvil */
+    nav .menu .user-menu-dropdown {
+        width: 100%;
+    }
+
+    nav .menu .user-menu-dropdown .user-email {
+        width: 100%;
+        justify-content: center;
+    }
+
+    nav .menu .user-menu-dropdown .dropdown-content {
+        position: relative;
+        right: auto;
+        margin-top: 0;
+        width: 100%;
     }
 }
 
