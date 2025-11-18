@@ -391,17 +391,22 @@ function sortTable(column) {
 }
 
 function filterTable() {
-    const searchValue = document.getElementById('searchInput').value.toLowerCase();
+    const searchInput = document.getElementById('searchInput');
+    if (!searchInput) return;
+    
+    const searchValue = searchInput.value.toLowerCase().trim();
     const rows = document.querySelectorAll('.table-row');
     
     rows.forEach(row => {
         const nombre = row.getAttribute('data-nombre') || '';
         const rut = row.getAttribute('data-rut') || '';
         const institucion = row.getAttribute('data-institucion') || '';
+        const telefono = row.getAttribute('data-telefono') || '';
         
         const matches = nombre.includes(searchValue) || 
                        rut.includes(searchValue) || 
-                       institucion.includes(searchValue);
+                       institucion.includes(searchValue) ||
+                       telefono.includes(searchValue);
         
         row.setAttribute('data-visible', matches ? 'true' : 'false');
     });
@@ -430,7 +435,7 @@ function updateDisplay() {
     
     visibleRows.forEach((row, index) => {
         if (index >= startIndex && index < endIndex) {
-            row.style.display = 'grid';
+            row.style.display = '';
         }
     });
     
