@@ -140,14 +140,20 @@ class ParticipantesController {
      * Procesar actualización de participante
      */
     public function update() {
+        error_log("=== UPDATE PARTICIPANTE DEBUG ===");
+        error_log("REQUEST_METHOD: " . $_SERVER['REQUEST_METHOD']);
+        error_log("POST data: " . print_r($_POST, true));
+        
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: /?url=participantes');
             exit;
         }
 
         $id = $_POST['id'] ?? null;
+        error_log("ID recibido: " . $id);
 
         if (!$id) {
+            error_log("ERROR: No se recibió ID");
             header('Location: /?url=participantes');
             exit;
         }
