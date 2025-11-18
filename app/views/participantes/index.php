@@ -90,9 +90,9 @@
                             <a href="/?url=participantes/view&id=<?= $participante['id'] ?>" 
                                class="btn-action btn-view" 
                                title="Ver detalle">👁️</a>
-                            <a href="/?url=participantes/edit&id=<?= $participante['id'] ?>" 
+                            <button onclick="editParticipante(<?= $participante['id'] ?>, '<?= htmlspecialchars($participante['nombre_completo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['rut'], ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['telefono'] ?? '', ENT_QUOTES) ?>', <?= $participante['institucion_id'] ?? 'null' ?>)" 
                                class="btn-action btn-edit" 
-                               title="Editar">✏️</a>
+                               title="Editar">✏️</button>
                             <a href="/?url=participantes/delete&id=<?= $participante['id'] ?>" 
                                class="btn-action btn-delete" 
                                onclick="return confirm('¿Está seguro de eliminar este participante?')"
@@ -122,6 +122,76 @@
             </div>
         </div>
     <?php endif; ?>
+</div>
+
+<!-- Modal para editar participante -->
+<div id="editParticipanteModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+    <div style="background-color: white; margin: 50px auto; padding: 0; border-radius: 8px; width: 90%; max-width: 600px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 2px solid #e0e0e0; background-color: #2196f3; color: white; border-radius: 8px 8px 0 0;">
+            <h2 style="margin: 0; font-size: 1.5rem;">✏️ Editar Participante</h2>
+            <button onclick="closeEditModal()" style="background: none; border: none; font-size: 2rem; cursor: pointer; color: white; line-height: 1; padding: 0; width: 30px; height: 30px;">&times;</button>
+        </div>
+        <div style="padding: 2rem;">
+            <form id="editParticipanteForm" method="POST">
+                <input type="hidden" id="edit_participante_id" name="participante_id">
+                
+                <div style="margin-bottom: 1rem;">
+                    <label for="edit_nombre_completo" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                        Nombre Completo <span style="color: #dc3545;">*</span>
+                    </label>
+                    <input type="text" 
+                           id="edit_nombre_completo" 
+                           name="nombre_completo" 
+                           class="form-control" 
+                           required
+                           maxlength="255">
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="flex: 1;">
+                        <label for="edit_rut" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                            RUT <span style="color: #dc3545;">*</span>
+                        </label>
+                        <input type="text" 
+                               id="edit_rut" 
+                               name="rut" 
+                               class="form-control" 
+                               required
+                               maxlength="12"
+                               pattern="[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}-[0-9kK]{1}"
+                               title="Formato: 12.345.678-9">
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="edit_telefono" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                            Teléfono
+                        </label>
+                        <input type="text" 
+                               id="edit_telefono" 
+                               name="telefono" 
+                               class="form-control" 
+                               maxlength="20">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label for="edit_institucion_id" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                        Institución
+                    </label>
+                    <select id="edit_institucion_id" name="institucion_id" class="form-control">
+                        <option value="">Sin institución</option>
+                        <?php foreach ($instituciones as $inst): ?>
+                            <option value="<?= $inst['id'] ?>"><?= htmlspecialchars($inst['nombre']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e0e0e0;">
+                    <button type="button" onclick="closeEditModal()" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">💾 Actualizar Participante</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -194,6 +264,9 @@
     font-size: 1rem;
     transition: all 0.2s ease;
     margin: 0 0.15rem;
+    border: none;
+    cursor: pointer;
+    background: transparent;
 }
 
 .btn-view {
@@ -512,6 +585,51 @@ function changeRecordsPerPage() {
     recordsPerPage = select.value === 'all' ? 'all' : parseInt(select.value);
     currentPage = 1;
     updateDisplay();
+}
+
+function editParticipante(id, nombre, rut, telefono, institucionId) {
+    // Abrir el modal
+    const modal = document.getElementById('editParticipanteModal');
+    const form = document.getElementById('editParticipanteForm');
+    
+    // Configurar el action del formulario
+    form.action = '/?url=participantes/update&id=' + id;
+    
+    // Rellenar los campos con los datos actuales
+    document.getElementById('edit_participante_id').value = id;
+    document.getElementById('edit_nombre_completo').value = nombre;
+    document.getElementById('edit_rut').value = rut;
+    document.getElementById('edit_telefono').value = telefono;
+    
+    // Seleccionar la institución
+    const institucionSelect = document.getElementById('edit_institucion_id');
+    if (institucionId) {
+        institucionSelect.value = institucionId;
+    } else {
+        institucionSelect.value = '';
+    }
+    
+    // Mostrar el modal
+    modal.style.display = 'block';
+}
+
+function closeEditModal() {
+    const modal = document.getElementById('editParticipanteModal');
+    const form = document.getElementById('editParticipanteForm');
+    
+    // Ocultar el modal
+    modal.style.display = 'none';
+    
+    // Limpiar el formulario
+    form.reset();
+}
+
+// Cerrar modal al hacer click fuera de él
+window.onclick = function(event) {
+    const modal = document.getElementById('editParticipanteModal');
+    if (event.target === modal) {
+        closeEditModal();
+    }
 }
 
 // Inicializar al cargar la página

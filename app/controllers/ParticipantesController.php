@@ -19,6 +19,7 @@ class ParticipantesController {
      */
     public function index() {
         $participantes = $this->participanteModel->getAll();
+        $instituciones = $this->institucionModel->getAll();
         require_once VIEWS_PATH . '/layout/header.php';
         require_once VIEWS_PATH . '/participantes/index.php';
         require_once VIEWS_PATH . '/layout/footer.php';
