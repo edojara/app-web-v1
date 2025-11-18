@@ -48,7 +48,7 @@
                         minmax(100px, 0.8fr)    /* Contactos */
                         minmax(120px, 0.9fr)    /* Participantes */
                         minmax(80px, 0.7fr)     /* Estado */
-                        minmax(120px, 0.9fr);   /* Acciones */
+                        minmax(80px, 0.6fr);    /* Acciones */
                     gap: 0;
                     border: 1px solid #ddd;
                     border-radius: 8px;
@@ -246,7 +246,9 @@
                      data-direccion="<?php echo htmlspecialchars($inst['direccion']); ?>"
                      data-estado="<?php echo $inst['estado']; ?>"
                      data-contactos="<?php echo $inst['total_contactos']; ?>"
-                     data-participantes="<?php echo $inst['total_participantes']; ?>">
+                     data-participantes="<?php echo $inst['total_participantes']; ?>"
+                     ondblclick="window.location.href='<?php echo APP_URL; ?>/?url=instituciones/view&id=<?php echo $inst['id']; ?>'"
+                     style="cursor: pointer;">
                     <div class="row-numero"><?php echo $contador++; ?></div>
                     <div data-label="Nombre: " title="<?php echo htmlspecialchars($inst['nombre']); ?>"><strong><?php echo htmlspecialchars($inst['nombre']); ?></strong></div>
                     <div data-label="Ciudad: " title="<?php echo htmlspecialchars($inst['ciudad']); ?>"><?php echo htmlspecialchars($inst['ciudad']); ?></div>
@@ -264,17 +266,14 @@
                             <span class="badge badge-warning">✗ Inactiva</span>
                         <?php endif; ?>
                     </div>
-                    <div class="text-center" style="white-space: normal;">
-                        <a href="<?php echo APP_URL; ?>/?url=instituciones/view&id=<?php echo $inst['id']; ?>" 
-                           class="btn-action btn-view" 
-                           title="Ver detalles">👁️</a>
-                        <button onclick="editInstitucionById(this);" 
+                    <div class="text-center" style="white-space: normal;" onclick="event.stopPropagation();" ondblclick="event.stopPropagation();">
+                        <button onclick="event.stopPropagation(); editInstitucionById(this);" 
                            class="btn-action btn-edit" 
                            title="Editar">✏️</button>
                         <a href="<?php echo APP_URL; ?>/?url=instituciones/delete&id=<?php echo $inst['id']; ?>" 
                            class="btn-action btn-delete" 
                            title="Eliminar"
-                           onclick="return confirm('¿Estás seguro de eliminar esta institución? Se eliminarán también todos sus contactos.');">🗑️</a>
+                           onclick="event.stopPropagation(); return confirm('¿Estás seguro de eliminar esta institución? Se eliminarán también todos sus contactos.');">🗑️</a>
                     </div>
                 </div>
                 <?php endforeach; ?>
