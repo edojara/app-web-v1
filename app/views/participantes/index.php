@@ -83,21 +83,17 @@
                             <?php endif; ?>
                         </div>
                         <div><?= htmlspecialchars($participante['telefono'] ?? '-') ?></div>
-                        <div class="action-buttons">
+                        <div class="action-buttons" style="text-align: center; white-space: normal;">
                             <a href="/?url=participantes/view&id=<?= $participante['id'] ?>" 
-                               class="btn btn-sm btn-info" title="Ver detalle">
-                                👁️ Ver
-                            </a>
+                               class="btn-action btn-view" 
+                               title="Ver detalle">👁️</a>
                             <a href="/?url=participantes/edit&id=<?= $participante['id'] ?>" 
-                               class="btn btn-sm btn-warning" title="Editar">
-                                ✏️ Editar
-                            </a>
+                               class="btn-action btn-edit" 
+                               title="Editar">✏️</a>
                             <a href="/?url=participantes/delete&id=<?= $participante['id'] ?>" 
-                               class="btn btn-sm btn-danger" 
+                               class="btn-action btn-delete" 
                                onclick="return confirm('¿Está seguro de eliminar este participante?')"
-                               title="Eliminar">
-                                🗑️ Eliminar
-                            </a>
+                               title="Eliminar">🗑️</a>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -178,6 +174,52 @@
 .badge-danger {
     background-color: #dc3545;
     color: white;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    margin: 0 0.15rem;
+}
+
+.btn-view {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.btn-view:hover {
+    background: #2196f3;
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-edit {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.btn-edit:hover {
+    background: #1976d2;
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-delete {
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.btn-delete:hover {
+    background: #d32f2f;
+    color: white;
+    transform: scale(1.1);
 }
 </style>
 
