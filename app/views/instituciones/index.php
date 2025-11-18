@@ -98,6 +98,8 @@
                     font-size: 1rem;
                     transition: all 0.2s ease;
                     margin: 0 0.15rem;
+                    border: none;
+                    cursor: pointer;
                 }
                 .btn-view {
                     background: #e3f2fd;
@@ -267,9 +269,9 @@
                         <a href="<?php echo APP_URL; ?>/?url=instituciones/view&id=<?php echo $inst['id']; ?>" 
                            class="btn-action btn-view" 
                            title="Ver detalles">👁️</a>
-                        <a href="<?php echo APP_URL; ?>/?url=instituciones/edit&id=<?php echo $inst['id']; ?>" 
+                        <button onclick="editInstitucion(<?php echo $inst['id']; ?>, '<?php echo htmlspecialchars($inst['nombre'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($inst['ciudad'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($inst['direccion'], ENT_QUOTES); ?>', '<?php echo $inst['estado']; ?>')" 
                            class="btn-action btn-edit" 
-                           title="Editar">✏️</a>
+                           title="Editar">✏️</button>
                         <a href="<?php echo APP_URL; ?>/?url=instituciones/delete&id=<?php echo $inst['id']; ?>" 
                            class="btn-action btn-delete" 
                            title="Eliminar"
@@ -578,3 +580,117 @@
         <?php endif; ?>
     </div>
 </div>
+
+<!-- Modal para editar institución -->
+<div id="editInstitucionModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+    <div style="background-color: white; margin: 50px auto; padding: 0; border-radius: 8px; width: 90%; max-width: 600px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 2px solid #e0e0e0; background-color: #2196f3; color: white; border-radius: 8px 8px 0 0;">
+            <h2 style="margin: 0; font-size: 1.5rem;">✏️ Editar Institución</h2>
+            <button onclick="closeEditModal()" style="background: none; border: none; font-size: 2rem; cursor: pointer; color: white; line-height: 1; padding: 0; width: 30px; height: 30px;">&times;</button>
+        </div>
+        <div style="padding: 2rem;">
+            <form id="editInstitucionForm" method="POST">
+                <input type="hidden" id="edit_institucion_id" name="institucion_id">
+                
+                <div style="margin-bottom: 1rem;">
+                    <label for="edit_nombre" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                        Nombre <span style="color: #dc3545;">*</span>
+                    </label>
+                    <input type="text" 
+                           id="edit_nombre" 
+                           name="nombre" 
+                           class="form-control" 
+                           required
+                           maxlength="255"
+                           style="width: 100%; padding: 0.625rem 0.875rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="flex: 1;">
+                        <label for="edit_ciudad" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                            Ciudad <span style="color: #dc3545;">*</span>
+                        </label>
+                        <input type="text" 
+                               id="edit_ciudad" 
+                               name="ciudad" 
+                               class="form-control" 
+                               required
+                               maxlength="100"
+                               style="width: 100%; padding: 0.625rem 0.875rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="edit_estado" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                            Estado <span style="color: #dc3545;">*</span>
+                        </label>
+                        <select id="edit_estado" 
+                                name="estado" 
+                                class="form-control" 
+                                required
+                                style="width: 100%; padding: 0.625rem 0.875rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+                            <option value="activa">Activa</option>
+                            <option value="inactiva">Inactiva</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label for="edit_direccion" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                        Dirección <span style="color: #dc3545;">*</span>
+                    </label>
+                    <textarea id="edit_direccion" 
+                              name="direccion" 
+                              class="form-control" 
+                              required
+                              rows="3"
+                              maxlength="500"
+                              style="width: 100%; padding: 0.625rem 0.875rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; resize: vertical;"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e0e0e0;">
+                    <button type="button" onclick="closeEditModal()" class="btn btn-secondary" style="padding: 0.625rem 1.25rem; border: none; border-radius: 4px; cursor: pointer; background-color: #6c757d; color: white;">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" style="padding: 0.625rem 1.25rem; border: none; border-radius: 4px; cursor: pointer; background-color: #2196f3; color: white;">💾 Actualizar Institución</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function editInstitucion(id, nombre, ciudad, direccion, estado) {
+    // Abrir el modal
+    const modal = document.getElementById('editInstitucionModal');
+    const form = document.getElementById('editInstitucionForm');
+    
+    // Configurar el action del formulario
+    form.action = '<?php echo APP_URL; ?>/?url=instituciones/update&id=' + id;
+    
+    // Rellenar los campos con los datos actuales
+    document.getElementById('edit_institucion_id').value = id;
+    document.getElementById('edit_nombre').value = nombre;
+    document.getElementById('edit_ciudad').value = ciudad;
+    document.getElementById('edit_direccion').value = direccion;
+    document.getElementById('edit_estado').value = estado;
+    
+    // Mostrar el modal
+    modal.style.display = 'block';
+}
+
+function closeEditModal() {
+    const modal = document.getElementById('editInstitucionModal');
+    const form = document.getElementById('editInstitucionForm');
+    
+    // Ocultar el modal
+    modal.style.display = 'none';
+    
+    // Limpiar el formulario
+    form.reset();
+}
+
+// Cerrar modal al hacer click fuera de él
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('editInstitucionModal');
+    if (event.target === modal) {
+        closeEditModal();
+    }
+});
+</script>

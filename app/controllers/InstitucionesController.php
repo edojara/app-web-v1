@@ -199,6 +199,56 @@ class InstitucionesController {
     }
     
     /**
+     * Actualizar institución (para modal)
+     */
+    public function update() {
+        $id = $_GET['id'] ?? null;
+        
+        if (!$id || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . APP_URL . '/?url=instituciones');
+            exit;
+        }
+        
+        $institucion = $this->institucionModel->getById($id);
+        
+        if (!$institucion) {
+            $_SESSION['error'] = 'Institución no encontrada';
+            header('Location: ' . APP_URL . '/?url=instituciones');
+            exit;
+        }
+        
+        $data = [
+            'nombre' => $_POST['nombre'] ?? '',
+            'direccion' => $_POST['direccion'] ?? '',
+            'ciudad' => $_POST['ciudad'] ?? '',
+            'estado' => $_POST['estado'] ?? 'activa'
+        ];
+        
+        if (empty($data['nombre']) || empty($data['direccion']) || empty($data['ciudad'])) {
+            $_SESSION['error'] = 'Todos los campos son requeridos';
+        } elseif ($this->institucionModel->update($id, $data)) {
+            // Registrar en auditoría
+            $this->auditoriaApp->log(
+                'instituciones',
+                'editar',
+                $id,
+                $data['nombre'],
+                [
+                    'antes' => $institucion,
+                    'despues' => $data
+                ]
+            );
+            
+            $_SESSION['mensaje'] = 'Institución actualizada exitosamente';
+        } else {
+            $_SESSION['error'] = 'Error al actualizar la institución';
+        }
+        
+        header('Location: ' . APP_URL . '/?url=instituciones');
+        exit;
+    }
+    
+    /**
      * Agregar contacto a institución
      */
     public function addContacto() {
