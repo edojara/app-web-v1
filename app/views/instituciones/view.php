@@ -596,9 +596,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-                searchInput.blur();
-            }
-        });
-    }
-});
 </script>
