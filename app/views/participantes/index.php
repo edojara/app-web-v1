@@ -75,9 +75,9 @@
                          data-telefono="<?= htmlspecialchars(strtolower($participante['telefono'] ?? '')) ?>"
                          data-visible="true">
                         <div class="row-numero"><?= $numero++ ?></div>
-                        <div><?= htmlspecialchars($participante['nombre_completo']) ?></div>
-                        <div><?= htmlspecialchars($participante['rut']) ?></div>
-                        <div>
+                        <div data-label="Nombre: "><?= htmlspecialchars($participante['nombre_completo']) ?></div>
+                        <div data-label="RUT: "><?= htmlspecialchars($participante['rut']) ?></div>
+                        <div data-label="Institución: ">
                             <?php if ($participante['institucion_nombre']): ?>
                                 <a href="/?url=instituciones/view&id=<?= $participante['institucion_id'] ?>">
                                     <?= htmlspecialchars($participante['institucion_nombre']) ?>
@@ -86,7 +86,7 @@
                                 <span class="text-muted">Sin institución</span>
                             <?php endif; ?>
                         </div>
-                        <div><?= htmlspecialchars($participante['telefono'] ?? '-') ?></div>
+                        <div data-label="Teléfono: "><?= htmlspecialchars($participante['telefono'] ?? '-') ?></div>
                         <div class="action-buttons" style="text-align: center; white-space: normal;">
                             <a href="/?url=participantes/view&id=<?= $participante['id'] ?>" 
                                class="btn-action btn-view" 
@@ -224,6 +224,98 @@
     background: #d32f2f;
     color: white;
     transform: scale(1.1);
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .content-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+    
+    .content-header input {
+        max-width: 100% !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    .content-header a {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .table-header {
+        display: none;
+    }
+    
+    .table-row {
+        display: block !important;
+        grid-template-columns: none !important;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: white;
+    }
+    
+    .table-row > div {
+        display: block;
+        padding: 0.5rem 0;
+        border-bottom: none !important;
+        white-space: normal;
+        overflow: visible;
+        text-align: left !important;
+    }
+    
+    .table-row > div:before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: inline-block;
+        width: 120px;
+        color: var(--primary-color);
+    }
+    
+    .table-row > .row-numero {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        text-align: center !important;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e0e0e0 !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    .table-row > .row-numero:before {
+        content: '#';
+        margin-right: 0.5rem;
+    }
+    
+    .table-row > .action-buttons {
+        text-align: center !important;
+        padding-top: 1rem;
+        border-top: 2px solid #e0e0e0 !important;
+        margin-top: 0.5rem;
+    }
+    
+    .table-row > .action-buttons:before {
+        display: none;
+    }
+    
+    .pagination-controls {
+        flex-direction: column !important;
+        gap: 1rem;
+    }
+    
+    .pagination-controls > div {
+        width: 100%;
+        text-align: center;
+    }
+    
+    #recordsInfo {
+        display: block;
+        margin-top: 0.5rem;
+        margin-left: 0 !important;
+    }
 }
 </style>
 
