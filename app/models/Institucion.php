@@ -200,28 +200,6 @@ class Institucion {
     }
     
     /**
-     * Actualizar contacto
-     */
-    public function updateContacto($id, $data) {
-        $stmt = $this->conn->prepare("
-            UPDATE contactos_institucion 
-            SET nombre_completo = ?, ocupacion = ?, telefono = ?, email = ?
-            WHERE id = ?
-        ");
-        
-        $stmt->bind_param(
-            "ssssi",
-            $data['nombre_completo'],
-            $data['ocupacion'],
-            $data['telefono'],
-            $data['email'],
-            $id
-        );
-        
-        return $stmt->execute();
-    }
-    
-    /**
      * Obtener contacto por ID
      */
     public function getContactoById($id) {
