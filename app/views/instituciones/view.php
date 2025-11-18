@@ -267,13 +267,13 @@
 </div>
 
 <!-- Modal para ver detalles del contacto -->
-<div id="contactoModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
-    <div style="background-color: white; margin: 5% auto; padding: 2rem; border-radius: 8px; width: 90%; max-width: 600px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 1rem;">
-            <h2 style="margin: 0; color: var(--primary-color);">👤 Detalles del Contacto</h2>
-            <button onclick="closeContactoModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
+<div id="contactoModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); padding: 20px;">
+    <div style="background-color: white; margin: 50px auto; padding: 0; border-radius: 8px; width: 100%; max-width: 600px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 2px solid #e0e0e0;">
+            <h2 style="margin: 0; color: var(--primary-color); font-size: 1.5rem;">👤 Detalles del Contacto</h2>
+            <button onclick="closeContactoModal()" style="background: none; border: none; font-size: 2rem; cursor: pointer; color: #666; line-height: 1; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">&times;</button>
         </div>
-        <div id="contactoDetails" style="display: grid; gap: 1rem;">
+        <div id="contactoDetails" style="padding: 2rem; display: grid; gap: 1rem;">
             <!-- Detalles serán insertados aquí -->
         </div>
     </div>
