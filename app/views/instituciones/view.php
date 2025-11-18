@@ -143,11 +143,11 @@
                         <tr ondblclick="viewContacto(<?php echo htmlspecialchars(json_encode($contacto)); ?>)" 
                             style="cursor: pointer;" 
                             title="Doble click para ver detalles">
-                            <td style="width: 30%;"><strong><?php echo htmlspecialchars($contacto['nombre_completo']); ?></strong></td>
-                            <td style="width: 20%;"><?php echo htmlspecialchars($contacto['ocupacion']); ?></td>
-                            <td style="width: 20%;"><?php echo $contacto['telefono'] ? htmlspecialchars($contacto['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
-                            <td style="width: 20%;"><?php echo $contacto['email'] ? htmlspecialchars($contacto['email']) : '<em style="color: #999;">No especificado</em>'; ?></td>
-                            <td class="text-center" style="width: 10%;">
+                            <td><strong><?php echo htmlspecialchars($contacto['nombre_completo']); ?></strong></td>
+                            <td><?php echo htmlspecialchars($contacto['ocupacion']); ?></td>
+                            <td><?php echo $contacto['telefono'] ? htmlspecialchars($contacto['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
+                            <td><?php echo $contacto['email'] ? htmlspecialchars($contacto['email']) : '<em style="color: #999;">No especificado</em>'; ?></td>
+                            <td class="text-center">
                                 <a href="<?php echo APP_URL; ?>/?url=instituciones/deleteContacto&id=<?php echo $contacto['id']; ?>&institucion_id=<?php echo $institucion['id']; ?>" 
                                    class="btn-action btn-delete" 
                                    title="Eliminar contacto"
@@ -247,10 +247,10 @@
                             data-nombre="<?= htmlspecialchars(strtolower($participante['nombre_completo'])) ?>"
                             data-rut="<?= htmlspecialchars(strtolower($participante['rut'])) ?>"
                             data-telefono="<?= htmlspecialchars(strtolower($participante['telefono'] ?? '')) ?>">
-                            <td style="width: 40%;"><strong><?php echo htmlspecialchars($participante['nombre_completo']); ?></strong></td>
-                            <td style="width: 25%;"><?php echo htmlspecialchars($participante['rut']); ?></td>
-                            <td style="width: 25%;"><?php echo $participante['telefono'] ? htmlspecialchars($participante['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
-                            <td class="text-center" style="width: 10%;">
+                            <td><strong><?php echo htmlspecialchars($participante['nombre_completo']); ?></strong></td>
+                            <td><?php echo htmlspecialchars($participante['rut']); ?></td>
+                            <td><?php echo $participante['telefono'] ? htmlspecialchars($participante['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
+                            <td class="text-center">
                                 <a href="<?php echo APP_URL; ?>/?url=instituciones/deleteParticipante&id=<?php echo $participante['id']; ?>&institucion_id=<?php echo $institucion['id']; ?>" 
                                    class="btn-action btn-delete" 
                                    title="Eliminar participante"
