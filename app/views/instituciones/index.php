@@ -42,13 +42,13 @@
                     display: grid;
                     grid-template-columns: 
                         minmax(40px, 60px)      /* # */
-                        minmax(200px, 2fr)      /* Nombre */
-                        minmax(120px, 1fr)      /* Ciudad */
-                        minmax(180px, 1.5fr)    /* Dirección */
-                        minmax(100px, 0.7fr)    /* Contactos */
-                        minmax(120px, 0.7fr)    /* Participantes */
-                        minmax(80px, 0.6fr)     /* Estado */
-                        minmax(120px, 0.8fr);   /* Acciones */
+                        minmax(250px, 3fr)      /* Nombre */
+                        minmax(120px, 1.2fr)    /* Ciudad */
+                        minmax(200px, 2fr)      /* Dirección */
+                        minmax(100px, 0.8fr)    /* Contactos */
+                        minmax(120px, 0.9fr)    /* Participantes */
+                        minmax(80px, 0.7fr)     /* Estado */
+                        minmax(120px, 0.9fr);   /* Acciones */
                     gap: 0;
                     border: 1px solid #ddd;
                     border-radius: 8px;
@@ -79,7 +79,8 @@
                     border-bottom: 1px solid #f0f0f0;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    white-space: nowrap;
+                    word-wrap: break-word;
+                    line-height: 1.4;
                 }
                 .instituciones-grid-row:hover > div {
                     background-color: #e3f2fd;
