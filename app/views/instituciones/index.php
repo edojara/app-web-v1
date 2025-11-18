@@ -315,6 +315,14 @@
 
             // Initialize on load
             window.addEventListener('DOMContentLoaded', function() {
+                // Acortar "Universidad" a "Univ." en las instituciones
+                document.querySelectorAll('.instituciones-grid-row').forEach(row => {
+                    const nombreDiv = row.children[1]; // Columna de nombre (índice 1)
+                    if (nombreDiv && nombreDiv.textContent) {
+                        nombreDiv.innerHTML = nombreDiv.innerHTML.replace(/Universidad/gi, 'Univ.');
+                    }
+                });
+                
                 updateDisplay();
                 
                 // Vincular evento de filtrado
