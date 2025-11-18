@@ -319,6 +319,7 @@
 .table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .table thead {
@@ -331,6 +332,8 @@
     padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .table tbody tr:hover {
