@@ -137,7 +137,7 @@
                     <div class="sortable" onclick="sortTable('contactos')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.25rem;" title="Click para ordenar">
                         Contactos <span id="sort-contactos">↕️</span>
                     </div>
-                    <div class="sortable" onclick="sortTable('estado')" style="cursor: pointer;" title="Click para ordenar">
+                    <div class="sortable" onclick="sortTable('estado')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.25rem;" title="Click para ordenar">
                         Estado <span id="sort-estado">↕️</span>
                     </div>
                     <div class="text-center">Acciones</div>
