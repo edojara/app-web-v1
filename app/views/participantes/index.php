@@ -657,6 +657,14 @@ window.onclick = function(event) {
 
 // Inicializar al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
+    // Acortar "Universidad" a "Univ." en las instituciones
+    document.querySelectorAll('.table-row').forEach(row => {
+        const institucionDiv = row.children[3]; // Columna de institución (índice 3)
+        if (institucionDiv && institucionDiv.textContent) {
+            institucionDiv.innerHTML = institucionDiv.innerHTML.replace(/Universidad/gi, 'Univ.');
+        }
+    });
+    
     // Inicializar display
     updateDisplay();
     
