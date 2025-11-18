@@ -126,6 +126,85 @@
                     color: white;
                     transform: scale(1.1);
                 }
+
+                /* Responsive para móviles */
+                @media (max-width: 768px) {
+                    .content-header {
+                        flex-direction: column !important;
+                        align-items: stretch !important;
+                    }
+                    
+                    .content-header input {
+                        max-width: 100% !important;
+                        margin-bottom: 0.5rem;
+                    }
+                    
+                    .content-header a {
+                        width: 100%;
+                        text-align: center;
+                        margin-bottom: 0.5rem;
+                    }
+
+                    .instituciones-grid {
+                        display: block;
+                        border: none;
+                    }
+                    
+                    .instituciones-grid-header {
+                        display: none;
+                    }
+                    
+                    .instituciones-grid-row {
+                        display: block;
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        margin-bottom: 1rem;
+                        padding: 1rem;
+                        background: white;
+                    }
+                    
+                    .instituciones-grid-row > div {
+                        display: block;
+                        padding: 0.5rem 0;
+                        border-bottom: none;
+                        white-space: normal;
+                        overflow: visible;
+                    }
+                    
+                    .instituciones-grid-row > div:before {
+                        content: attr(data-label);
+                        font-weight: bold;
+                        display: inline-block;
+                        width: 100px;
+                        color: var(--primary-color);
+                    }
+                    
+                    .instituciones-grid-row > div:first-child {
+                        font-size: 1.2rem;
+                        font-weight: bold;
+                        color: var(--primary-color);
+                        text-align: center;
+                        padding-bottom: 0.5rem;
+                        border-bottom: 2px solid #e0e0e0;
+                        margin-bottom: 0.5rem;
+                    }
+                    
+                    .instituciones-grid-row > div:first-child:before {
+                        content: '#';
+                        margin-right: 0.5rem;
+                    }
+                    
+                    .instituciones-grid-row > div:last-child {
+                        text-align: center;
+                        padding-top: 1rem;
+                        border-top: 2px solid #e0e0e0;
+                        margin-top: 0.5rem;
+                    }
+                    
+                    .instituciones-grid-row > div:last-child:before {
+                        display: none;
+                    }
+                }
             </style>
 
             <div class="instituciones-grid">
@@ -164,13 +243,13 @@
                      data-contactos="<?php echo $inst['total_contactos']; ?>"
                      data-estado="<?php echo $inst['estado']; ?>">
                     <div class="row-numero"><?php echo $contador++; ?></div>
-                    <div title="<?php echo htmlspecialchars($inst['nombre']); ?>"><strong><?php echo htmlspecialchars($inst['nombre']); ?></strong></div>
-                    <div title="<?php echo htmlspecialchars($inst['ciudad']); ?>"><?php echo htmlspecialchars($inst['ciudad']); ?></div>
-                    <div title="<?php echo htmlspecialchars($inst['direccion']); ?>"><?php echo htmlspecialchars($inst['direccion']); ?></div>
-                    <div class="text-center">
+                    <div data-label="Nombre: " title="<?php echo htmlspecialchars($inst['nombre']); ?>"><strong><?php echo htmlspecialchars($inst['nombre']); ?></strong></div>
+                    <div data-label="Ciudad: " title="<?php echo htmlspecialchars($inst['ciudad']); ?>"><?php echo htmlspecialchars($inst['ciudad']); ?></div>
+                    <div data-label="Dirección: " title="<?php echo htmlspecialchars($inst['direccion']); ?>"><?php echo htmlspecialchars($inst['direccion']); ?></div>
+                    <div data-label="Contactos: " class="text-center">
                         <?php echo $inst['total_contactos']; ?>
                     </div>
-                    <div>
+                    <div data-label="Estado: ">
                         <?php if ($inst['estado'] === 'activa'): ?>
                             <span class="badge badge-success">✓ Activa</span>
                         <?php else: ?>
