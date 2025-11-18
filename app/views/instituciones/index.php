@@ -2,9 +2,16 @@
     <div class="card">
         <div class="page-header">
             <h1>🏛️ Instituciones Académicas</h1>
-            <div class="page-actions">
-                <a href="<?php echo APP_URL; ?>/?url=instituciones/create" class="btn btn-success">➕ Nueva Institución</a>
-            </div>
+        </div>
+
+        <!-- Barra de búsqueda y acciones -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+            <input type="text" 
+                   id="searchInput" 
+                   placeholder="🔍 Buscar por nombre, ciudad o dirección..." 
+                   style="flex: 0 0 50%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;"
+                   oninput="filterTable()">
+            <a href="<?php echo APP_URL; ?>/?url=instituciones/create" class="btn btn-success">➕ Nueva Institución</a>
         </div>
 
         <?php if (isset($_SESSION['mensaje'])): ?>
@@ -31,15 +38,6 @@
                 <a href="<?php echo APP_URL; ?>/?url=instituciones/create">Crear la primera institución</a>
             </p>
         <?php else: ?>
-            <!-- Filtro de búsqueda -->
-            <div style="margin-bottom: 1rem;">
-                <input type="text" 
-                       id="searchInput" 
-                       placeholder="🔍 Buscar por nombre, ciudad o dirección..." 
-                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;"
-                       oninput="filterTable()">
-            </div>
-
             <style>
                 .instituciones-grid {
                     display: grid;
