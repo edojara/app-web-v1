@@ -240,12 +240,13 @@
                 foreach ($instituciones as $inst): 
                 ?>
                 <div class="instituciones-grid-row" 
+                     data-id="<?php echo $inst['id']; ?>"
                      data-nombre="<?php echo htmlspecialchars($inst['nombre']); ?>"
                      data-ciudad="<?php echo htmlspecialchars($inst['ciudad']); ?>"
                      data-direccion="<?php echo htmlspecialchars($inst['direccion']); ?>"
+                     data-estado="<?php echo $inst['estado']; ?>"
                      data-contactos="<?php echo $inst['total_contactos']; ?>"
-                     data-participantes="<?php echo $inst['total_participantes']; ?>"
-                     data-estado="<?php echo $inst['estado']; ?>">
+                     data-participantes="<?php echo $inst['total_participantes']; ?>">
                     <div class="row-numero"><?php echo $contador++; ?></div>
                     <div data-label="Nombre: " title="<?php echo htmlspecialchars($inst['nombre']); ?>"><strong><?php echo htmlspecialchars($inst['nombre']); ?></strong></div>
                     <div data-label="Ciudad: " title="<?php echo htmlspecialchars($inst['ciudad']); ?>"><?php echo htmlspecialchars($inst['ciudad']); ?></div>
@@ -267,7 +268,7 @@
                         <a href="<?php echo APP_URL; ?>/?url=instituciones/view&id=<?php echo $inst['id']; ?>" 
                            class="btn-action btn-view" 
                            title="Ver detalles">👁️</a>
-                        <button onclick="editInstitucion(<?php echo $inst['id']; ?>, '<?php echo htmlspecialchars($inst['nombre'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($inst['ciudad'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($inst['direccion'], ENT_QUOTES); ?>', '<?php echo $inst['estado']; ?>');" 
+                        <button onclick="editInstitucionById(this);" 
                            class="btn-action btn-edit" 
                            title="Editar">✏️</button>
                         <a href="<?php echo APP_URL; ?>/?url=instituciones/delete&id=<?php echo $inst['id']; ?>" 
@@ -654,7 +655,17 @@
 </div>
 
 <script>
-function editInstitucion(id, nombre, ciudad, direccion, estado) {
+function editInstitucionById(button) {
+    // Buscar la fila padre que contiene los data attributes
+    const row = button.closest('.instituciones-grid-row');
+    
+    // Obtener los datos desde los data attributes
+    const id = row.getAttribute('data-id');
+    const nombre = row.getAttribute('data-nombre');
+    const ciudad = row.getAttribute('data-ciudad');
+    const direccion = row.getAttribute('data-direccion');
+    const estado = row.getAttribute('data-estado');
+    
     // Abrir el modal
     const modal = document.getElementById('editInstitucionModal');
     const form = document.getElementById('editInstitucionForm');
