@@ -4,8 +4,7 @@
             type="text" 
             id="searchInput" 
             class="form-control" 
-            placeholder="Buscar por nombre, RUT, institución..." 
-            oninput="filterTable()"
+            placeholder="Buscar por nombre, RUT, institución, teléfono..." 
             style="flex: 1; max-width: 50%;">
         <a href="/?url=participantes/export" class="btn btn-success" style="white-space: nowrap;">
             📥 Exportar CSV
@@ -507,6 +506,19 @@ function changeRecordsPerPage() {
 
 // Inicializar al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar display
     updateDisplay();
+    
+    // Vincular evento de filtrado
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        console.log('Event listener agregado al input de búsqueda');
+        searchInput.addEventListener('input', function() {
+            console.log('Evento input disparado');
+            filterTable();
+        });
+    } else {
+        console.error('No se encontró el input searchInput');
+    }
 });
 </script>
