@@ -140,7 +140,7 @@
                 </thead>
                 <tbody>
                     <?php foreach ($contactos as $contacto): ?>
-                        <tr ondblclick="viewContacto(<?php echo htmlspecialchars(json_encode($contacto)); ?>)" 
+                        <tr ondblclick="viewContacto('<?php echo htmlspecialchars($contacto['nombre_completo'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($contacto['ocupacion'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($contacto['telefono'] ?? '', ENT_QUOTES); ?>', '<?php echo htmlspecialchars($contacto['email'] ?? '', ENT_QUOTES); ?>')" 
                             style="cursor: pointer;" 
                             title="Doble click para ver detalles">
                             <td><strong><?php echo htmlspecialchars($contacto['nombre_completo']); ?></strong></td>
@@ -521,26 +521,26 @@ function filterParticipantes() {
     });
 }
 
-function viewContacto(contacto) {
+function viewContacto(nombre, ocupacion, telefono, email) {
     const modal = document.getElementById('contactoModal');
     const details = document.getElementById('contactoDetails');
     
     details.innerHTML = `
         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--primary-color);">
             <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Nombre Completo</strong>
-            <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; color: #333;">${contacto.nombre_completo}</p>
+            <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; color: #333;">${nombre}</p>
         </div>
         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--secondary-color);">
             <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Ocupación</strong>
-            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${contacto.ocupacion}</p>
+            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${ocupacion}</p>
         </div>
         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--success-color);">
             <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Teléfono</strong>
-            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${contacto.telefono || '<em style="color: #999;">No especificado</em>'}</p>
+            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${telefono || '<em style="color: #999;">No especificado</em>'}</p>
         </div>
         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--warning-color);">
             <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Email</strong>
-            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${contacto.email || '<em style="color: #999;">No especificado</em>'}</p>
+            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${email || '<em style="color: #999;">No especificado</em>'}</p>
         </div>
     `;
     
