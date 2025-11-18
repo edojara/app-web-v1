@@ -214,7 +214,7 @@
 <style>
 .table-header {
     display: grid;
-    grid-template-columns: 60px minmax(200px, 2fr) minmax(120px, 1fr) minmax(200px, 2fr) minmax(120px, 1fr) minmax(180px, 1.5fr) 280px;
+    grid-template-columns: 60px 2.5fr 1.2fr 2.5fr 1.2fr 2fr 280px;
     gap: 1rem;
     padding: 1rem;
     background-color: #f8f9fa;
@@ -224,7 +224,7 @@
 
 .table-row {
     display: grid;
-    grid-template-columns: 60px minmax(200px, 2fr) minmax(120px, 1fr) minmax(200px, 2fr) minmax(120px, 1fr) minmax(180px, 1.5fr) 280px;
+    grid-template-columns: 60px 2.5fr 1.2fr 2.5fr 1.2fr 2fr 280px;
     gap: 1rem;
     padding: 1rem;
     border-bottom: 1px solid #dee2e6;
