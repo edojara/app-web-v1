@@ -16,6 +16,20 @@ class EventosController {
      */
     public function index() {
         $eventos = $this->eventoModel->getAll();
+        
+        // Separar eventos próximos y pasados
+        $ahora = date('Y-m-d H:i:s');
+        $eventosProximos = [];
+        $eventosPasados = [];
+        
+        foreach ($eventos as $evento) {
+            if ($evento['fecha_termino'] >= $ahora) {
+                $eventosProximos[] = $evento;
+            } else {
+                $eventosPasados[] = $evento;
+            }
+        }
+        
         require_once VIEWS_PATH . '/layout/header.php';
         require_once VIEWS_PATH . '/eventos/index.php';
         require_once VIEWS_PATH . '/layout/footer.php';

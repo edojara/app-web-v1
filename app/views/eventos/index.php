@@ -29,49 +29,92 @@
 
     <div class="card">
         <div class="card-body">
-            <h2 style="margin-bottom: 1.5rem;">📅 Eventos</h2>
-
             <?php if (empty($eventos)): ?>
+                <h2 style="margin-bottom: 1.5rem;">📅 Eventos</h2>
                 <div class="text-center py-4">
                     <p class="text-muted">No hay eventos registrados</p>
                     <button onclick="openCreateModal()" class="btn btn-primary">Crear primer evento</button>
                 </div>
             <?php else: ?>
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th style="width: 50px;">#</th>
-                                <th>Nombre</th>
-                                <th style="width: 180px;">Fecha Inicio</th>
-                                <th style="width: 180px;">Fecha Término</th>
-                                <th>Lugar</th>
-                                <th style="width: 120px;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $numero = 1; ?>
-                            <?php foreach ($eventos as $evento): ?>
-                                <tr ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="cursor: pointer;">
-                                    <td><?= $numero++ ?></td>
-                                    <td><strong><?= htmlspecialchars($evento['nombre']) ?></strong></td>
-                                    <td><?= date('d/m/Y H:i', strtotime($evento['fecha_inicio'])) ?></td>
-                                    <td><?= date('d/m/Y H:i', strtotime($evento['fecha_termino'])) ?></td>
-                                    <td><?= htmlspecialchars($evento['lugar']) ?></td>
-                                    <td onclick="event.stopPropagation();" ondblclick="event.stopPropagation();">
-                                        <button onclick="event.stopPropagation(); editEvento(<?= $evento['id'] ?>, '<?= htmlspecialchars($evento['nombre'], ENT_QUOTES) ?>', '<?= htmlspecialchars($evento['descripcion'] ?? '', ENT_QUOTES) ?>', '<?= $evento['fecha_inicio'] ?>', '<?= $evento['fecha_termino'] ?>', '<?= htmlspecialchars($evento['lugar'], ENT_QUOTES) ?>')" 
-                                           class="btn btn-sm btn-primary" 
-                                           title="Editar">✏️</button>
-                                        <a href="/?url=eventos/delete&id=<?= $evento['id'] ?>" 
-                                           class="btn btn-sm btn-danger" 
-                                           onclick="event.stopPropagation(); return confirm('¿Está seguro de eliminar este evento?')"
-                                           title="Eliminar">🗑️</a>
-                                    </td>
+                <!-- Eventos Próximos -->
+                <?php if (!empty($eventosProximos)): ?>
+                    <h2 style="margin-bottom: 1.5rem; color: #2196f3;">🔔 EVENTOS PRÓXIMOS</h2>
+                    <div class="table-responsive" style="margin-bottom: 3rem;">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width: 50px;">#</th>
+                                    <th>Nombre</th>
+                                    <th style="width: 180px;">Fecha Inicio</th>
+                                    <th style="width: 180px;">Fecha Término</th>
+                                    <th>Lugar</th>
+                                    <th style="width: 120px;">Acciones</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                <?php $numero = 1; ?>
+                                <?php foreach ($eventosProximos as $evento): ?>
+                                    <tr ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="cursor: pointer;">
+                                        <td><?= $numero++ ?></td>
+                                        <td><strong><?= htmlspecialchars($evento['nombre']) ?></strong></td>
+                                        <td><?= date('d/m/Y H:i', strtotime($evento['fecha_inicio'])) ?></td>
+                                        <td><?= date('d/m/Y H:i', strtotime($evento['fecha_termino'])) ?></td>
+                                        <td><?= htmlspecialchars($evento['lugar']) ?></td>
+                                        <td onclick="event.stopPropagation();" ondblclick="event.stopPropagation();">
+                                            <button onclick="event.stopPropagation(); editEvento(<?= $evento['id'] ?>, '<?= htmlspecialchars($evento['nombre'], ENT_QUOTES) ?>', '<?= htmlspecialchars($evento['descripcion'] ?? '', ENT_QUOTES) ?>', '<?= $evento['fecha_inicio'] ?>', '<?= $evento['fecha_termino'] ?>', '<?= htmlspecialchars($evento['lugar'], ENT_QUOTES) ?>')" 
+                                               class="btn btn-sm btn-primary" 
+                                               title="Editar">✏️</button>
+                                            <a href="/?url=eventos/delete&id=<?= $evento['id'] ?>" 
+                                               class="btn btn-sm btn-danger" 
+                                               onclick="event.stopPropagation(); return confirm('¿Está seguro de eliminar este evento?')"
+                                               title="Eliminar">🗑️</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Eventos Pasados -->
+                <?php if (!empty($eventosPasados)): ?>
+                    <h2 style="margin-bottom: 1.5rem; color: #757575;">📋 EVENTOS REALIZADOS</h2>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width: 50px;">#</th>
+                                    <th>Nombre</th>
+                                    <th style="width: 180px;">Fecha Inicio</th>
+                                    <th style="width: 180px;">Fecha Término</th>
+                                    <th>Lugar</th>
+                                    <th style="width: 120px;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $numero = 1; ?>
+                                <?php foreach ($eventosPasados as $evento): ?>
+                                    <tr ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="cursor: pointer; opacity: 0.7;">
+                                        <td><?= $numero++ ?></td>
+                                        <td><strong><?= htmlspecialchars($evento['nombre']) ?></strong></td>
+                                        <td><?= date('d/m/Y H:i', strtotime($evento['fecha_inicio'])) ?></td>
+                                        <td><?= date('d/m/Y H:i', strtotime($evento['fecha_termino'])) ?></td>
+                                        <td><?= htmlspecialchars($evento['lugar']) ?></td>
+                                        <td onclick="event.stopPropagation();" ondblclick="event.stopPropagation();">
+                                            <button onclick="event.stopPropagation(); editEvento(<?= $evento['id'] ?>, '<?= htmlspecialchars($evento['nombre'], ENT_QUOTES) ?>', '<?= htmlspecialchars($evento['descripcion'] ?? '', ENT_QUOTES) ?>', '<?= $evento['fecha_inicio'] ?>', '<?= $evento['fecha_termino'] ?>', '<?= htmlspecialchars($evento['lugar'], ENT_QUOTES) ?>')" 
+                                               class="btn btn-sm btn-primary" 
+                                               title="Editar">✏️</button>
+                                            <a href="/?url=eventos/delete&id=<?= $evento['id'] ?>" 
+                                               class="btn btn-sm btn-danger" 
+                                               onclick="event.stopPropagation(); return confirm('¿Está seguro de eliminar este evento?')"
+                                               title="Eliminar">🗑️</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>
