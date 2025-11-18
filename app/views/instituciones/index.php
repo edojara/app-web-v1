@@ -205,8 +205,11 @@
                         <option value="999999">Todos</option>
                     </select>
                 </div>
+                <div id="paginationControls" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <!-- Pagination buttons will be inserted here -->
+                </div>
                 <div id="recordsInfo" style="color: #666; font-size: 0.9rem;">
-                    Mostrando <span id="showingCount">0</span> de <span id="totalCount">0</span> instituciones
+                    Mostrando <span id="showingStart">0</span>-<span id="showingEnd">0</span> de <span id="totalCount">0</span> instituciones
                 </div>
             </div>
 
@@ -349,12 +352,20 @@
                 const visibleRows = rows.filter(row => row.style.display !== 'none');
                 const totalRecords = visibleRows.length;
                 
+                // Calculate total pages
+                const totalPages = Math.ceil(totalRecords / recordsPerPage);
+                
+                // Ensure current page is valid
+                if (currentPage > totalPages) {
+                    currentPage = Math.max(1, totalPages);
+                }
+                
                 // Hide all rows first
                 visibleRows.forEach(row => row.style.display = 'none');
                 
                 // Calculate pagination
-                const startIndex = 0;
-                const endIndex = Math.min(recordsPerPage, totalRecords);
+                const startIndex = (currentPage - 1) * recordsPerPage;
+                const endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
                 
                 // Show only records for current page
                 for (let i = startIndex; i < endIndex; i++) {
@@ -368,13 +379,87 @@
                 displayedRows.forEach((row, index) => {
                     const numeroEl = row.querySelector('.row-numero');
                     if (numeroEl) {
-                        numeroEl.textContent = index + 1;
+                        numeroEl.textContent = startIndex + index + 1;
                     }
                 });
                 
                 // Update info text
-                document.getElementById('showingCount').textContent = Math.min(endIndex, totalRecords);
+                document.getElementById('showingStart').textContent = totalRecords > 0 ? startIndex + 1 : 0;
+                document.getElementById('showingEnd').textContent = endIndex;
                 document.getElementById('totalCount').textContent = totalRecords;
+                
+                // Update pagination controls
+                updatePaginationControls(totalPages);
+            }
+            
+            function updatePaginationControls(totalPages) {
+                const paginationDiv = document.getElementById('paginationControls');
+                
+                if (totalPages <= 1) {
+                    paginationDiv.innerHTML = '';
+                    return;
+                }
+                
+                let html = '';
+                
+                // Previous button
+                html += `<button onclick="goToPage(${currentPage - 1})" 
+                         ${currentPage === 1 ? 'disabled' : ''} 
+                         style="padding: 0.4rem 0.8rem; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer; ${currentPage === 1 ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+                         ← Anterior
+                         </button>`;
+                
+                // Page numbers
+                const maxButtons = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+                let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+                
+                if (endPage - startPage < maxButtons - 1) {
+                    startPage = Math.max(1, endPage - maxButtons + 1);
+                }
+                
+                if (startPage > 1) {
+                    html += `<button onclick="goToPage(1)" style="padding: 0.4rem 0.8rem; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer;">1</button>`;
+                    if (startPage > 2) {
+                        html += `<span style="padding: 0.4rem;">...</span>`;
+                    }
+                }
+                
+                for (let i = startPage; i <= endPage; i++) {
+                    const isActive = i === currentPage;
+                    html += `<button onclick="goToPage(${i})" 
+                             style="padding: 0.4rem 0.8rem; border: 1px solid #ddd; background: ${isActive ? 'var(--primary-color)' : 'white'}; color: ${isActive ? 'white' : '#333'}; border-radius: 4px; cursor: pointer; font-weight: ${isActive ? '600' : '400'};">
+                             ${i}
+                             </button>`;
+                }
+                
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        html += `<span style="padding: 0.4rem;">...</span>`;
+                    }
+                    html += `<button onclick="goToPage(${totalPages})" style="padding: 0.4rem 0.8rem; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer;">${totalPages}</button>`;
+                }
+                
+                // Next button
+                html += `<button onclick="goToPage(${currentPage + 1})" 
+                         ${currentPage === totalPages ? 'disabled' : ''} 
+                         style="padding: 0.4rem 0.8rem; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer; ${currentPage === totalPages ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+                         Siguiente →
+                         </button>`;
+                
+                paginationDiv.innerHTML = html;
+            }
+            
+            function goToPage(page) {
+                const rows = Array.from(document.querySelectorAll('.instituciones-grid-row'));
+                const visibleRows = rows.filter(row => row.style.display !== 'none');
+                const totalRecords = visibleRows.length;
+                const totalPages = Math.ceil(totalRecords / recordsPerPage);
+                
+                if (page >= 1 && page <= totalPages) {
+                    currentPage = page;
+                    updateDisplay();
+                }
             }
             </script>
         <?php endif; ?>
