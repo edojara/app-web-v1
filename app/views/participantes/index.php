@@ -392,16 +392,23 @@ function sortTable(column) {
 
 function filterTable() {
     const searchInput = document.getElementById('searchInput');
-    if (!searchInput) return;
+    if (!searchInput) {
+        console.error('searchInput no encontrado');
+        return;
+    }
     
     const searchValue = searchInput.value.toLowerCase().trim();
     const rows = document.querySelectorAll('.table-row');
     
+    console.log('Filtrando con valor:', searchValue);
+    console.log('Total de filas:', rows.length);
+    
+    let visibleCount = 0;
     rows.forEach(row => {
-        const nombre = row.getAttribute('data-nombre') || '';
-        const rut = row.getAttribute('data-rut') || '';
-        const institucion = row.getAttribute('data-institucion') || '';
-        const telefono = row.getAttribute('data-telefono') || '';
+        const nombre = (row.getAttribute('data-nombre') || '').toLowerCase();
+        const rut = (row.getAttribute('data-rut') || '').toLowerCase();
+        const institucion = (row.getAttribute('data-institucion') || '').toLowerCase();
+        const telefono = (row.getAttribute('data-telefono') || '').toLowerCase();
         
         const matches = nombre.includes(searchValue) || 
                        rut.includes(searchValue) || 
@@ -409,8 +416,10 @@ function filterTable() {
                        telefono.includes(searchValue);
         
         row.setAttribute('data-visible', matches ? 'true' : 'false');
+        if (matches) visibleCount++;
     });
     
+    console.log('Filas visibles:', visibleCount);
     currentPage = 1;
     updateDisplay();
 }
