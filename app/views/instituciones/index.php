@@ -46,6 +46,7 @@
                         minmax(120px, 1fr)      /* Ciudad */
                         minmax(180px, 1.5fr)    /* Dirección */
                         minmax(100px, 0.7fr)    /* Contactos */
+                        minmax(120px, 0.7fr)    /* Participantes */
                         minmax(80px, 0.6fr)     /* Estado */
                         minmax(120px, 0.8fr);   /* Acciones */
                     gap: 0;
@@ -222,6 +223,9 @@
                     <div class="sortable" onclick="sortTable('contactos')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.25rem;" title="Click para ordenar">
                         Contactos <span id="sort-contactos">↕️</span>
                     </div>
+                    <div class="sortable" onclick="sortTable('participantes')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.25rem;" title="Click para ordenar">
+                        Participantes <span id="sort-participantes">↕️</span>
+                    </div>
                     <div class="sortable" onclick="sortTable('estado')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.25rem;" title="Click para ordenar">
                         Estado <span id="sort-estado">↕️</span>
                     </div>
@@ -240,6 +244,7 @@
                      data-ciudad="<?php echo htmlspecialchars($inst['ciudad']); ?>"
                      data-direccion="<?php echo htmlspecialchars($inst['direccion']); ?>"
                      data-contactos="<?php echo $inst['total_contactos']; ?>"
+                     data-participantes="<?php echo $inst['total_participantes']; ?>"
                      data-estado="<?php echo $inst['estado']; ?>">
                     <div class="row-numero"><?php echo $contador++; ?></div>
                     <div data-label="Nombre: " title="<?php echo htmlspecialchars($inst['nombre']); ?>"><strong><?php echo htmlspecialchars($inst['nombre']); ?></strong></div>
@@ -247,6 +252,9 @@
                     <div data-label="Dirección: " title="<?php echo htmlspecialchars($inst['direccion']); ?>"><?php echo htmlspecialchars($inst['direccion']); ?></div>
                     <div data-label="Contactos: " class="text-center">
                         <?php echo $inst['total_contactos']; ?>
+                    </div>
+                    <div data-label="Participantes: " class="text-center">
+                        <?php echo $inst['total_participantes']; ?>
                     </div>
                     <div data-label="Estado: ">
                         <?php if ($inst['estado'] === 'activa'): ?>
@@ -297,6 +305,7 @@
                 ciudad: 'asc',
                 direccion: 'asc',
                 contactos: 'asc',
+                participantes: 'asc',
                 estado: 'asc'
             };
             
@@ -338,8 +347,8 @@
                     let aVal = a.getAttribute('data-' + column);
                     let bVal = b.getAttribute('data-' + column);
                     
-                    // Convert to numbers if it's contactos
-                    if (column === 'contactos') {
+                    // Convert to numbers if it's contactos or participantes
+                    if (column === 'contactos' || column === 'participantes') {
                         aVal = parseInt(aVal);
                         bVal = parseInt(bVal);
                     } else {

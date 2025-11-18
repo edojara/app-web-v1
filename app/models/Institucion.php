@@ -15,13 +15,15 @@ class Institucion {
     }
     
     /**
-     * Obtener todas las instituciones con el conteo de contactos
+     * Obtener todas las instituciones con el conteo de contactos y participantes
      */
     public function getAll() {
         $sql = "SELECT i.*, 
-                COUNT(c.id) as total_contactos 
+                COUNT(DISTINCT c.id) as total_contactos,
+                COUNT(DISTINCT p.id) as total_participantes
                 FROM {$this->table} i 
                 LEFT JOIN contactos_institucion c ON i.id = c.institucion_id 
+                LEFT JOIN participantes p ON i.id = p.institucion_id
                 GROUP BY i.id 
                 ORDER BY i.nombre ASC";
         $result = $this->conn->query($sql);
