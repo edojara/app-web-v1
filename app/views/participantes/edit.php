@@ -74,6 +74,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" 
+                                   class="form-control" 
+                                   id="email" 
+                                   name="email" 
+                                   value="<?= htmlspecialchars($participante['email'] ?? '') ?>"
+                                   maxlength="255"
+                                   placeholder="correo@ejemplo.cl">
+                            <small class="form-text text-muted">Correo electrónico del participante</small>
+                        </div>
+
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">
                                 💾 Guardar Cambios
                             </button>

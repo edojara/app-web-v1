@@ -73,6 +73,19 @@
                         </div>
 
                         <div class="info-item">
+                            <strong>Email:</strong>
+                            <span>
+                                <?php if ($participante['email']): ?>
+                                    <a href="mailto:<?= htmlspecialchars($participante['email']) ?>">
+                                        <?= htmlspecialchars($participante['email']) ?>
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-muted">No registrado</span>
+                                <?php endif; ?>
+                            </span>
+                        </div>
+
+                        <div class="info-item">
                             <strong>Fecha de Registro:</strong>
                             <span><?= date('d/m/Y H:i', strtotime($participante['created_at'])) ?></span>
                         </div>

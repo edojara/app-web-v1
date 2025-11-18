@@ -62,7 +62,8 @@ class ParticipantesController {
             'institucion_id' => $_POST['institucion_id'],
             'nombre_completo' => trim($_POST['nombre_completo']),
             'rut' => trim($_POST['rut']),
-            'telefono' => trim($_POST['telefono'] ?? '')
+            'telefono' => trim($_POST['telefono'] ?? ''),
+            'email' => trim($_POST['email'] ?? '')
         ];
 
         $participanteId = $this->participanteModel->create($data);
@@ -172,7 +173,8 @@ class ParticipantesController {
             'institucion_id' => $_POST['institucion_id'],
             'nombre_completo' => trim($_POST['nombre_completo']),
             'rut' => trim($_POST['rut']),
-            'telefono' => trim($_POST['telefono'] ?? '')
+            'telefono' => trim($_POST['telefono'] ?? ''),
+            'email' => trim($_POST['email'] ?? '')
         ];
 
         if ($this->participanteModel->update($id, $data)) {

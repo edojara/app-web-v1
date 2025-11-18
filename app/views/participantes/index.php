@@ -56,6 +56,10 @@
                     <span>Teléfono</span>
                     <span class="sort-icon" id="sort-telefono">↕️</span>
                 </div>
+                <div class="column-header" onclick="sortTable('email')" style="display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
+                    <span>Email</span>
+                    <span class="sort-icon" id="sort-email">↕️</span>
+                </div>
                 <div class="column-header">Acciones</div>
             </div>
 
@@ -72,6 +76,7 @@
                          data-rut="<?= htmlspecialchars(strtolower($participante['rut'])) ?>"
                          data-institucion="<?= htmlspecialchars(strtolower($participante['institucion_nombre'] ?? '')) ?>"
                          data-telefono="<?= htmlspecialchars(strtolower($participante['telefono'] ?? '')) ?>"
+                         data-email="<?= htmlspecialchars(strtolower($participante['email'] ?? '')) ?>"
                          data-visible="true">
                         <div class="row-numero"><?= $numero++ ?></div>
                         <div data-label="Nombre: "><?= htmlspecialchars($participante['nombre_completo']) ?></div>
@@ -86,11 +91,12 @@
                             <?php endif; ?>
                         </div>
                         <div data-label="Teléfono: "><?= htmlspecialchars($participante['telefono'] ?? '-') ?></div>
+                        <div data-label="Email: "><?= htmlspecialchars($participante['email'] ?? '-') ?></div>
                         <div class="action-buttons" style="text-align: center; white-space: normal;">
                             <a href="/?url=participantes/view&id=<?= $participante['id'] ?>" 
                                class="btn-action btn-view" 
                                title="Ver detalle">👁️</a>
-                            <button onclick="editParticipante(<?= $participante['id'] ?>, '<?= htmlspecialchars($participante['nombre_completo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['rut'], ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['telefono'] ?? '', ENT_QUOTES) ?>', <?= $participante['institucion_id'] ?? 'null' ?>)" 
+                            <button onclick="editParticipante(<?= $participante['id'] ?>, '<?= htmlspecialchars($participante['nombre_completo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['rut'], ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['telefono'] ?? '', ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['email'] ?? '', ENT_QUOTES) ?>', <?= $participante['institucion_id'] ?? 'null' ?>)" 
                                class="btn-action btn-edit" 
                                title="Editar">✏️</button>
                             <a href="/?url=participantes/delete&id=<?= $participante['id'] ?>" 
@@ -174,6 +180,17 @@
                 </div>
 
                 <div style="margin-bottom: 1rem;">
+                    <label for="edit_email" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                        Email
+                    </label>
+                    <input type="email" 
+                           id="edit_email" 
+                           name="email" 
+                           class="form-control" 
+                           maxlength="255">
+                </div>
+
+                <div style="margin-bottom: 1rem;">
                     <label for="edit_institucion_id" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
                         Institución
                     </label>
@@ -197,7 +214,7 @@
 <style>
 .table-header {
     display: grid;
-    grid-template-columns: 60px minmax(200px, 2fr) minmax(120px, 1fr) minmax(200px, 2fr) minmax(120px, 1fr) 280px;
+    grid-template-columns: 60px minmax(200px, 2fr) minmax(120px, 1fr) minmax(200px, 2fr) minmax(120px, 1fr) minmax(180px, 1.5fr) 280px;
     gap: 1rem;
     padding: 1rem;
     background-color: #f8f9fa;
@@ -207,7 +224,7 @@
 
 .table-row {
     display: grid;
-    grid-template-columns: 60px minmax(200px, 2fr) minmax(120px, 1fr) minmax(200px, 2fr) minmax(120px, 1fr) 280px;
+    grid-template-columns: 60px minmax(200px, 2fr) minmax(120px, 1fr) minmax(200px, 2fr) minmax(120px, 1fr) minmax(180px, 1.5fr) 280px;
     gap: 1rem;
     padding: 1rem;
     border-bottom: 1px solid #dee2e6;
@@ -587,7 +604,7 @@ function changeRecordsPerPage() {
     updateDisplay();
 }
 
-function editParticipante(id, nombre, rut, telefono, institucionId) {
+function editParticipante(id, nombre, rut, telefono, email, institucionId) {
     // Abrir el modal
     const modal = document.getElementById('editParticipanteModal');
     const form = document.getElementById('editParticipanteForm');
@@ -600,6 +617,7 @@ function editParticipante(id, nombre, rut, telefono, institucionId) {
     document.getElementById('edit_nombre_completo').value = nombre;
     document.getElementById('edit_rut').value = rut;
     document.getElementById('edit_telefono').value = telefono;
+    document.getElementById('edit_email').value = email;
     
     // Seleccionar la institución
     const institucionSelect = document.getElementById('edit_institucion_id');
