@@ -140,8 +140,7 @@
                 </thead>
                 <tbody>
                     <?php foreach ($contactos as $contacto): ?>
-                        <tr ondblclick="viewContacto('<?php echo htmlspecialchars($contacto['nombre_completo'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($contacto['ocupacion'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($contacto['telefono'] ?? '', ENT_QUOTES); ?>', '<?php echo htmlspecialchars($contacto['email'] ?? '', ENT_QUOTES); ?>')" 
-                            style="cursor: pointer;" 
+                        <tr style="cursor: pointer;" 
                             title="Doble click para ver detalles">
                             <td><strong><?php echo htmlspecialchars($contacto['nombre_completo']); ?></strong></td>
                             <td><?php echo htmlspecialchars($contacto['ocupacion']); ?></td>
