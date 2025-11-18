@@ -7,6 +7,12 @@
             placeholder="Buscar por nombre, RUT, institución..." 
             onkeyup="filterTable()"
             style="flex: 1; max-width: 50%;">
+        <a href="/?url=participantes/export" class="btn btn-success" style="white-space: nowrap;">
+            📥 Exportar CSV
+        </a>
+        <a href="/?url=participantes/import" class="btn btn-info" style="white-space: nowrap;">
+            📤 Importar CSV
+        </a>
         <a href="/?url=participantes/create" class="btn btn-primary" style="white-space: nowrap;">
             ➕ Nuevo Participante
         </a>

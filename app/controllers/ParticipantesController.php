@@ -228,4 +228,154 @@ class ParticipantesController {
         header('Location: /?url=participantes');
         exit;
     }
+
+    /**
+     * Exportar participantes a CSV
+     */
+    public function export() {
+        $participantes = $this->participanteModel->getAll();
+        
+        // Configurar headers para descarga
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="participantes_' . date('Y-m-d_His') . '.csv"');
+        
+        // Crear salida CSV
+        $output = fopen('php://output', 'w');
+        
+        // BOM para UTF-8
+        fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+        
+        // Encabezados
+        fputcsv($output, ['ID', 'Nombre Completo', 'RUT', 'Teléfono', 'Institución', 'ID Institución', 'Fecha Creación']);
+        
+        // Datos
+        foreach ($participantes as $participante) {
+            fputcsv($output, [
+                $participante['id'],
+                $participante['nombre_completo'],
+                $participante['rut'],
+                $participante['telefono'] ?? '',
+                $participante['institucion_nombre'] ?? '',
+                $participante['institucion_id'],
+                $participante['created_at']
+            ]);
+        }
+        
+        fclose($output);
+        exit;
+    }
+
+    /**
+     * Mostrar formulario de importación
+     */
+    public function import() {
+        $instituciones = $this->institucionModel->getAll();
+        require_once VIEWS_PATH . '/layout/header.php';
+        require_once VIEWS_PATH . '/participantes/import.php';
+        require_once VIEWS_PATH . '/layout/footer.php';
+    }
+
+    /**
+     * Procesar importación de CSV
+     */
+    public function processImport() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /?url=participantes/import');
+            exit;
+        }
+
+        if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
+            $_SESSION['error'] = 'Error al subir el archivo CSV';
+            header('Location: /?url=participantes/import');
+            exit;
+        }
+
+        $file = $_FILES['csv_file']['tmp_name'];
+        $handle = fopen($file, 'r');
+        
+        if (!$handle) {
+            $_SESSION['error'] = 'No se pudo abrir el archivo CSV';
+            header('Location: /?url=participantes/import');
+            exit;
+        }
+
+        // Leer BOM si existe
+        $bom = fread($handle, 3);
+        if ($bom !== chr(0xEF).chr(0xBB).chr(0xBF)) {
+            rewind($handle);
+        }
+
+        $importados = 0;
+        $errores = [];
+        $linea = 0;
+
+        // Saltar encabezado
+        fgetcsv($handle);
+
+        while (($data = fgetcsv($handle)) !== false) {
+            $linea++;
+            
+            // Validar que tenga al menos 4 columnas (nombre, rut, telefono, institucion_id)
+            if (count($data) < 4) {
+                $errores[] = "Línea $linea: Datos incompletos";
+                continue;
+            }
+
+            $nombre_completo = trim($data[0]);
+            $rut = trim($data[1]);
+            $telefono = trim($data[2] ?? '');
+            $institucion_id = trim($data[3]);
+
+            // Validar campos requeridos
+            if (empty($nombre_completo) || empty($rut) || empty($institucion_id)) {
+                $errores[] = "Línea $linea: Nombre, RUT e Institución son obligatorios";
+                continue;
+            }
+
+            // Verificar si el RUT ya existe
+            if ($this->participanteModel->rutExists($rut)) {
+                $errores[] = "Línea $linea: El RUT $rut ya existe";
+                continue;
+            }
+
+            // Crear participante
+            $participanteData = [
+                'institucion_id' => $institucion_id,
+                'nombre_completo' => $nombre_completo,
+                'rut' => $rut,
+                'telefono' => $telefono
+            ];
+
+            $participanteId = $this->participanteModel->create($participanteData);
+
+            if ($participanteId) {
+                $importados++;
+                
+                // Registrar en auditoría
+                $this->auditoriaModel->registrar(
+                    'participantes',
+                    'importar_participante',
+                    $participanteId,
+                    $_SESSION['user_id'] ?? null,
+                    json_encode($participanteData)
+                );
+            } else {
+                $errores[] = "Línea $linea: Error al importar participante";
+            }
+        }
+
+        fclose($handle);
+
+        // Mensaje de resultado
+        if ($importados > 0) {
+            $_SESSION['success'] = "Se importaron $importados participantes exitosamente";
+        }
+
+        if (!empty($errores)) {
+            $_SESSION['error'] = "Errores encontrados: " . implode('; ', $errores);
+        }
+
+        header('Location: /?url=participantes');
+        exit;
+    }
 }
