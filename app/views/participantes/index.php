@@ -231,6 +231,17 @@
     align-items: center;
 }
 
+.table-row > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table-row > div.action-buttons {
+    white-space: normal;
+    overflow: visible;
+}
+
 .table-row:hover {
     background-color: #f8f9fa;
 }
