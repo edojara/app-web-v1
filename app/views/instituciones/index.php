@@ -349,19 +349,35 @@
             
             function updateDisplay() {
                 const rows = Array.from(document.querySelectorAll('.instituciones-grid-row'));
-                const visibleRows = rows.filter(row => row.style.display !== 'none');
-                const totalRecords = visibleRows.length;
+                
+                // First, get all rows (regardless of current display)
+                const allRows = rows.filter(row => {
+                    // Check if row matches current filter
+                    const searchValue = document.getElementById('searchInput').value.toLowerCase();
+                    if (searchValue) {
+                        const nombre = row.getAttribute('data-nombre').toLowerCase();
+                        const ciudad = row.getAttribute('data-ciudad').toLowerCase();
+                        const direccion = row.getAttribute('data-direccion').toLowerCase();
+                        return nombre.includes(searchValue) || ciudad.includes(searchValue) || direccion.includes(searchValue);
+                    }
+                    return true;
+                });
+                
+                const totalRecords = allRows.length;
                 
                 // Calculate total pages
                 const totalPages = Math.ceil(totalRecords / recordsPerPage);
                 
                 // Ensure current page is valid
-                if (currentPage > totalPages) {
-                    currentPage = Math.max(1, totalPages);
+                if (currentPage > totalPages && totalPages > 0) {
+                    currentPage = totalPages;
+                }
+                if (currentPage < 1) {
+                    currentPage = 1;
                 }
                 
                 // Hide all rows first
-                visibleRows.forEach(row => row.style.display = 'none');
+                rows.forEach(row => row.style.display = 'none');
                 
                 // Calculate pagination
                 const startIndex = (currentPage - 1) * recordsPerPage;
@@ -369,13 +385,13 @@
                 
                 // Show only records for current page
                 for (let i = startIndex; i < endIndex; i++) {
-                    if (visibleRows[i]) {
-                        visibleRows[i].style.display = 'contents';
+                    if (allRows[i]) {
+                        allRows[i].style.display = 'contents';
                     }
                 }
                 
                 // Update row numbers for visible rows
-                const displayedRows = visibleRows.slice(startIndex, endIndex);
+                const displayedRows = allRows.slice(startIndex, endIndex);
                 displayedRows.forEach((row, index) => {
                     const numeroEl = row.querySelector('.row-numero');
                     if (numeroEl) {
@@ -451,15 +467,8 @@
             }
             
             function goToPage(page) {
-                const rows = Array.from(document.querySelectorAll('.instituciones-grid-row'));
-                const visibleRows = rows.filter(row => row.style.display !== 'none');
-                const totalRecords = visibleRows.length;
-                const totalPages = Math.ceil(totalRecords / recordsPerPage);
-                
-                if (page >= 1 && page <= totalPages) {
-                    currentPage = page;
-                    updateDisplay();
-                }
+                currentPage = page;
+                updateDisplay();
             }
             </script>
         <?php endif; ?>
