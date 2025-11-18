@@ -31,6 +31,15 @@
                 <a href="<?php echo APP_URL; ?>/?url=instituciones/create">Crear la primera institución</a>
             </p>
         <?php else: ?>
+            <!-- Filtro de búsqueda -->
+            <div style="margin-bottom: 1rem;">
+                <input type="text" 
+                       id="searchInput" 
+                       placeholder="🔍 Buscar por nombre, ciudad o dirección..." 
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;"
+                       oninput="filterTable()">
+            </div>
+
             <style>
                 .instituciones-grid {
                     display: grid;
@@ -247,6 +256,57 @@
                         }
                     }
                 });
+            }
+            
+            function filterTable() {
+                const searchValue = document.getElementById('searchInput').value.toLowerCase();
+                const rows = document.querySelectorAll('.instituciones-grid-row');
+                let visibleCount = 0;
+                
+                rows.forEach(row => {
+                    const nombre = row.getAttribute('data-nombre').toLowerCase();
+                    const ciudad = row.getAttribute('data-ciudad').toLowerCase();
+                    const direccion = row.getAttribute('data-direccion').toLowerCase();
+                    
+                    const matches = nombre.includes(searchValue) || 
+                                  ciudad.includes(searchValue) || 
+                                  direccion.includes(searchValue);
+                    
+                    if (matches) {
+                        row.style.display = 'contents';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // Update row numbers for visible rows
+                const visibleRows = Array.from(rows).filter(row => row.style.display !== 'none');
+                visibleRows.forEach((row, index) => {
+                    const numeroEl = row.querySelector('.row-numero');
+                    if (numeroEl) {
+                        numeroEl.textContent = index + 1;
+                    }
+                });
+                
+                // Show message if no results
+                let noResultsMsg = document.getElementById('noResultsMsg');
+                if (visibleCount === 0) {
+                    if (!noResultsMsg) {
+                        noResultsMsg = document.createElement('div');
+                        noResultsMsg.id = 'noResultsMsg';
+                        noResultsMsg.style.gridColumn = '1 / -1';
+                        noResultsMsg.style.padding = '2rem';
+                        noResultsMsg.style.textAlign = 'center';
+                        noResultsMsg.style.color = '#666';
+                        noResultsMsg.innerHTML = 'No se encontraron instituciones que coincidan con la búsqueda';
+                        document.querySelector('.instituciones-grid').appendChild(noResultsMsg);
+                    }
+                } else {
+                    if (noResultsMsg) {
+                        noResultsMsg.remove();
+                    }
+                }
             }
             </script>
         <?php endif; ?>
