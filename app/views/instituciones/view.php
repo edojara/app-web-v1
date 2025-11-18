@@ -159,6 +159,96 @@
             </table>
         <?php endif; ?>
     </div>
+
+    <!-- Participantes -->
+    <div class="card">
+        <div class="section-header">
+            <h2>👨‍🎓 Participantes</h2>
+            <button onclick="toggleParticipanteForm()" class="btn btn-success" id="btnShowParticipanteForm">➕ Agregar Participante</button>
+        </div>
+
+        <!-- Formulario para agregar participante -->
+        <div id="participanteForm" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background-color: #f8f9fa; border-radius: 4px;">
+            <h3 style="margin-top: 0;">Nuevo Participante</h3>
+            <form method="POST" action="<?php echo APP_URL; ?>/?url=instituciones/addParticipante">
+                <input type="hidden" name="institucion_id" value="<?php echo $institucion['id']; ?>">
+                
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label for="nombre_completo_part" class="required">Nombre Completo</label>
+                        <input type="text" 
+                               id="nombre_completo_part" 
+                               name="nombre_completo" 
+                               class="form-control" 
+                               required
+                               maxlength="255"
+                               placeholder="Ej: Juan Pérez García">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="rut" class="required">RUT</label>
+                        <input type="text" 
+                               id="rut" 
+                               name="rut" 
+                               class="form-control" 
+                               required
+                               maxlength="12"
+                               placeholder="Ej: 12.345.678-9"
+                               pattern="[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}-[0-9kK]{1}"
+                               title="Formato: 12.345.678-9">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="telefono_part">Teléfono</label>
+                        <input type="text" 
+                               id="telefono_part" 
+                               name="telefono" 
+                               class="form-control" 
+                               maxlength="20"
+                               placeholder="Ej: +56 9 1234 5678">
+                    </div>
+                </div>
+
+                <div class="form-actions" style="margin-top: 1rem; border-top: none; padding-top: 0;">
+                    <button type="button" onclick="toggleParticipanteForm()" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-success">💾 Guardar Participante</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Lista de participantes -->
+        <?php if (empty($participantes)): ?>
+            <p style="text-align: center; color: #666; padding: 2rem;">
+                No hay participantes registrados para esta institución.
+            </p>
+        <?php else: ?>
+            <table class="table" style="margin-top: 1.5rem;">
+                <thead>
+                    <tr>
+                        <th>Nombre Completo</th>
+                        <th>RUT</th>
+                        <th>Teléfono</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($participantes as $participante): ?>
+                        <tr>
+                            <td><strong><?php echo htmlspecialchars($participante['nombre_completo']); ?></strong></td>
+                            <td><?php echo htmlspecialchars($participante['rut']); ?></td>
+                            <td><?php echo $participante['telefono'] ? htmlspecialchars($participante['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
+                            <td class="text-center">
+                                <a href="<?php echo APP_URL; ?>/?url=instituciones/deleteParticipante&id=<?php echo $participante['id']; ?>&institucion_id=<?php echo $institucion['id']; ?>" 
+                                   class="btn-action btn-delete" 
+                                   title="Eliminar participante"
+                                   onclick="return confirm('¿Estás seguro de eliminar este participante?');">
+                                    🗑️
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+    </div>
 </div>
 
 <style>
@@ -341,6 +431,25 @@ function toggleContactForm() {
     } else {
         form.style.display = 'none';
         btn.textContent = '➕ Agregar Contacto';
+        btn.classList.remove('btn-secondary');
+        btn.classList.add('btn-success');
+        // Limpiar formulario
+        form.querySelector('form').reset();
+    }
+}
+
+function toggleParticipanteForm() {
+    const form = document.getElementById('participanteForm');
+    const btn = document.getElementById('btnShowParticipanteForm');
+    
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+        btn.textContent = '✖ Cancelar';
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-secondary');
+    } else {
+        form.style.display = 'none';
+        btn.textContent = '➕ Agregar Participante';
         btn.classList.remove('btn-secondary');
         btn.classList.add('btn-success');
         // Limpiar formulario

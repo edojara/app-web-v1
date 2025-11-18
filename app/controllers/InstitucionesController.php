@@ -51,6 +51,9 @@ class InstitucionesController {
         // Obtener contactos de la institución
         $contactos = $this->institucionModel->getContactos($id);
         
+        // Obtener participantes de la institución
+        $participantes = $this->institucionModel->getParticipantes($id);
+        
         $pageTitle = "Detalles de Institución";
         
         require_once VIEWS_PATH . '/layout/header.php';
@@ -264,6 +267,90 @@ class InstitucionesController {
             $_SESSION['mensaje'] = 'Contacto eliminado exitosamente';
         } else {
             $_SESSION['error'] = 'Error al eliminar contacto';
+        }
+        
+        header('Location: ' . APP_URL . '/?url=instituciones/view&id=' . $institucionId);
+        exit;
+    }
+    
+    /**
+     * Agregar participante
+     */
+    public function addParticipante() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . APP_URL . '/?url=instituciones');
+            exit;
+        }
+        
+        $institucionId = $_POST['institucion_id'] ?? null;
+        $nombreCompleto = $_POST['nombre_completo'] ?? '';
+        $rut = $_POST['rut'] ?? '';
+        $telefono = $_POST['telefono'] ?? '';
+        
+        if (!$institucionId || empty($nombreCompleto) || empty($rut)) {
+            $_SESSION['error'] = 'Nombre completo y RUT son requeridos';
+            header('Location: ' . APP_URL . '/?url=instituciones/view&id=' . $institucionId);
+            exit;
+        }
+        
+        $data = [
+            'institucion_id' => $institucionId,
+            'nombre_completo' => $nombreCompleto,
+            'rut' => $rut,
+            'telefono' => $telefono
+        ];
+        
+        $participanteId = $this->institucionModel->addParticipante($data);
+        
+        if ($participanteId) {
+            // Registrar en auditoría
+            $this->auditoriaApp->log(
+                'participantes',
+                'agregar_participante',
+                $participanteId,
+                $nombreCompleto,
+                [
+                    'institucion_id' => $institucionId,
+                    'participante' => $data
+                ]
+            );
+            
+            $_SESSION['mensaje'] = 'Participante agregado exitosamente';
+        } else {
+            $_SESSION['error'] = 'Error al agregar participante (el RUT puede estar duplicado)';
+        }
+        
+        header('Location: ' . APP_URL . '/?url=instituciones/view&id=' . $institucionId);
+        exit;
+    }
+    
+    /**
+     * Eliminar participante
+     */
+    public function deleteParticipante() {
+        $id = $_GET['id'] ?? null;
+        $institucionId = $_GET['institucion_id'] ?? null;
+        
+        if (!$id || !$institucionId) {
+            header('Location: ' . APP_URL . '/?url=instituciones');
+            exit;
+        }
+        
+        $participante = $this->institucionModel->getParticipanteById($id);
+        
+        if ($this->institucionModel->deleteParticipante($id)) {
+            // Registrar en auditoría
+            $this->auditoriaApp->log(
+                'participantes',
+                'eliminar_participante',
+                $id,
+                $participante['nombre_completo'] ?? 'Desconocido',
+                ['antes' => $participante]
+            );
+            
+            $_SESSION['mensaje'] = 'Participante eliminado exitosamente';
+        } else {
+            $_SESSION['error'] = 'Error al eliminar participante';
         }
         
         header('Location: ' . APP_URL . '/?url=instituciones/view&id=' . $institucionId);

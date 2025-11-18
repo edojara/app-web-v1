@@ -221,4 +221,83 @@ class Institucion {
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    
+    /**
+     * Obtener participantes de una institución
+     */
+    public function getParticipantes($institucionId) {
+        $stmt = $this->conn->prepare("
+            SELECT * FROM participantes 
+            WHERE institucion_id = ? 
+            ORDER BY nombre_completo ASC
+        ");
+        $stmt->bind_param("i", $institucionId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    /**
+     * Agregar participante
+     */
+    public function addParticipante($data) {
+        $stmt = $this->conn->prepare("
+            INSERT INTO participantes (institucion_id, nombre_completo, rut, telefono) 
+            VALUES (?, ?, ?, ?)
+        ");
+        
+        $stmt->bind_param(
+            "isss",
+            $data['institucion_id'],
+            $data['nombre_completo'],
+            $data['rut'],
+            $data['telefono']
+        );
+        
+        if ($stmt->execute()) {
+            return $this->conn->insert_id;
+        }
+        return false;
+    }
+    
+    /**
+     * Actualizar participante
+     */
+    public function updateParticipante($id, $data) {
+        $stmt = $this->conn->prepare("
+            UPDATE participantes 
+            SET nombre_completo = ?, rut = ?, telefono = ?
+            WHERE id = ?
+        ");
+        
+        $stmt->bind_param(
+            "sssi",
+            $data['nombre_completo'],
+            $data['rut'],
+            $data['telefono'],
+            $id
+        );
+        
+        return $stmt->execute();
+    }
+    
+    /**
+     * Eliminar participante
+     */
+    public function deleteParticipante($id) {
+        $stmt = $this->conn->prepare("DELETE FROM participantes WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
+    
+    /**
+     * Obtener participante por ID
+     */
+    public function getParticipanteById($id) {
+        $stmt = $this->conn->prepare("SELECT * FROM participantes WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
 }
