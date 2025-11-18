@@ -193,6 +193,23 @@
                 <?php endforeach; ?>
             </div>
 
+            <!-- Control de paginación -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 4px;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <label for="recordsPerPage" style="font-weight: 500;">Mostrar:</label>
+                    <select id="recordsPerPage" onchange="updateRecordsPerPage()" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;">
+                        <option value="10">10 registros</option>
+                        <option value="20" selected>20 registros</option>
+                        <option value="50">50 registros</option>
+                        <option value="100">100 registros</option>
+                        <option value="999999">Todos</option>
+                    </select>
+                </div>
+                <div id="recordsInfo" style="color: #666; font-size: 0.9rem;">
+                    Mostrando <span id="showingCount">0</span> de <span id="totalCount">0</span> instituciones
+                </div>
+            </div>
+
             <script>
             let sortOrders = {
                 nombre: 'asc',
@@ -201,6 +218,14 @@
                 contactos: 'asc',
                 estado: 'asc'
             };
+            
+            let currentPage = 1;
+            let recordsPerPage = 20;
+
+            // Initialize on load
+            window.addEventListener('DOMContentLoaded', function() {
+                updateDisplay();
+            });
 
             function sortTable(column) {
                 const grid = document.querySelector('.instituciones-grid');
@@ -254,6 +279,9 @@
                         }
                     }
                 });
+                
+                // Update display after sorting
+                updateDisplay();
             }
             
             function filterTable() {
@@ -305,6 +333,48 @@
                         noResultsMsg.remove();
                     }
                 }
+                
+                // Update display after filtering
+                updateDisplay();
+            }
+            
+            function updateRecordsPerPage() {
+                recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
+                currentPage = 1;
+                updateDisplay();
+            }
+            
+            function updateDisplay() {
+                const rows = Array.from(document.querySelectorAll('.instituciones-grid-row'));
+                const visibleRows = rows.filter(row => row.style.display !== 'none');
+                const totalRecords = visibleRows.length;
+                
+                // Hide all rows first
+                visibleRows.forEach(row => row.style.display = 'none');
+                
+                // Calculate pagination
+                const startIndex = 0;
+                const endIndex = Math.min(recordsPerPage, totalRecords);
+                
+                // Show only records for current page
+                for (let i = startIndex; i < endIndex; i++) {
+                    if (visibleRows[i]) {
+                        visibleRows[i].style.display = 'contents';
+                    }
+                }
+                
+                // Update row numbers for visible rows
+                const displayedRows = visibleRows.slice(startIndex, endIndex);
+                displayedRows.forEach((row, index) => {
+                    const numeroEl = row.querySelector('.row-numero');
+                    if (numeroEl) {
+                        numeroEl.textContent = index + 1;
+                    }
+                });
+                
+                // Update info text
+                document.getElementById('showingCount').textContent = Math.min(endIndex, totalRecords);
+                document.getElementById('totalCount').textContent = totalRecords;
             }
             </script>
         <?php endif; ?>
