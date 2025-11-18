@@ -70,12 +70,12 @@ class ParticipantesController {
 
         if ($participanteId) {
             // Registrar en auditoría
-            $this->auditoriaModel->registrar(
+            $this->auditoriaModel->log(
                 'participantes',
-                'crear_participante',
+                'crear',
                 $participanteId,
-                $_SESSION['user_id'] ?? null,
-                json_encode($data)
+                $data['nombre_completo'],
+                $data
             );
 
             $_SESSION['success'] = 'Participante creado exitosamente';
@@ -140,20 +140,14 @@ class ParticipantesController {
      * Procesar actualización de participante
      */
     public function update() {
-        error_log("=== UPDATE PARTICIPANTE DEBUG ===");
-        error_log("REQUEST_METHOD: " . $_SERVER['REQUEST_METHOD']);
-        error_log("POST data: " . print_r($_POST, true));
-        
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: /?url=participantes');
             exit;
         }
 
         $id = $_POST['id'] ?? null;
-        error_log("ID recibido: " . $id);
 
         if (!$id) {
-            error_log("ERROR: No se recibió ID");
             header('Location: /?url=participantes');
             exit;
         }
@@ -185,15 +179,15 @@ class ParticipantesController {
 
         if ($this->participanteModel->update($id, $data)) {
             // Registrar en auditoría
-            $this->auditoriaModel->registrar(
+            $this->auditoriaModel->log(
                 'participantes',
-                'editar_participante',
+                'editar',
                 $id,
-                $_SESSION['user_id'] ?? null,
-                json_encode([
+                $data['nombre_completo'],
+                [
                     'anterior' => $participanteAnterior,
                     'nuevo' => $data
-                ])
+                ]
             );
 
             $_SESSION['success'] = 'Participante actualizado exitosamente';
@@ -221,12 +215,12 @@ class ParticipantesController {
 
         if ($this->participanteModel->delete($id)) {
             // Registrar en auditoría
-            $this->auditoriaModel->registrar(
+            $this->auditoriaModel->log(
                 'participantes',
-                'eliminar_participante',
+                'eliminar',
                 $id,
-                $_SESSION['user_id'] ?? null,
-                json_encode($participante)
+                $participante['nombre_completo'],
+                $participante
             );
 
             $_SESSION['success'] = 'Participante eliminado exitosamente';
@@ -365,12 +359,12 @@ class ParticipantesController {
                 $importados++;
                 
                 // Registrar en auditoría
-                $this->auditoriaModel->registrar(
+                $this->auditoriaModel->log(
                     'participantes',
-                    'importar_participante',
+                    'importar',
                     $participanteId,
-                    $_SESSION['user_id'] ?? null,
-                    json_encode($participanteData)
+                    $participanteData['nombre_completo'],
+                    $participanteData
                 );
             } else {
                 $errores[] = "Línea $linea: Error al importar participante";
