@@ -68,11 +68,14 @@
                 <?php $numero = 1; ?>
                 <?php foreach ($participantes as $participante): ?>
                     <div class="table-row" 
+                         data-id="<?= $participante['id'] ?>"
                          data-nombre="<?= htmlspecialchars(strtolower($participante['nombre_completo'])) ?>"
                          data-rut="<?= htmlspecialchars(strtolower($participante['rut'])) ?>"
                          data-institucion="<?= htmlspecialchars(strtolower($participante['institucion_nombre'] ?? '')) ?>"
                          data-email="<?= htmlspecialchars(strtolower($participante['email'] ?? '')) ?>"
-                         data-visible="true">
+                         data-visible="true"
+                         ondblclick="window.location.href='/?url=participantes/view&id=<?= $participante['id'] ?>'"
+                         style="cursor: pointer;">
                         <div class="row-numero"><?= $numero++ ?></div>
                         <div data-label="Nombre: "><?= htmlspecialchars($participante['nombre_completo']) ?></div>
                         <div data-label="RUT: "><?= htmlspecialchars($participante['rut']) ?></div>
@@ -86,16 +89,13 @@
                             <?php endif; ?>
                         </div>
                         <div data-label="Email: "><?= htmlspecialchars($participante['email'] ?? '-') ?></div>
-                        <div class="action-buttons" style="text-align: center; white-space: normal;">
-                            <a href="/?url=participantes/view&id=<?= $participante['id'] ?>" 
-                               class="btn-action btn-view" 
-                               title="Ver detalle">👁️</a>
-                            <button onclick="editParticipante(<?= $participante['id'] ?>, '<?= htmlspecialchars($participante['nombre_completo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['rut'], ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['telefono'] ?? '', ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['email'] ?? '', ENT_QUOTES) ?>', <?= $participante['institucion_id'] ?? 'null' ?>)" 
+                        <div class="action-buttons" style="text-align: center; white-space: normal;" onclick="event.stopPropagation();" ondblclick="event.stopPropagation();">
+                            <button onclick="event.stopPropagation(); editParticipante(<?= $participante['id'] ?>, '<?= htmlspecialchars($participante['nombre_completo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['rut'], ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['telefono'] ?? '', ENT_QUOTES) ?>', '<?= htmlspecialchars($participante['email'] ?? '', ENT_QUOTES) ?>', <?= $participante['institucion_id'] ?? 'null' ?>)" 
                                class="btn-action btn-edit" 
                                title="Editar">✏️</button>
                             <a href="/?url=participantes/delete&id=<?= $participante['id'] ?>" 
                                class="btn-action btn-delete" 
-                               onclick="return confirm('¿Está seguro de eliminar este participante?')"
+                               onclick="event.stopPropagation(); return confirm('¿Está seguro de eliminar este participante?')"
                                title="Eliminar">🗑️</a>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
 <style>
 .table-header {
     display: grid;
-    grid-template-columns: 50px 3fr 1.5fr 3fr 2.5fr 140px;
+    grid-template-columns: 50px 3fr 1.5fr 3fr 2.5fr 90px;
     gap: 0.75rem;
     padding: 1rem;
     background-color: #f8f9fa;
@@ -218,7 +218,7 @@
 
 .table-row {
     display: grid;
-    grid-template-columns: 50px 3fr 1.5fr 3fr 2.5fr 140px;
+    grid-template-columns: 50px 3fr 1.5fr 3fr 2.5fr 90px;
     gap: 0.75rem;
     padding: 1rem;
     border-bottom: 1px solid #dee2e6;
