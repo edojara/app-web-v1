@@ -20,8 +20,7 @@ $isAdmin = true;
         <input type="text" 
                id="searchInput" 
                placeholder="🔍 Buscar por nombre, email o rol..." 
-               style="flex: 0 0 50%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;"
-               oninput="filterTable()">
+               style="flex: 0 0 50%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
         <div style="display: flex; gap: 0.5rem;">
             <a href="<?php echo APP_URL; ?>/?url=audit" class="btn btn-secondary">📋 Ver Auditoría</a>
             <a href="<?php echo APP_URL; ?>/?url=users/create" class="btn btn-success">➕ Crear Usuario</a>
@@ -203,6 +202,23 @@ $isAdmin = true;
     // Initialize on load
     window.addEventListener('DOMContentLoaded', function() {
         updateDisplay();
+        
+        // Vincular evento de filtrado
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                filterTable();
+            });
+            
+            // Limpiar filtro al presionar Escape
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    searchInput.value = '';
+                    filterTable();
+                    searchInput.blur();
+                }
+            });
+        }
     });
 
     function filterTable() {
