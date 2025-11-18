@@ -1,5 +1,5 @@
-<div class="container mt-4">
-    <div class="content-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+<div class="container-fluid" style="max-width: 98%; padding: 0 1rem;">
+    <div class="content-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; margin-top: 1.5rem;">
         <input 
             type="text" 
             id="searchInput" 
