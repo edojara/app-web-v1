@@ -269,14 +269,15 @@
                     <div class="text-center" style="white-space: normal;">
                         <a href="<?php echo APP_URL; ?>/?url=instituciones/view&id=<?php echo $inst['id']; ?>" 
                            class="btn-action btn-view" 
-                           title="Ver detalles">👁️</a>
-                        <button onclick="editInstitucion(<?php echo $inst['id']; ?>, '<?php echo htmlspecialchars($inst['nombre'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($inst['ciudad'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($inst['direccion'], ENT_QUOTES); ?>', '<?php echo $inst['estado']; ?>')" 
+                           title="Ver detalles"
+                           onclick="event.stopPropagation();">👁️</a>
+                        <button onclick="event.stopPropagation(); editInstitucion(<?php echo $inst['id']; ?>, '<?php echo htmlspecialchars($inst['nombre'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($inst['ciudad'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($inst['direccion'], ENT_QUOTES); ?>', '<?php echo $inst['estado']; ?>');" 
                            class="btn-action btn-edit" 
                            title="Editar">✏️</button>
                         <a href="<?php echo APP_URL; ?>/?url=instituciones/delete&id=<?php echo $inst['id']; ?>" 
                            class="btn-action btn-delete" 
                            title="Eliminar"
-                           onclick="return confirm('¿Estás seguro de eliminar esta institución? Se eliminarán también todos sus contactos.');">🗑️</a>
+                           onclick="event.stopPropagation(); return confirm('¿Estás seguro de eliminar esta institución? Se eliminarán también todos sus contactos.');">🗑️</a>
                     </div>
                 </div>
                 <?php endforeach; ?>
