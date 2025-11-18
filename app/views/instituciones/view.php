@@ -141,18 +141,17 @@
                     </thead>
                     <tbody>
                         <?php foreach ($contactos as $contacto): ?>
-                            <tr class="contacto-row" 
-                                data-nombre="<?php echo htmlspecialchars($contacto['nombre_completo']); ?>"
-                                data-ocupacion="<?php echo htmlspecialchars($contacto['ocupacion']); ?>"
-                                data-telefono="<?php echo htmlspecialchars($contacto['telefono'] ?? ''); ?>"
-                                data-email="<?php echo htmlspecialchars($contacto['email'] ?? ''); ?>"
-                                style="cursor: pointer;" 
-                                title="Doble click para ver detalles">
+                            <tr>
                                 <td data-label="Nombre"><strong><?php echo htmlspecialchars($contacto['nombre_completo']); ?></strong></td>
                                 <td data-label="Ocupación"><?php echo htmlspecialchars($contacto['ocupacion']); ?></td>
                                 <td data-label="Teléfono"><?php echo $contacto['telefono'] ? htmlspecialchars($contacto['telefono']) : '<em style="color: #999;">No especificado</em>'; ?></td>
                                 <td data-label="Email"><?php echo $contacto['email'] ? htmlspecialchars($contacto['email']) : '<em style="color: #999;">No especificado</em>'; ?></td>
                                 <td data-label="Acciones" class="text-center">
+                                    <button onclick="editContacto(<?php echo $contacto['id']; ?>, '<?php echo htmlspecialchars($contacto['nombre_completo'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($contacto['ocupacion'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($contacto['telefono'] ?? '', ENT_QUOTES); ?>', '<?php echo htmlspecialchars($contacto['email'] ?? '', ENT_QUOTES); ?>')" 
+                                            class="btn-action btn-edit" 
+                                            title="Editar contacto">
+                                        ✏️
+                                    </button>
                                     <a href="<?php echo APP_URL; ?>/?url=instituciones/deleteContacto&id=<?php echo $contacto['id']; ?>&institucion_id=<?php echo $institucion['id']; ?>" 
                                        class="btn-action btn-delete" 
                                        title="Eliminar contacto"
@@ -274,19 +273,6 @@
     </div>
 </div>
 
-<!-- Modal para ver detalles del contacto -->
-<div id="contactoModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); padding: 20px;">
-    <div style="background-color: white; margin: 50px auto; padding: 0; border-radius: 8px; width: 100%; max-width: 600px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 2px solid #e0e0e0;">
-            <h2 style="margin: 0; color: var(--primary-color); font-size: 1.5rem;">👤 Detalles del Contacto</h2>
-            <button onclick="closeContactoModal()" style="background: none; border: none; font-size: 2rem; cursor: pointer; color: #666; line-height: 1; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">&times;</button>
-        </div>
-        <div id="contactoDetails" style="padding: 2rem; display: grid; gap: 1rem;">
-            <!-- Detalles serán insertados aquí -->
-        </div>
-    </div>
-</div>
-
 <style>
 .info-grid {
     display: grid;
@@ -369,6 +355,18 @@
     text-decoration: none;
     transition: all 0.2s ease;
     font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    margin: 0 2px;
+}
+
+.btn-edit {
+    background-color: #e3f2fd;
+}
+
+.btn-edit:hover {
+    background-color: #2196f3;
+    transform: scale(1.1);
 }
 
 .btn-delete {
@@ -521,6 +519,7 @@
 function toggleContactForm() {
     const form = document.getElementById('contactForm');
     const btn = document.getElementById('btnShowForm');
+    const formElement = form.querySelector('form');
     
     if (form.style.display === 'none') {
         form.style.display = 'block';
@@ -532,8 +531,11 @@ function toggleContactForm() {
         btn.textContent = '➕ Agregar Contacto';
         btn.classList.remove('btn-secondary');
         btn.classList.add('btn-success');
-        // Limpiar formulario
-        form.querySelector('form').reset();
+        // Limpiar formulario y restaurar action original
+        formElement.reset();
+        formElement.action = '<?php echo APP_URL; ?>/?url=instituciones/addContacto&institucion_id=<?php echo $institucion['id']; ?>';
+        const submitBtn = formElement.querySelector('button[type="submit"]');
+        submitBtn.textContent = '💾 Guardar Contacto';
     }
 }
 
@@ -582,43 +584,34 @@ function filterParticipantes() {
     });
 }
 
-function viewContacto(nombre, ocupacion, telefono, email) {
-    const modal = document.getElementById('contactoModal');
-    const details = document.getElementById('contactoDetails');
+function editContacto(id, nombre, ocupacion, telefono, email) {
+    const form = document.getElementById('contactForm');
+    const btn = document.getElementById('btnShowForm');
+    const formElement = form.querySelector('form');
     
-    details.innerHTML = `
-        <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--primary-color);">
-            <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Nombre Completo</strong>
-            <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; color: #333;">${nombre}</p>
-        </div>
-        <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--secondary-color);">
-            <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Ocupación</strong>
-            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${ocupacion}</p>
-        </div>
-        <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--success-color);">
-            <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Teléfono</strong>
-            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${telefono || '<em style="color: #999;">No especificado</em>'}</p>
-        </div>
-        <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border-left: 4px solid var(--warning-color);">
-            <strong style="color: #666; font-size: 0.875rem; text-transform: uppercase;">Email</strong>
-            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #333;">${email || '<em style="color: #999;">No especificado</em>'}</p>
-        </div>
-    `;
-    
-    modal.style.display = 'block';
-}
-
-function closeContactoModal() {
-    const modal = document.getElementById('contactoModal');
-    modal.style.display = 'none';
-}
-
-// Cerrar modal al hacer click fuera de él
-window.onclick = function(event) {
-    const modal = document.getElementById('contactoModal');
-    if (event.target === modal) {
-        closeContactoModal();
+    // Mostrar el formulario si está oculto
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+        btn.textContent = '✖ Cancelar';
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-secondary');
     }
+    
+    // Cambiar el action del formulario para editar
+    formElement.action = '<?php echo APP_URL; ?>/?url=instituciones/updateContacto&id=' + id + '&institucion_id=<?php echo $institucion['id']; ?>';
+    
+    // Rellenar los campos con los datos actuales
+    formElement.querySelector('#nombre_completo').value = nombre;
+    formElement.querySelector('#ocupacion').value = ocupacion;
+    formElement.querySelector('#telefono').value = telefono;
+    formElement.querySelector('#email').value = email;
+    
+    // Cambiar el texto del botón submit
+    const submitBtn = formElement.querySelector('button[type="submit"]');
+    submitBtn.textContent = '💾 Actualizar Contacto';
+    
+    // Hacer scroll al formulario
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // Inicializar event listeners al cargar la página
@@ -640,17 +633,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // Event listeners para doble click en contactos
-    const contactoRows = document.querySelectorAll('.contacto-row');
-    contactoRows.forEach(row => {
-        row.addEventListener('dblclick', function() {
-            const nombre = this.getAttribute('data-nombre');
-            const ocupacion = this.getAttribute('data-ocupacion');
-            const telefono = this.getAttribute('data-telefono');
-            const email = this.getAttribute('data-email');
-            viewContacto(nombre, ocupacion, telefono, email);
-        });
-    });
 });
 </script>

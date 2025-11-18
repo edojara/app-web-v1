@@ -274,6 +274,49 @@ class InstitucionesController {
     }
     
     /**
+     * Actualizar contacto
+     */
+    public function updateContacto() {
+        $id = $_GET['id'] ?? null;
+        $institucionId = $_GET['institucion_id'] ?? null;
+        
+        if (!$id || !$institucionId) {
+            header('Location: ' . APP_URL . '/?url=instituciones');
+            exit;
+        }
+        
+        $data = [
+            'nombre_completo' => $_POST['nombre_completo'] ?? '',
+            'ocupacion' => $_POST['ocupacion'] ?? '',
+            'telefono' => $_POST['telefono'] ?? '',
+            'email' => $_POST['email'] ?? ''
+        ];
+        
+        if ($this->institucionModel->updateContacto($id, $data)) {
+            $institucion = $this->institucionModel->getById($institucionId);
+            
+            // Registrar en auditoría
+            $this->auditoriaApp->log(
+                'contactos',
+                'actualizar_contacto',
+                $id,
+                $data['nombre_completo'],
+                [
+                    'institucion' => $institucion['nombre'],
+                    'contacto' => $data
+                ]
+            );
+            
+            $_SESSION['mensaje'] = 'Contacto actualizado exitosamente';
+        } else {
+            $_SESSION['error'] = 'Error al actualizar contacto';
+        }
+        
+        header('Location: ' . APP_URL . '/?url=instituciones/view&id=' . $institucionId);
+        exit;
+    }
+    
+    /**
      * Agregar participante
      */
     public function addParticipante() {
