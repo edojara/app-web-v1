@@ -40,6 +40,23 @@ class Participante {
     }
 
     /**
+     * Obtener un participante por RUT
+     */
+    public function getByRut($rut) {
+        // Normalizar RUT (quitar puntos y guiones para la búsqueda)
+        $rut_normalizado = preg_replace('/[^0-9kK]/', '', $rut);
+        
+        $stmt = $this->conn->prepare("SELECT p.*, i.nombre as institucion_nombre 
+                                       FROM " . $this->table . " p
+                                       LEFT JOIN instituciones i ON p.institucion_id = i.id
+                                       WHERE REPLACE(REPLACE(p.rut, '.', ''), '-', '') = ?");
+        $stmt->bind_param("s", $rut_normalizado);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    /**
      * Crear un nuevo participante
      */
     public function create($data) {

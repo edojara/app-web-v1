@@ -181,4 +181,115 @@ class InscripcionesController {
         header("Location: ?url=inscripciones&evento_id=$evento_id");
         exit;
     }
+    
+    /**
+     * Importar inscripciones desde CSV
+     */
+    public function importCSV() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ?url=eventos');
+            exit;
+        }
+        
+        $evento_id = $_POST['evento_id'] ?? null;
+        $observaciones = $_POST['observaciones'] ?? '';
+        
+        if (!$evento_id) {
+            $_SESSION['error'] = 'Evento no especificado';
+            header("Location: ?url=inscripciones&evento_id=$evento_id");
+            exit;
+        }
+        
+        // Validar que se haya subido un archivo
+        if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
+            $_SESSION['error'] = 'No se pudo cargar el archivo CSV';
+            header("Location: ?url=inscripciones&evento_id=$evento_id");
+            exit;
+        }
+        
+        $file = $_FILES['csv_file']['tmp_name'];
+        $ruts = [];
+        
+        // Leer archivo línea por línea
+        if (($handle = fopen($file, 'r')) !== false) {
+            while (($line = fgets($handle)) !== false) {
+                $rut = trim($line);
+                if (!empty($rut)) {
+                    $ruts[] = $rut;
+                }
+            }
+            fclose($handle);
+        }
+        
+        if (empty($ruts)) {
+            $_SESSION['error'] = 'El archivo CSV está vacío';
+            header("Location: ?url=inscripciones&evento_id=$evento_id");
+            exit;
+        }
+        
+        // Buscar participantes por RUT e inscribirlos
+        $user_id = $_SESSION['user_id'];
+        $participantes_encontrados = [];
+        $participantes_no_encontrados = [];
+        $participantes_duplicados = [];
+        
+        foreach ($ruts as $rut) {
+            // Buscar participante por RUT
+            $participante = $this->participanteModel->getByRut($rut);
+            
+            if ($participante) {
+                // Verificar si ya está inscrito
+                if ($this->inscripcionModel->exists($evento_id, $participante['id'])) {
+                    $participantes_duplicados[] = $rut;
+                } else {
+                    $participantes_encontrados[] = $participante['id'];
+                }
+            } else {
+                $participantes_no_encontrados[] = $rut;
+            }
+        }
+        
+        // Inscribir participantes encontrados
+        $inscriptos = 0;
+        if (!empty($participantes_encontrados)) {
+            $resultado = $this->inscripcionModel->inscribirMultiples(
+                $evento_id,
+                $participantes_encontrados,
+                $user_id,
+                $observaciones
+            );
+            $inscriptos = $resultado['success'];
+        }
+        
+        // Registrar en auditoría
+        $evento = $this->eventoModel->getById($evento_id);
+        $this->auditoriaModel->registrar(
+            $user_id,
+            'inscripcion',
+            'importar_csv',
+            "Importó CSV con " . count($ruts) . " RUTs, inscribió {$inscriptos} participante(s) en: {$evento['nombre']}"
+        );
+        
+        // Preparar mensajes
+        $mensajes = [];
+        
+        if ($inscriptos > 0) {
+            $_SESSION['success'] = "✅ Se inscribieron {$inscriptos} participante(s) exitosamente";
+        }
+        
+        if (!empty($participantes_duplicados)) {
+            $mensajes[] = "⚠️ " . count($participantes_duplicados) . " participante(s) ya estaban inscritos: " . implode(', ', array_slice($participantes_duplicados, 0, 5)) . (count($participantes_duplicados) > 5 ? '...' : '');
+        }
+        
+        if (!empty($participantes_no_encontrados)) {
+            $mensajes[] = "❌ " . count($participantes_no_encontrados) . " RUT(s) no encontrados en el sistema: " . implode(', ', array_slice($participantes_no_encontrados, 0, 5)) . (count($participantes_no_encontrados) > 5 ? '...' : '');
+        }
+        
+        if (!empty($mensajes)) {
+            $_SESSION['warning'] = implode('<br>', $mensajes);
+        }
+        
+        header("Location: ?url=inscripciones&evento_id=$evento_id");
+        exit;
+    }
 }

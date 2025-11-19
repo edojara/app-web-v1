@@ -22,6 +22,9 @@ function abreviarInstitucion($nombre) {
                 <button onclick="openInscribirModal()" class="btn btn-primary">
                     ➕ Inscribir Participantes
                 </button>
+                <button onclick="openInscribirCSVModal()" class="btn" style="background: #27ae60; color: white;">
+                    📄 Inscripción Masiva (CSV)
+                </button>
                 <a href="?url=eventos" class="btn">← Volver a Eventos</a>
             </div>
         </div>
@@ -270,6 +273,118 @@ window.onclick = function(event) {
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         closeInscribirModal();
+        closeInscribirCSVModal();
+    }
+});
+
+// Funciones para modal CSV
+function openInscribirCSVModal() {
+    document.getElementById('inscribirCSVModal').style.display = 'block';
+}
+
+function closeInscribirCSVModal() {
+    document.getElementById('inscribirCSVModal').style.display = 'none';
+    document.getElementById('csvFile').value = '';
+    document.getElementById('csvPreview').innerHTML = '';
+}
+
+function previewCSV() {
+    const fileInput = document.getElementById('csvFile');
+    const file = fileInput.files[0];
+    const preview = document.getElementById('csvPreview');
+    
+    if (!file) {
+        preview.innerHTML = '<p style="color: #999;">No hay archivo seleccionado</p>';
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result;
+        const lines = text.split('\n').filter(line => line.trim());
+        
+        let html = '<div style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 10px;">';
+        html += '<strong>Vista previa del archivo (' + lines.length + ' líneas):</strong><br><br>';
+        html += '<div style="max-height: 200px; overflow-y: auto; background: white; padding: 10px; border-radius: 4px;">';
+        
+        lines.slice(0, 20).forEach((line, index) => {
+            const rut = line.trim();
+            if (rut) {
+                html += '<div style="padding: 4px; border-bottom: 1px solid #eee;">';
+                html += (index + 1) + '. ' + rut;
+                html += '</div>';
+            }
+        });
+        
+        if (lines.length > 20) {
+            html += '<div style="padding: 8px; color: #666; font-style: italic;">... y ' + (lines.length - 20) + ' más</div>';
+        }
+        
+        html += '</div></div>';
+        preview.innerHTML = html;
+    };
+    
+    reader.readAsText(file);
+}
+
+// Cerrar modal CSV al hacer clic fuera
+window.addEventListener('click', function(event) {
+    const csvModal = document.getElementById('inscribirCSVModal');
+    if (event.target == csvModal) {
+        closeInscribirCSVModal();
     }
 });
 </script>
+
+<!-- Modal para inscripción masiva CSV -->
+<div id="inscribirCSVModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-header">
+            <h2>📄 Inscripción Masiva desde CSV</h2>
+            <span class="close" onclick="closeInscribirCSVModal()">&times;</span>
+        </div>
+        <form method="POST" action="?url=inscripciones/importCSV" enctype="multipart/form-data">
+            <input type="hidden" name="evento_id" value="<?php echo $evento_id; ?>">
+            
+            <div class="form-group">
+                <label>Archivo CSV con RUTs:</label>
+                <input type="file" 
+                       id="csvFile" 
+                       name="csv_file" 
+                       accept=".csv,.txt" 
+                       required
+                       onchange="previewCSV()"
+                       class="form-control">
+                <small style="color: #666; display: block; margin-top: 5px;">
+                    📝 El archivo debe contener un RUT por línea (ej: 12.345.678-9)
+                </small>
+            </div>
+            
+            <div id="csvPreview"></div>
+            
+            <div class="form-group">
+                <label>Observaciones (opcional):</label>
+                <textarea name="observaciones" 
+                          class="form-control" 
+                          rows="2" 
+                          placeholder="Observaciones generales para todas las inscripciones..."></textarea>
+            </div>
+            
+            <div style="background: #e3f2fd; padding: 12px; border-radius: 4px; margin: 15px 0;">
+                <strong style="color: #1976d2;">ℹ️ Formato del archivo CSV:</strong>
+                <ul style="margin: 8px 0 0 20px; color: #666;">
+                    <li>Un RUT por línea</li>
+                    <li>Formato: 12.345.678-9 o 12345678-9</li>
+                    <li>Se ignorarán líneas vacías</li>
+                    <li>Solo se inscribirán participantes que existan en el sistema</li>
+                </ul>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">📤 Importar e Inscribir</button>
+                <button type="button" onclick="closeInscribirCSVModal()" class="btn">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
