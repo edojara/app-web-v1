@@ -6,6 +6,7 @@
     <title><?php echo isset($pageTitle) ? $pageTitle . ' - ' : ''; ?><?php echo APP_NAME; ?></title>
     <link rel="icon" type="image/svg+xml" href="<?php echo APP_URL; ?>/assets/favicon.svg">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/style.css">
+    <script src="<?php echo APP_URL; ?>/assets/js/main.js?v=<?php echo time(); ?>"></script>
 </head>
 <body>
     <header>
