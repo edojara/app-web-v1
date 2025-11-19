@@ -81,7 +81,7 @@
                         <div data-label="RUT: "><?= htmlspecialchars($participante['rut']) ?></div>
                         <div data-label="Institución: ">
                             <?php if ($participante['institucion_nombre']): ?>
-                                <a href="/?url=instituciones/view&id=<?= $participante['institucion_id'] ?>">
+                                <a href="/?url=instituciones/view&id=<?= $participante['institucion_id'] ?>" class="institucion-nombre">
                                     <?= htmlspecialchars($participante['institucion_nombre']) ?>
                                 </a>
                             <?php else: ?>

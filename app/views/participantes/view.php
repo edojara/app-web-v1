@@ -50,7 +50,7 @@
                             <strong>Institución:</strong>
                             <span>
                                 <?php if ($participante['institucion_nombre']): ?>
-                                    <a href="/?url=instituciones/view&id=<?= $participante['institucion_id'] ?>">
+                                    <a href="/?url=instituciones/view&id=<?= $participante['institucion_id'] ?>" class="institucion-nombre">
                                         <?= htmlspecialchars($participante['institucion_nombre']) ?>
                                     </a>
                                 <?php else: ?>

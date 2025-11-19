@@ -1,6 +1,6 @@
 <div class="container">
     <div class="page-header">
-        <h1>🏛️ <?php echo htmlspecialchars($institucion['nombre']); ?></h1>
+        <h1>🏛️ <span class="institucion-nombre"><?php echo htmlspecialchars($institucion['nombre']); ?></span></h1>
         <div class="page-actions">
             <a href="<?php echo APP_URL; ?>/?url=instituciones" class="btn btn-secondary">← Volver</a>
             <a href="<?php echo APP_URL; ?>/?url=instituciones/edit&id=<?php echo $institucion['id']; ?>" class="btn btn-primary">✏️ Editar</a>
@@ -31,7 +31,7 @@
         <div class="info-grid">
             <div class="info-item">
                 <strong>Nombre:</strong>
-                <span><?php echo htmlspecialchars($institucion['nombre']); ?></span>
+                <span class="institucion-nombre"><?php echo htmlspecialchars($institucion['nombre']); ?></span>
             </div>
             <div class="info-item">
                 <strong>Dirección:</strong>

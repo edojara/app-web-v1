@@ -84,7 +84,7 @@
                             <?php echo htmlspecialchars($inscripcion['rut']); ?>
                         </div>
                         <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
-                            <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; font-size: 13px;">
+                            <span class="institucion-nombre" style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; font-size: 13px;">
                                 <?php echo htmlspecialchars($inscripcion['institucion_nombre'] ?? 'Sin institución'); ?>
                             </span>
                         </div>
@@ -154,7 +154,7 @@
                                         <strong><?php echo htmlspecialchars($participante['nombre_completo']); ?></strong><br>
                                         <small style="color: #666;">
                                             RUT: <?php echo htmlspecialchars($participante['rut']); ?> | 
-                                            Institución: <?php echo htmlspecialchars($participante['institucion_nombre'] ?? 'N/A'); ?>
+                                            Institución: <span class="institucion-nombre"><?php echo htmlspecialchars($participante['institucion_nombre'] ?? 'N/A'); ?></span>
                                         </small>
                                     </div>
                                 </label>

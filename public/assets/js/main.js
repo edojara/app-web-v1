@@ -15,6 +15,19 @@ function togglePasswordField() {
     }
 }
 
+// Función para abreviar nombres de instituciones en visualización
+function abreviarInstitucion(nombre) {
+    if (!nombre) return nombre;
+    return nombre.replace(/Universidad/g, 'Univ');
+}
+
+// Aplicar abreviación a elementos con clase .institucion-nombre
+function aplicarAbreviacionInstituciones() {
+    document.querySelectorAll('.institucion-nombre').forEach(element => {
+        element.textContent = abreviarInstitucion(element.textContent);
+    });
+}
+
 // Escuchar cambios en el selector de auth_type
 document.addEventListener('DOMContentLoaded', () => {
     const authType = document.getElementById('auth_type');
@@ -22,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
         authType.addEventListener('change', togglePasswordField);
         togglePasswordField(); // Ejecutar una vez al cargar la página
     }
+    
+    // Aplicar abreviación de instituciones
+    aplicarAbreviacionInstituciones();
 });
 
 // Función para confirmar eliminación
