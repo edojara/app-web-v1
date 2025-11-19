@@ -14,7 +14,8 @@ function abreviarInstitucion($nombre) {
         </div>
         
         <div style="text-align: center; margin-bottom: 20px;">
-            <h1>📝 Inscripciones - <?php echo htmlspecialchars($evento['nombre']); ?></h1>
+            <h3 style="color: #666; margin-bottom: 10px;">📝 Inscripciones</h3>
+            <h1 style="margin-bottom: 10px;"><?php echo htmlspecialchars($evento['nombre']); ?></h1>
             <p style="color: #666; margin-top: 5px;">
                 📅 <?php echo date('d/m/Y', strtotime($evento['fecha_inicio'])); ?> - 
                 <?php echo date('d/m/Y', strtotime($evento['fecha_termino'])); ?> | 
