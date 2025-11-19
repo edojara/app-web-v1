@@ -85,11 +85,12 @@ class InscripcionesController {
         
         // Registrar en auditoría
         $evento = $this->eventoModel->getById($evento_id);
-        $this->auditoriaModel->registrar(
-            $user_id,
+        $this->auditoriaModel->log(
             'inscripcion',
             'crear',
-            "Inscribió {$resultado['success']} participante(s) en el evento: {$evento['nombre']}"
+            $evento_id,
+            $evento['nombre'],
+            ['participantes_inscritos' => $resultado['success']]
         );
         
         if ($resultado['success'] > 0) {
@@ -126,12 +127,11 @@ class InscripcionesController {
         
         if ($this->inscripcionModel->cancel($id)) {
             // Registrar en auditoría
-            $user_id = $_SESSION['user_id'];
-            $this->auditoriaModel->registrar(
-                $user_id,
+            $this->auditoriaModel->log(
                 'inscripcion',
                 'cancelar',
-                "Canceló inscripción de {$inscripcion['participante_nombre']} en evento {$inscripcion['evento_nombre']}"
+                $id,
+                "{$inscripcion['participante_nombre']} - {$inscripcion['evento_nombre']}"
             );
             
             $_SESSION['success'] = 'Inscripción cancelada exitosamente';
@@ -165,12 +165,11 @@ class InscripcionesController {
         
         if ($this->inscripcionModel->delete($id)) {
             // Registrar en auditoría
-            $user_id = $_SESSION['user_id'];
-            $this->auditoriaModel->registrar(
-                $user_id,
+            $this->auditoriaModel->log(
                 'inscripcion',
                 'eliminar',
-                "Eliminó inscripción de {$inscripcion['participante_nombre']} en evento {$inscripcion['evento_nombre']}"
+                $id,
+                "{$inscripcion['participante_nombre']} - {$inscripcion['evento_nombre']}"
             );
             
             $_SESSION['success'] = 'Inscripción eliminada exitosamente';
@@ -263,11 +262,12 @@ class InscripcionesController {
         
         // Registrar en auditoría
         $evento = $this->eventoModel->getById($evento_id);
-        $this->auditoriaModel->registrar(
-            $user_id,
+        $this->auditoriaModel->log(
             'inscripcion',
             'importar_csv',
-            "Importó CSV con " . count($ruts) . " RUTs, inscribió {$inscriptos} participante(s) en: {$evento['nombre']}"
+            $evento_id,
+            $evento['nombre'],
+            ['ruts_procesados' => count($ruts), 'inscritos' => $inscriptos]
         );
         
         // Preparar mensajes
