@@ -42,14 +42,14 @@
                     <div style="margin-bottom: 3rem;">
                         <!-- Desktop: Grid -->
                         <div class="desktop-table">
-                            <div class="grid-header" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 120px; gap: 0.75rem; padding: 0.75rem; background: #f8f9fa; font-weight: 600; border-bottom: 2px solid #dee2e6;">
+                            <div class="grid-header" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 160px; gap: 0.75rem; padding: 0.75rem; background: #f8f9fa; font-weight: 600; border-bottom: 2px solid #dee2e6;">
                                 <div>#</div>
                                 <div>Nombre</div>
                                 <div>Fecha Inicio</div>
                                 <div>Fecha Término</div>
                                 <div style="text-align: center;">Días</div>
                                 <div>Lugar</div>
-                                <div>Acciones</div>
+                                <div style="text-align: center;">Acciones</div>
                             </div>
                             <?php $numero = 1; ?>
                             <?php foreach ($eventosProximos as $evento): 
@@ -57,14 +57,19 @@
                                 $termino = new DateTime($evento['fecha_termino']);
                                 $dias = $inicio->diff($termino)->days;
                             ?>
-                                <div class="grid-row" ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 120px; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; cursor: pointer; align-items: center;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='white'">
+                                <div class="grid-row" ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 160px; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; cursor: pointer; align-items: center;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='white'">
                                     <div><?= $numero++ ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><strong><?= htmlspecialchars($evento['nombre']) ?></strong></div>
                                     <div><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></div>
                                     <div><?= date('d/m/Y', strtotime($evento['fecha_termino'])) ?></div>
                                     <div style="text-align: center;"><?= $dias == 0 ? '1' : $dias ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= htmlspecialchars($evento['lugar']) ?></div>
-                                    <div onclick="event.stopPropagation();" ondblclick="event.stopPropagation();">
+                                    <div onclick="event.stopPropagation();" ondblclick="event.stopPropagation();" style="display: flex; gap: 5px; justify-content: center;">
+                                        <a href="/?url=inscripciones&evento_id=<?= $evento['id'] ?>" 
+                                           class="btn btn-sm" 
+                                           style="background: #4caf50; color: white;" 
+                                           title="Inscripciones"
+                                           onclick="event.stopPropagation();">👥</a>
                                         <button onclick="event.stopPropagation(); editEvento(<?= $evento['id'] ?>, '<?= htmlspecialchars($evento['nombre'], ENT_QUOTES) ?>', '<?= htmlspecialchars($evento['descripcion'] ?? '', ENT_QUOTES) ?>', '<?= $evento['fecha_inicio'] ?>', '<?= $evento['fecha_termino'] ?>', '<?= htmlspecialchars($evento['lugar'], ENT_QUOTES) ?>')" 
                                            class="btn btn-sm btn-primary" 
                                            title="Editar">✏️</button>
@@ -106,14 +111,14 @@
                     <div>
                         <!-- Desktop: Grid -->
                         <div class="desktop-table">
-                            <div class="grid-header" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 120px; gap: 0.75rem; padding: 0.75rem; background: #f8f9fa; font-weight: 600; border-bottom: 2px solid #dee2e6;">
+                            <div class="grid-header" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 160px; gap: 0.75rem; padding: 0.75rem; background: #f8f9fa; font-weight: 600; border-bottom: 2px solid #dee2e6;">
                                 <div>#</div>
                                 <div>Nombre</div>
                                 <div>Fecha Inicio</div>
                                 <div>Fecha Término</div>
                                 <div style="text-align: center;">Días</div>
                                 <div>Lugar</div>
-                                <div>Acciones</div>
+                                <div style="text-align: center;">Acciones</div>
                             </div>
                             <?php $numero = 1; ?>
                             <?php foreach ($eventosPasados as $evento): 
@@ -121,14 +126,19 @@
                                 $termino = new DateTime($evento['fecha_termino']);
                                 $dias = $inicio->diff($termino)->days;
                             ?>
-                                <div class="grid-row" ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 120px; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; cursor: pointer; align-items: center; opacity: 0.7;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='white'">
+                                <div class="grid-row" ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 160px; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; cursor: pointer; align-items: center; opacity: 0.7;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='white'">
                                     <div><?= $numero++ ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><strong><?= htmlspecialchars($evento['nombre']) ?></strong></div>
                                     <div><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></div>
                                     <div><?= date('d/m/Y', strtotime($evento['fecha_termino'])) ?></div>
                                     <div style="text-align: center;"><?= $dias == 0 ? '1' : $dias ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= htmlspecialchars($evento['lugar']) ?></div>
-                                    <div onclick="event.stopPropagation();" ondblclick="event.stopPropagation();">
+                                    <div onclick="event.stopPropagation();" ondblclick="event.stopPropagation();" style="display: flex; gap: 5px; justify-content: center;">
+                                        <a href="/?url=inscripciones&evento_id=<?= $evento['id'] ?>" 
+                                           class="btn btn-sm" 
+                                           style="background: #4caf50; color: white;" 
+                                           title="Inscripciones"
+                                           onclick="event.stopPropagation();">👥</a>
                                         <button onclick="event.stopPropagation(); editEvento(<?= $evento['id'] ?>, '<?= htmlspecialchars($evento['nombre'], ENT_QUOTES) ?>', '<?= htmlspecialchars($evento['descripcion'] ?? '', ENT_QUOTES) ?>', '<?= $evento['fecha_inicio'] ?>', '<?= $evento['fecha_termino'] ?>', '<?= htmlspecialchars($evento['lugar'], ENT_QUOTES) ?>')" 
                                            class="btn btn-sm btn-primary" 
                                            title="Editar">✏️</button>
