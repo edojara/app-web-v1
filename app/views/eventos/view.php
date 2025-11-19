@@ -46,15 +46,12 @@
                                 $duracion = $inicio->diff($termino);
                                 
                                 $dias = $duracion->days;
-                                $horas = $duracion->h;
-                                $minutos = $duracion->i;
                                 
-                                $texto_duracion = [];
-                                if ($dias > 0) $texto_duracion[] = "$dias día" . ($dias > 1 ? 's' : '');
-                                if ($horas > 0) $texto_duracion[] = "$horas hora" . ($horas > 1 ? 's' : '');
-                                if ($minutos > 0) $texto_duracion[] = "$minutos minuto" . ($minutos > 1 ? 's' : '');
-                                
-                                echo implode(', ', $texto_duracion) ?: '0 minutos';
+                                if ($dias == 0) {
+                                    echo "1 día (mismo día)";
+                                } else {
+                                    echo $dias . " día" . ($dias > 1 ? 's' : '');
+                                }
                                 ?>
                             </span>
                         </div>
