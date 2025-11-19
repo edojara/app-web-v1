@@ -106,6 +106,12 @@ class ParticipantesController {
             exit;
         }
 
+        // Si es una petición AJAX, devolver solo el contenido del modal
+        if (isset($_GET['ajax'])) {
+            require_once VIEWS_PATH . '/participantes/view_ajax.php';
+            exit;
+        }
+
         require_once VIEWS_PATH . '/layout/header.php';
         require_once VIEWS_PATH . '/participantes/view.php';
         require_once VIEWS_PATH . '/layout/footer.php';

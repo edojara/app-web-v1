@@ -74,7 +74,7 @@
                          data-institucion="<?= htmlspecialchars(strtolower($participante['institucion_nombre'] ?? '')) ?>"
                          data-email="<?= htmlspecialchars(strtolower($participante['email'] ?? '')) ?>"
                          data-visible="true"
-                         ondblclick="window.location.href='/?url=participantes/view&id=<?= $participante['id'] ?>'"
+                         ondblclick="verDetalleParticipante(<?= $participante['id'] ?>)"
                          style="cursor: pointer;">
                         <div class="row-numero"><?= $numero++ ?></div>
                         <div data-label="Nombre: "><?= htmlspecialchars($participante['nombre_completo']) ?></div>

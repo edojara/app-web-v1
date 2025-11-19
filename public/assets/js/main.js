@@ -59,6 +59,60 @@ function confirmDelete(userName) {
     return confirm(`¿Está seguro de que desea eliminar al usuario "${userName}"? Esta acción no se puede deshacer.`);
 }
 
+// Función para mostrar detalles del participante en modal
+function verDetalleParticipante(id) {
+    // Crear el modal si no existe
+    let modal = document.getElementById('participanteModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'participanteModal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: 800px;">
+                <div class="modal-header">
+                    <h2>Detalle del Participante</h2>
+                    <span class="close" onclick="cerrarModalParticipante()">&times;</span>
+                </div>
+                <div id="participanteModalBody" style="padding: 20px;">
+                    <div style="text-align: center; padding: 40px;">
+                        <p>Cargando...</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    
+    // Mostrar modal
+    modal.style.display = 'block';
+    
+    // Cargar datos del participante
+    fetch(`?url=participantes/view&id=${id}&ajax=1`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('participanteModalBody').innerHTML = html;
+        })
+        .catch(error => {
+            document.getElementById('participanteModalBody').innerHTML = 
+                '<div style="text-align: center; padding: 40px; color: red;">Error al cargar los datos</div>';
+        });
+}
+
+function cerrarModalParticipante() {
+    const modal = document.getElementById('participanteModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Cerrar modal al hacer clic fuera
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('participanteModal');
+    if (event.target === modal) {
+        cerrarModalParticipante();
+    }
+});
+
 // Función para mostrar/ocultar alertas automáticamente
 document.addEventListener('DOMContentLoaded', () => {
     const alertas = document.querySelectorAll('.alerta');
