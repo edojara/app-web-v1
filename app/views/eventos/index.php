@@ -47,7 +47,7 @@
                                 <div>Nombre</div>
                                 <div>Fecha Inicio</div>
                                 <div>Fecha Término</div>
-                                <div>Días</div>
+                                <div style="text-align: center;">Días</div>
                                 <div>Lugar</div>
                                 <div>Acciones</div>
                             </div>
@@ -90,7 +90,7 @@
                                 <div>Nombre</div>
                                 <div>Fecha Inicio</div>
                                 <div>Fecha Término</div>
-                                <div>Días</div>
+                                <div style="text-align: center;">Días</div>
                                 <div>Lugar</div>
                                 <div>Acciones</div>
                             </div>
