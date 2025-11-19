@@ -141,7 +141,7 @@ function abreviarInstitucion($nombre) {
 
 <!-- Modal para inscribir participantes -->
 <div id="inscribirModal" class="modal">
-    <div class="modal-content" style="max-width: 800px;">
+    <div class="modal-content" style="max-width: 900px;">
         <div class="modal-header">
             <h2>➕ Inscribir Participantes</h2>
             <span class="close" onclick="closeInscribirModal()">&times;</span>
@@ -149,57 +149,100 @@ function abreviarInstitucion($nombre) {
         <form method="POST" action="?url=inscripciones/store" onsubmit="return validateInscripcion()">
             <input type="hidden" name="evento_id" value="<?php echo $evento_id; ?>">
             
-            <div class="form-group">
-                <label>Buscar Participante:</label>
-                <input type="text" id="searchParticipante" onkeyup="filterParticipantes()" 
-                       placeholder="Buscar por nombre, RUT o institución..." class="form-control">
-            </div>
-            
-            <div class="form-group">
-                <label>Seleccionar Participantes: <span style="color: red;">*</span></label>
-                <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; border-radius: 4px; padding: 10px;">
+            <div style="padding: 20px;">
+                <!-- Buscador -->
+                <div style="margin-bottom: 20px;">
+                    <input type="text" 
+                           id="searchParticipante" 
+                           onkeyup="filterParticipantes()" 
+                           placeholder="🔍 Buscar por nombre, RUT o institución..." 
+                           class="form-control"
+                           style="font-size: 16px; padding: 12px;">
+                </div>
+                
+                <!-- Contador y Seleccionar todos -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 4px;">
+                    <div>
+                        <strong id="participantesCount"><?php echo count($participantesDisponibles); ?></strong> 
+                        <span style="color: #666;">participantes disponibles</span>
+                    </div>
                     <?php if (!empty($participantesDisponibles)): ?>
-                        <div style="margin-bottom: 10px;">
-                            <label style="font-weight: normal; cursor: pointer;">
-                                <input type="checkbox" id="selectAll" onchange="toggleSelectAll()"> 
-                                Seleccionar todos
-                            </label>
-                        </div>
-                        <?php foreach ($participantesDisponibles as $participante): ?>
-                            <div class="participante-item" style="padding: 8px; margin-bottom: 5px; background: #f5f5f5; border-radius: 4px;"
+                        <label style="margin: 0; cursor: pointer; user-select: none;">
+                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" style="margin-right: 8px;">
+                            <strong>Seleccionar todos</strong>
+                        </label>
+                    <?php endif; ?>
+                </div>
+                
+                <!-- Lista de participantes -->
+                <div style="max-height: 400px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 8px; background: white;">
+                    <?php if (!empty($participantesDisponibles)): ?>
+                        <?php foreach ($participantesDisponibles as $index => $participante): ?>
+                            <div class="participante-item" 
+                                 style="padding: 12px 16px; border-bottom: 1px solid #f0f0f0; transition: background 0.2s;"
                                  data-nombre="<?php echo strtolower($participante['nombre_completo']); ?>"
                                  data-rut="<?php echo strtolower($participante['rut']); ?>"
-                                 data-institucion="<?php echo strtolower($participante['institucion_nombre'] ?? ''); ?>">
-                                <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
-                                    <input type="checkbox" name="participante_ids[]" value="<?php echo $participante['id']; ?>" class="participante-checkbox" style="margin-right: 10px;">
-                                    <div style="flex: 1;">
-                                        <strong><?php echo htmlspecialchars($participante['nombre_completo']); ?></strong><br>
-                                        <small style="color: #666;">
-                                            RUT: <?php echo htmlspecialchars($participante['rut']); ?> | 
-                                            Institución: <?php echo htmlspecialchars(abreviarInstitucion($participante['institucion_nombre'] ?? 'N/A')); ?>
-                                        </small>
+                                 data-institucion="<?php echo strtolower($participante['institucion_nombre'] ?? ''); ?>"
+                                 onmouseover="this.style.background='#f8f9fa'"
+                                 onmouseout="this.style.background='white'">
+                                <label style="display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; cursor: pointer; margin: 0;">
+                                    <input type="checkbox" 
+                                           name="participante_ids[]" 
+                                           value="<?php echo $participante['id']; ?>" 
+                                           class="participante-checkbox" 
+                                           style="margin-top: 4px; width: 18px; height: 18px; cursor: pointer;">
+                                    <div>
+                                        <div style="font-weight: 600; color: #2c3e50; margin-bottom: 4px;">
+                                            <?php echo htmlspecialchars($participante['nombre_completo']); ?>
+                                        </div>
+                                        <div style="display: flex; gap: 20px; font-size: 13px; color: #666;">
+                                            <span>📋 <?php echo htmlspecialchars($participante['rut']); ?></span>
+                                            <span>🏛️ <?php echo htmlspecialchars(abreviarInstitucion($participante['institucion_nombre'] ?? 'N/A')); ?></span>
+                                        </div>
                                     </div>
                                 </label>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p style="text-align: center; color: #999; padding: 20px;">
-                            Todos los participantes ya están inscritos en este evento
-                        </p>
+                        <div style="text-align: center; padding: 60px 20px; color: #999;">
+                            <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
+                            <p style="font-size: 16px; margin: 0;">Todos los participantes ya están inscritos en este evento</p>
+                        </div>
                     <?php endif; ?>
                 </div>
+                
+                <!-- Observaciones -->
+                <?php if (!empty($participantesDisponibles)): ?>
+                    <div style="margin-top: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Observaciones (opcional):</label>
+                        <textarea name="observaciones" 
+                                  class="form-control" 
+                                  rows="2" 
+                                  placeholder="Agregar observaciones que se aplicarán a todos los participantes seleccionados..."
+                                  style="resize: vertical;"></textarea>
+                    </div>
+                <?php endif; ?>
             </div>
             
-            <div class="form-group">
-                <label>Observaciones:</label>
-                <textarea name="observaciones" class="form-control" rows="3" 
-                          placeholder="Observaciones adicionales (opcional)"></textarea>
-            </div>
-            
-            <div class="form-actions">
-                <button type="button" class="btn" onclick="closeInscribirModal()">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Inscribir Seleccionados</button>
-            </div>
+            <!-- Footer con botones -->
+            <?php if (!empty($participantesDisponibles)): ?>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #f8f9fa; border-top: 1px solid #e0e0e0;">
+                    <div>
+                        <span id="selectedCount" style="font-weight: 600; color: #1976d2;">0</span>
+                        <span style="color: #666;">seleccionados</span>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" class="btn" onclick="closeInscribirModal()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" id="btnInscribir">
+                            ✓ Inscribir Seleccionados
+                        </button>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div style="padding: 15px 20px; background: #f8f9fa; border-top: 1px solid #e0e0e0; text-align: right;">
+                    <button type="button" class="btn" onclick="closeInscribirModal()">Cerrar</button>
+                </div>
+            <?php endif; ?>
         </form>
     </div>
 </div>
@@ -207,12 +250,23 @@ function abreviarInstitucion($nombre) {
 <script>
 function openInscribirModal() {
     document.getElementById('inscribirModal').style.display = 'block';
+    updateSelectedCount();
 }
 
 function closeInscribirModal() {
     document.getElementById('inscribirModal').style.display = 'none';
     document.getElementById('searchParticipante').value = '';
     filterParticipantes();
+}
+
+function updateSelectedCount() {
+    const checkboxes = document.querySelectorAll('.participante-checkbox:checked');
+    const count = checkboxes.length;
+    const countElement = document.getElementById('selectedCount');
+    if (countElement) {
+        countElement.textContent = count;
+        countElement.style.color = count > 0 ? '#1976d2' : '#999';
+    }
 }
 
 function validateInscripcion() {
@@ -234,11 +288,14 @@ function toggleSelectAll() {
     visibleCheckboxes.forEach(checkbox => {
         checkbox.checked = selectAll.checked;
     });
+    
+    updateSelectedCount();
 }
 
 function filterParticipantes() {
     const searchText = document.getElementById('searchParticipante').value.toLowerCase();
     const items = document.querySelectorAll('.participante-item');
+    let visibleCount = 0;
     
     items.forEach(item => {
         const nombre = item.dataset.nombre;
@@ -247,16 +304,31 @@ function filterParticipantes() {
         
         if (nombre.includes(searchText) || rut.includes(searchText) || institucion.includes(searchText)) {
             item.style.display = 'block';
+            visibleCount++;
         } else {
             item.style.display = 'none';
         }
     });
+    
+    // Actualizar contador
+    const countElement = document.getElementById('participantesCount');
+    if (countElement) {
+        countElement.textContent = visibleCount;
+    }
     
     // Desmarcar "seleccionar todos" si hay filtro activo
     if (searchText) {
         document.getElementById('selectAll').checked = false;
     }
 }
+
+// Actualizar contador cuando cambian los checkboxes
+document.addEventListener('DOMContentLoaded', function() {
+    const checkboxes = document.querySelectorAll('.participante-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateSelectedCount);
+    });
+});
 
 function confirmarEliminar(id, nombre) {
     if (confirm(`¿Está seguro de eliminar la inscripción de ${nombre}?`)) {
