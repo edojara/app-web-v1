@@ -28,13 +28,13 @@
                         <?php endif; ?>
 
                         <div class="info-item">
-                            <strong>Fecha y Hora de Inicio:</strong>
-                            <span><?= date('d/m/Y H:i', strtotime($evento['fecha_inicio'])) ?></span>
+                            <strong>Fecha de Inicio:</strong>
+                            <span><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></span>
                         </div>
 
                         <div class="info-item">
-                            <strong>Fecha y Hora de Término:</strong>
-                            <span><?= date('d/m/Y H:i', strtotime($evento['fecha_termino'])) ?></span>
+                            <strong>Fecha de Término:</strong>
+                            <span><?= date('d/m/Y', strtotime($evento['fecha_termino'])) ?></span>
                         </div>
 
                         <div class="info-item">

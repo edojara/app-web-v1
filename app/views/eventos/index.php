@@ -57,8 +57,8 @@
                                     <tr ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="cursor: pointer;">
                                         <td><?= $numero++ ?></td>
                                         <td><strong><?= htmlspecialchars($evento['nombre']) ?></strong></td>
-                                        <td><?= date('d/m/Y H:i', strtotime($evento['fecha_inicio'])) ?></td>
-                                        <td><?= date('d/m/Y H:i', strtotime($evento['fecha_termino'])) ?></td>
+                                        <td><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></td>
+                                        <td><?= date('d/m/Y', strtotime($evento['fecha_termino'])) ?></td>
                                         <td><?= htmlspecialchars($evento['lugar']) ?></td>
                                         <td onclick="event.stopPropagation();" ondblclick="event.stopPropagation();">
                                             <button onclick="event.stopPropagation(); editEvento(<?= $evento['id'] ?>, '<?= htmlspecialchars($evento['nombre'], ENT_QUOTES) ?>', '<?= htmlspecialchars($evento['descripcion'] ?? '', ENT_QUOTES) ?>', '<?= $evento['fecha_inicio'] ?>', '<?= $evento['fecha_termino'] ?>', '<?= htmlspecialchars($evento['lugar'], ENT_QUOTES) ?>')" 
@@ -97,8 +97,8 @@
                                     <tr ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="cursor: pointer; opacity: 0.7;">
                                         <td><?= $numero++ ?></td>
                                         <td><strong><?= htmlspecialchars($evento['nombre']) ?></strong></td>
-                                        <td><?= date('d/m/Y H:i', strtotime($evento['fecha_inicio'])) ?></td>
-                                        <td><?= date('d/m/Y H:i', strtotime($evento['fecha_termino'])) ?></td>
+                                        <td><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></td>
+                                        <td><?= date('d/m/Y', strtotime($evento['fecha_termino'])) ?></td>
                                         <td><?= htmlspecialchars($evento['lugar']) ?></td>
                                         <td onclick="event.stopPropagation();" ondblclick="event.stopPropagation();">
                                             <button onclick="event.stopPropagation(); editEvento(<?= $evento['id'] ?>, '<?= htmlspecialchars($evento['nombre'], ENT_QUOTES) ?>', '<?= htmlspecialchars($evento['descripcion'] ?? '', ENT_QUOTES) ?>', '<?= $evento['fecha_inicio'] ?>', '<?= $evento['fecha_termino'] ?>', '<?= htmlspecialchars($evento['lugar'], ENT_QUOTES) ?>')" 
