@@ -108,11 +108,11 @@ function abreviarInstitucion($nombre) {
                         </div>
                         <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center;">
                             <button onclick="confirmarEliminar(<?php echo $inscripcion['id']; ?>, '<?php echo htmlspecialchars($inscripcion['nombre_completo'], ENT_QUOTES); ?>')" 
-                                    style="background: #f44336; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; transition: background 0.3s;"
+                                    style="background: #f44336; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background 0.3s;"
                                     onmouseover="this.style.background='#d32f2f'" 
                                     onmouseout="this.style.background='#f44336'"
                                     title="Eliminar inscripción">
-                                ✕
+                                🗑️
                             </button>
                         </div>
                     <?php endforeach; ?>
