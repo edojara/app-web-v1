@@ -15,7 +15,7 @@ class Inscripcion {
         $sql = "SELECT i.*, 
                        e.nombre as evento_nombre,
                        p.nombre_completo as participante_nombre,
-                       u.username as usuario_nombre
+                       u.name as usuario_nombre
                 FROM inscripciones i
                 LEFT JOIN eventos e ON i.evento_id = e.id
                 LEFT JOIN participantes p ON i.participante_id = p.id
@@ -33,7 +33,7 @@ class Inscripcion {
         $sql = "SELECT i.*, 
                        p.nombre_completo, p.rut, p.email, p.telefono,
                        inst.nombre as institucion_nombre,
-                       u.username as usuario_nombre
+                       u.name as usuario_nombre
                 FROM inscripciones i
                 LEFT JOIN participantes p ON i.participante_id = p.id
                 LEFT JOIN instituciones inst ON p.institucion_id = inst.id
@@ -55,7 +55,7 @@ class Inscripcion {
         $sql = "SELECT i.*, 
                        e.nombre as evento_nombre,
                        e.fecha_inicio, e.fecha_termino, e.lugar,
-                       u.username as usuario_nombre
+                       u.name as usuario_nombre
                 FROM inscripciones i
                 LEFT JOIN eventos e ON i.evento_id = e.id
                 LEFT JOIN users u ON i.user_id = u.id
@@ -76,7 +76,7 @@ class Inscripcion {
         $sql = "SELECT i.*, 
                        e.nombre as evento_nombre,
                        p.nombre_completo as participante_nombre,
-                       u.username as usuario_nombre
+                       u.name as usuario_nombre
                 FROM inscripciones i
                 LEFT JOIN eventos e ON i.evento_id = e.id
                 LEFT JOIN participantes p ON i.participante_id = p.id
