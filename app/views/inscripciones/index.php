@@ -74,11 +74,11 @@ function abreviarInstitucion($nombre) {
             <h2 style="color: #1976d2; margin-bottom: 15px;">Participantes Inscritos</h2>
             
             <?php if (!empty($inscripciones)): ?>
-                <div style="display: grid; grid-template-columns: 50px 2fr 1fr 2fr 2fr 1.5fr 50px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="display: grid; grid-template-columns: 50px 2fr 1fr 2fr 2fr 1.2fr 50px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     <!-- Header -->
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">#</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Nombre Completo</div>
-                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">RUT</div>
+                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0; white-space: nowrap;">RUT</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Institución</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Email</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Fecha Inscripción</div>
@@ -101,7 +101,7 @@ function abreviarInstitucion($nombre) {
                                 <?php echo htmlspecialchars($inscripcion['nombre_completo']); ?>
                             </a>
                         </div>
-                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
+                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; white-space: nowrap;">
                             <?php echo htmlspecialchars($inscripcion['rut']); ?>
                         </div>
                         <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
