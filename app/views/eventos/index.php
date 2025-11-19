@@ -70,13 +70,11 @@
                                            style="background: #4caf50; color: white;" 
                                            title="Inscripciones"
                                            onclick="event.stopPropagation();">👥</a>
-                                        <button onclick="event.stopPropagation(); editEvento(<?= $evento['id'] ?>, '<?= htmlspecialchars($evento['nombre'], ENT_QUOTES) ?>', '<?= htmlspecialchars($evento['descripcion'] ?? '', ENT_QUOTES) ?>', '<?= $evento['fecha_inicio'] ?>', '<?= $evento['fecha_termino'] ?>', '<?= htmlspecialchars($evento['lugar'], ENT_QUOTES) ?>')" 
-                                           class="btn btn-sm btn-primary" 
-                                           title="Editar">✏️</button>
-                                        <a href="/?url=eventos/delete&id=<?= $evento['id'] ?>" 
-                                           class="btn btn-sm btn-danger" 
-                                           onclick="event.stopPropagation(); return confirm('¿Está seguro de eliminar este evento?')"
-                                           title="Eliminar">🗑️</a>
+                                        <button onclick="event.stopPropagation(); if(confirm('¿Está seguro de eliminar este evento?')) window.location.href='/?url=eventos/delete&id=<?= $evento['id'] ?>';\" 
+                                           style="background: transparent; color: #f44336; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
+                                           onmouseover="this.style.color='#d32f2f'" 
+                                           onmouseout="this.style.color='#f44336'"
+                                           title="Eliminar">🗑️</button>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -139,13 +137,11 @@
                                            style="background: #4caf50; color: white;" 
                                            title="Inscripciones"
                                            onclick="event.stopPropagation();">👥</a>
-                                        <button onclick="event.stopPropagation(); editEvento(<?= $evento['id'] ?>, '<?= htmlspecialchars($evento['nombre'], ENT_QUOTES) ?>', '<?= htmlspecialchars($evento['descripcion'] ?? '', ENT_QUOTES) ?>', '<?= $evento['fecha_inicio'] ?>', '<?= $evento['fecha_termino'] ?>', '<?= htmlspecialchars($evento['lugar'], ENT_QUOTES) ?>')" 
-                                           class="btn btn-sm btn-primary" 
-                                           title="Editar">✏️</button>
-                                        <a href="/?url=eventos/delete&id=<?= $evento['id'] ?>" 
-                                           class="btn btn-sm btn-danger" 
-                                           onclick="event.stopPropagation(); return confirm('¿Está seguro de eliminar este evento?')"
-                                           title="Eliminar">🗑️</a>
+                                        <button onclick="event.stopPropagation(); if(confirm('¿Está seguro de eliminar este evento?')) window.location.href='/?url=eventos/delete&id=<?= $evento['id'] ?>';\" 
+                                           style="background: transparent; color: #f44336; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
+                                           onmouseover="this.style.color='#d32f2f'" 
+                                           onmouseout="this.style.color='#f44336'"
+                                           title="Eliminar">🗑️</button>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
