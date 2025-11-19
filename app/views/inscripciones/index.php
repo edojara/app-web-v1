@@ -104,7 +104,7 @@ function abreviarInstitucion($nombre) {
                             📞 <?php echo htmlspecialchars($inscripcion['telefono']); ?>
                         </div>
                         <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">
-                            🗓️ <?php echo date('d/m/Y H:i', strtotime($inscripcion['fecha_inscripcion'])); ?>
+                            🗓️ <?php echo date('d/m/Y', strtotime($inscripcion['fecha_inscripcion'])); ?>
                         </div>
                         <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center;">
                             <button onclick="confirmarEliminar(<?php echo $inscripcion['id']; ?>, '<?php echo htmlspecialchars($inscripcion['nombre_completo'], ENT_QUOTES); ?>')" 
