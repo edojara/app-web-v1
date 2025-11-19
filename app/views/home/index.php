@@ -56,4 +56,40 @@
             <a href="/?url=participantes" style="color: white; text-decoration: none; font-size: 0.875rem; opacity: 0.9;">Administrar →</a>
         </div>
     </div>
+
+    <!-- Top 5 Instituciones con más participantes -->
+    <div class="card" style="margin-top: 30px;">
+        <h2 style="color: #1976d2; margin-bottom: 20px;">🏆 Top 5 Instituciones con Más Participantes</h2>
+        
+        <?php if (!empty($topInstituciones)): ?>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <?php foreach ($topInstituciones as $index => $institucion): ?>
+                    <div style="display: flex; align-items: center; padding: 15px; margin-bottom: 10px; background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%); border-radius: 8px; border-left: 4px solid <?php 
+                        echo match($index) {
+                            0 => '#ffd700',  // Oro
+                            1 => '#c0c0c0',  // Plata
+                            2 => '#cd7f32',  // Bronce
+                            default => '#1976d2'  // Azul
+                        };
+                    ?>;">
+                        <div style="font-size: 24px; font-weight: bold; color: #424242; min-width: 40px; text-align: center;">
+                            <?php echo $index + 1; ?>
+                        </div>
+                        <div style="flex: 1; padding: 0 20px;">
+                            <div style="font-weight: 600; color: #212121; font-size: 16px;">
+                                <?php echo htmlspecialchars($institucion['nombre_institucion']); ?>
+                            </div>
+                        </div>
+                        <div style="background: #1976d2; color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 18px;">
+                            <?php echo $institucion['total_participantes']; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p style="text-align: center; color: #757575; padding: 20px;">
+                No hay datos disponibles
+            </p>
+        <?php endif; ?>
+    </div>
 </div>

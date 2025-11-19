@@ -47,9 +47,39 @@ class HomeController {
         $totalInstituciones = count($this->institucionModel->getAll());
         $totalParticipantes = count($this->participanteModel->getAll());
         
+        // Obtener top 5 instituciones con más participantes
+        $topInstituciones = $this->getTopInstituciones(5);
+        
         require_once VIEWS_PATH . '/layout/header.php';
         require_once VIEWS_PATH . '/home/index.php';
         require_once VIEWS_PATH . '/layout/footer.php';
+    }
+    
+    /**
+     * Obtener instituciones con más participantes
+     */
+    private function getTopInstituciones($limit = 5) {
+        global $conn;
+        
+        $sql = "SELECT i.id, i.nombre_institucion, COUNT(p.id) as total_participantes
+                FROM instituciones i
+                LEFT JOIN participantes p ON i.id = p.institucion_id
+                GROUP BY i.id, i.nombre_institucion
+                HAVING COUNT(p.id) > 0
+                ORDER BY total_participantes DESC
+                LIMIT ?";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $instituciones = [];
+        while ($row = $result->fetch_assoc()) {
+            $instituciones[] = $row;
+        }
+        
+        return $instituciones;
     }
     
     /**
