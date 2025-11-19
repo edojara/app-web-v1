@@ -44,8 +44,14 @@
             </div>
         <?php endif; ?>
 
-        <div style="background: #e3f2fd; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-            <strong>👥 Total Inscritos:</strong> <?php echo $totalInscritos; ?>
+        <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #2196f3;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 24px;">👥</span>
+                <div>
+                    <strong style="font-size: 18px; color: #1976d2;">Total Inscritos:</strong> 
+                    <span style="font-size: 24px; font-weight: bold; color: #1976d2;"><?php echo $totalInscritos; ?></span>
+                </div>
+            </div>
         </div>
 
         <!-- Tabla de inscritos -->
@@ -53,27 +59,50 @@
             <h2 style="color: #1976d2; margin-bottom: 15px;">Participantes Inscritos</h2>
             
             <?php if (!empty($inscripciones)): ?>
-                <div class="grid-table" style="grid-template-columns: 50px 2fr 1.5fr 1.5fr 1.5fr 1.5fr 1.2fr 120px;">
-                    <div class="grid-header">#</div>
-                    <div class="grid-header">Nombre Completo</div>
-                    <div class="grid-header">RUT</div>
-                    <div class="grid-header">Institución</div>
-                    <div class="grid-header">Email</div>
-                    <div class="grid-header">Teléfono</div>
-                    <div class="grid-header">Fecha Inscripción</div>
-                    <div class="grid-header">Acciones</div>
+                <div style="display: grid; grid-template-columns: 50px 2.5fr 1.2fr 2fr 2fr 1.5fr 1.5fr 100px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">#</div>
+                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Nombre Completo</div>
+                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">RUT</div>
+                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Institución</div>
+                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Email</div>
+                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Teléfono</div>
+                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Fecha Inscripción</div>
+                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; text-align: center;">Acciones</div>
                     
-                    <?php foreach ($inscripciones as $index => $inscripcion): ?>
-                        <div class="grid-cell"><?php echo $index + 1; ?></div>
-                        <div class="grid-cell"><?php echo htmlspecialchars($inscripcion['nombre_completo']); ?></div>
-                        <div class="grid-cell"><?php echo htmlspecialchars($inscripcion['rut']); ?></div>
-                        <div class="grid-cell"><?php echo htmlspecialchars($inscripcion['institucion_nombre'] ?? 'N/A'); ?></div>
-                        <div class="grid-cell"><?php echo htmlspecialchars($inscripcion['email']); ?></div>
-                        <div class="grid-cell"><?php echo htmlspecialchars($inscripcion['telefono']); ?></div>
-                        <div class="grid-cell"><?php echo date('d/m/Y H:i', strtotime($inscripcion['fecha_inscripcion'])); ?></div>
-                        <div class="grid-cell">
-                            <button onclick="confirmarEliminar(<?php echo $inscripcion['id']; ?>, '<?php echo htmlspecialchars($inscripcion['nombre_completo']); ?>')" 
-                                    class="btn-icon" title="Eliminar inscripción">
+                    <?php foreach ($inscripciones as $index => $inscripcion): 
+                        $bgColor = $index % 2 == 0 ? '#f8f9fa' : 'white';
+                    ?>
+                        <!-- Fila <?php echo $index + 1; ?> -->
+                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
+                            <strong><?php echo $index + 1; ?></strong>
+                        </div>
+                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
+                            <strong style="color: #1976d2;"><?php echo htmlspecialchars($inscripcion['nombre_completo']); ?></strong>
+                        </div>
+                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
+                            <?php echo htmlspecialchars($inscripcion['rut']); ?>
+                        </div>
+                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
+                            <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; font-size: 13px;">
+                                <?php echo htmlspecialchars($inscripcion['institucion_nombre'] ?? 'Sin institución'); ?>
+                            </span>
+                        </div>
+                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">
+                            📧 <?php echo htmlspecialchars($inscripcion['email']); ?>
+                        </div>
+                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">
+                            📞 <?php echo htmlspecialchars($inscripcion['telefono']); ?>
+                        </div>
+                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">
+                            🗓️ <?php echo date('d/m/Y H:i', strtotime($inscripcion['fecha_inscripcion'])); ?>
+                        </div>
+                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center;">
+                            <button onclick="confirmarEliminar(<?php echo $inscripcion['id']; ?>, '<?php echo htmlspecialchars($inscripcion['nombre_completo'], ENT_QUOTES); ?>')" 
+                                    style="background: #f44336; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background 0.3s;"
+                                    onmouseover="this.style.background='#d32f2f'" 
+                                    onmouseout="this.style.background='#f44336'"
+                                    title="Eliminar inscripción">
                                 🗑️
                             </button>
                         </div>
