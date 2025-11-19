@@ -19,7 +19,6 @@
             </button>
             <div class="menu" id="mainMenu">
                 <a href="<?php echo APP_URL; ?>">Inicio</a>
-                <a href="<?php echo APP_URL; ?>/?url=home/about">Acerca de</a>
                 <a href="<?php echo APP_URL; ?>/?url=instituciones">Instituciones</a>
                 <a href="<?php echo APP_URL; ?>/?url=participantes">Participantes</a>
                 <a href="<?php echo APP_URL; ?>/?url=eventos">Eventos</a>
