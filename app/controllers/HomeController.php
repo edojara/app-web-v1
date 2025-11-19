@@ -61,10 +61,10 @@ class HomeController {
     private function getTopInstituciones($limit = 5) {
         global $conn;
         
-        $sql = "SELECT i.id, i.nombre_institucion, COUNT(p.id) as total_participantes
+        $sql = "SELECT i.id, i.nombre, COUNT(p.id) as total_participantes
                 FROM instituciones i
                 LEFT JOIN participantes p ON i.id = p.institucion_id
-                GROUP BY i.id, i.nombre_institucion
+                GROUP BY i.id, i.nombre
                 HAVING COUNT(p.id) > 0
                 ORDER BY total_participantes DESC
                 LIMIT ?";

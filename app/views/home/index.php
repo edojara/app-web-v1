@@ -77,7 +77,7 @@
                         </div>
                         <div style="flex: 1; padding: 0 20px;">
                             <div style="font-weight: 600; color: #212121; font-size: 16px;">
-                                <?php echo htmlspecialchars($institucion['nombre_institucion']); ?>
+                                <?php echo htmlspecialchars($institucion['nombre']); ?>
                             </div>
                         </div>
                         <div style="background: #1976d2; color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 18px;">
