@@ -65,11 +65,11 @@
                                     <div style="text-align: center;"><?= $dias == 0 ? '1' : $dias ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= htmlspecialchars($evento['lugar']) ?></div>
                                     <div onclick="event.stopPropagation();" ondblclick="event.stopPropagation();" style="display: flex; gap: 5px; justify-content: center;">
-                                        <a href="/?url=inscripciones&evento_id=<?= $evento['id'] ?>" 
-                                           class="btn btn-sm" 
-                                           style="background: #4caf50; color: white;" 
-                                           title="Inscripciones"
-                                           onclick="event.stopPropagation();">👥</a>
+                                        <button onclick="event.stopPropagation(); window.location.href='/?url=inscripciones&evento_id=<?= $evento['id'] ?>';" 
+                                           style="background: transparent; color: #4caf50; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
+                                           onmouseover="this.style.color='#388e3c'" 
+                                           onmouseout="this.style.color='#4caf50'"
+                                           title="Inscripciones">👥</button>
                                         <button onclick="event.stopPropagation(); if(confirm('¿Está seguro de eliminar este evento?')) window.location.href='/?url=eventos/delete&id=<?= $evento['id'] ?>';\" 
                                            style="background: transparent; color: #f44336; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
                                            onmouseover="this.style.color='#d32f2f'" 
@@ -132,11 +132,11 @@
                                     <div style="text-align: center;"><?= $dias == 0 ? '1' : $dias ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= htmlspecialchars($evento['lugar']) ?></div>
                                     <div onclick="event.stopPropagation();" ondblclick="event.stopPropagation();" style="display: flex; gap: 5px; justify-content: center;">
-                                        <a href="/?url=inscripciones&evento_id=<?= $evento['id'] ?>" 
-                                           class="btn btn-sm" 
-                                           style="background: #4caf50; color: white;" 
-                                           title="Inscripciones"
-                                           onclick="event.stopPropagation();">👥</a>
+                                        <button onclick="event.stopPropagation(); window.location.href='/?url=inscripciones&evento_id=<?= $evento['id'] ?>';" 
+                                           style="background: transparent; color: #4caf50; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
+                                           onmouseover="this.style.color='#388e3c'" 
+                                           onmouseout="this.style.color='#4caf50'"
+                                           title="Inscripciones">👥</button>
                                         <button onclick="event.stopPropagation(); if(confirm('¿Está seguro de eliminar este evento?')) window.location.href='/?url=eventos/delete&id=<?= $evento['id'] ?>';\" 
                                            style="background: transparent; color: #f44336; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
                                            onmouseover="this.style.color='#d32f2f'" 
