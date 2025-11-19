@@ -1,0 +1,6 @@
+INSERT INTO eventos (nombre, descripcion, fecha_inicio, fecha_termino, lugar, created_at, updated_at) VALUES
+('Taller de Liderazgo Educativo', 'Desarrollo de habilidades de liderazgo y gestión de equipos docentes para directivos y coordinadores académicos.', '2025-04-15 09:00:00', '2025-04-17 17:00:00', 'Hotel Sheraton Santiago', NOW(), NOW()),
+('Conferencia Internacional de Neuroeducación', 'Últimos avances en neurociencia aplicada al aprendizaje y estrategias pedagógicas basadas en evidencia científica.', '2025-05-20 08:30:00', '2025-05-22 18:00:00', 'Centro de Eventos CasaPiedra', NOW(), NOW()),
+('Simposio de Evaluación Formativa', 'Nuevas metodologías de evaluación centradas en el proceso de aprendizaje y retroalimentación efectiva.', '2025-06-10 09:00:00', '2025-06-11 17:00:00', 'Universidad Adolfo Ibáñez', NOW(), NOW()),
+('Workshop de Gamificación en el Aula', 'Diseño e implementación de estrategias de gamificación para aumentar la motivación y el compromiso estudiantil.', '2025-07-08 10:00:00', '2025-07-08 18:00:00', 'Centro de Innovación Duoc UC', NOW(), NOW()),
+('Encuentro Nacional de Educación Rural', 'Desafíos y oportunidades de la educación en contextos rurales. Experiencias exitosas y políticas públicas.', '2025-08-25 09:00:00', '2025-08-27 16:00:00', 'Universidad de La Frontera - Temuco', NOW(), NOW());
