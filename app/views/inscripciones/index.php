@@ -74,7 +74,7 @@ function abreviarInstitucion($nombre) {
             <h2 style="color: #1976d2; margin-bottom: 15px;">Participantes Inscritos</h2>
             
             <?php if (!empty($inscripciones)): ?>
-                <div style="display: grid; grid-template-columns: 50px 2.5fr 1.2fr 2fr 2fr 1.5fr 80px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="display: grid; grid-template-columns: 50px 2fr 1fr 2fr 2fr 1.5fr 50px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     <!-- Header -->
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">#</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Nombre Completo</div>
@@ -82,7 +82,7 @@ function abreviarInstitucion($nombre) {
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Institución</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Email</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Fecha Inscripción</div>
-                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; text-align: center;">Acciones</div>
+                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; text-align: center;"></div>
                     
                     <?php foreach ($inscripciones as $index => $inscripcion): 
                         $bgColor = $index % 2 == 0 ? '#f8f9fa' : 'white';
