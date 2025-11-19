@@ -9,7 +9,7 @@ function abreviarInstitucion($nombre) {
 ?>
 <div class="container">
     <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
             <div>
                 <h1>📝 Inscripciones - <?php echo htmlspecialchars($evento['nombre']); ?></h1>
                 <p style="color: #666; margin-top: 5px;">
@@ -17,14 +17,16 @@ function abreviarInstitucion($nombre) {
                     <?php echo date('d/m/Y', strtotime($evento['fecha_termino'])); ?> | 
                     📍 <?php echo htmlspecialchars($evento['lugar']); ?>
                 </p>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button onclick="openInscribirModal()" class="btn btn-primary">
+                        ➕ Inscribir Participantes
+                    </button>
+                    <button onclick="openInscribirCSVModal()" class="btn" style="background: #27ae60; color: white;">
+                        📄 Inscripción Masiva (CSV)
+                    </button>
+                </div>
             </div>
-            <div style="display: flex; gap: 10px;">
-                <button onclick="openInscribirModal()" class="btn btn-primary">
-                    ➕ Inscribir Participantes
-                </button>
-                <button onclick="openInscribirCSVModal()" class="btn" style="background: #27ae60; color: white;">
-                    📄 Inscripción Masiva (CSV)
-                </button>
+            <div>
                 <a href="?url=eventos" class="btn">← Volver a Eventos</a>
             </div>
         </div>
