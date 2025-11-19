@@ -61,64 +61,42 @@ function confirmDelete(userName) {
 
 // Función para mostrar detalles del participante en modal
 function verDetalleParticipante(id) {
-    console.log('1. verDetalleParticipante llamado con id:', id);
+    // Crear el modal si no existe
+    let modal = document.getElementById('participanteModal');
     
-    try {
-        // Crear el modal si no existe
-        let modal = document.getElementById('participanteModal');
-        console.log('2. Modal existente:', modal);
-        
-        if (!modal) {
-            console.log('3. Creando nuevo modal...');
-            modal = document.createElement('div');
-            modal.id = 'participanteModal';
-            modal.className = 'modal';
-            modal.innerHTML = `
-                <div class="modal-content" style="max-width: 800px;">
-                    <div class="modal-header">
-                        <h2>Detalle del Participante</h2>
-                        <span class="close" onclick="cerrarModalParticipante()">&times;</span>
-                    </div>
-                    <div id="participanteModalBody" style="padding: 20px;">
-                        <div style="text-align: center; padding: 40px;">
-                            <p>Cargando...</p>
-                        </div>
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'participanteModal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: 800px;">
+                <div class="modal-header">
+                    <h2>Detalle del Participante</h2>
+                    <span class="close" onclick="cerrarModalParticipante()">&times;</span>
+                </div>
+                <div id="participanteModalBody" style="padding: 20px;">
+                    <div style="text-align: center; padding: 40px;">
+                        <p>Cargando...</p>
                     </div>
                 </div>
-            `;
-            document.body.appendChild(modal);
-            console.log('4. Modal creado y agregado al body');
-        }
-        
-        // Mostrar modal
-        console.log('5. Mostrando modal...');
-        modal.style.display = 'block';
-        console.log('6. Modal display:', modal.style.display);
-        
-        // Cargar datos del participante
-        const url = `?url=participantes/view&id=${id}&ajax=1`;
-        console.log('7. Fetching URL:', url);
-        
-        fetch(url)
-            .then(response => {
-                console.log('8. Response status:', response.status);
-                console.log('9. Response OK:', response.ok);
-                return response.text();
-            })
-            .then(html => {
-                console.log('10. HTML recibido (primeros 200 chars):', html.substring(0, 200));
-                document.getElementById('participanteModalBody').innerHTML = html;
-                console.log('11. Contenido insertado en modal');
-            })
-            .catch(error => {
-                console.error('12. Error en fetch:', error);
-                document.getElementById('participanteModalBody').innerHTML = 
-                    '<div style="text-align: center; padding: 40px; color: red;">Error al cargar los datos</div>';
-            });
-    } catch (error) {
-        console.error('ERROR GENERAL:', error);
-        alert('Error: ' + error.message);
+            </div>
+        `;
+        document.body.appendChild(modal);
     }
+    
+    // Mostrar modal
+    modal.style.display = 'block';
+    
+    // Cargar datos del participante
+    fetch(`?url=participantes/view&id=${id}&ajax=1`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('participanteModalBody').innerHTML = html;
+        })
+        .catch(error => {
+            document.getElementById('participanteModalBody').innerHTML = 
+                '<div style="text-align: center; padding: 40px; color: red;">Error al cargar los datos</div>';
+        });
 }
 
 function cerrarModalParticipante() {

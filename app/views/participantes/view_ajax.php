@@ -62,12 +62,7 @@ $inscripciones = $inscripcionModel->getByParticipante($participante['id']);
     </div>
 <?php endif; ?>
 
-<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; gap: 10px;">
-    <a href="/?url=participantes/edit&id=<?= $participante['id'] ?>" 
-       class="btn btn-primary"
-       onclick="cerrarModalParticipante()">
-        ✏️ Editar
-    </a>
+<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd; display: flex; justify-content: flex-end;">
     <button onclick="cerrarModalParticipante()" class="btn">
         Cerrar
     </button>
