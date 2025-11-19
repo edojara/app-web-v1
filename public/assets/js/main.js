@@ -61,6 +61,7 @@ function confirmDelete(userName) {
 
 // Función para mostrar detalles del participante en modal
 function verDetalleParticipante(id) {
+    console.log('verDetalleParticipante llamado con id:', id);
     // Crear el modal si no existe
     let modal = document.getElementById('participanteModal');
     if (!modal) {
