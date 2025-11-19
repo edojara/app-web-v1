@@ -88,12 +88,21 @@ function verDetalleParticipante(id) {
     modal.style.display = 'block';
     
     // Cargar datos del participante
-    fetch(`?url=participantes/view&id=${id}&ajax=1`)
-        .then(response => response.text())
+    const url = `?url=participantes/view&id=${id}&ajax=1`;
+    console.log('Fetching URL:', url);
+    
+    fetch(url)
+        .then(response => {
+            console.log('Response status:', response.status);
+            console.log('Response OK:', response.ok);
+            return response.text();
+        })
         .then(html => {
+            console.log('HTML recibido (primeros 200 chars):', html.substring(0, 200));
             document.getElementById('participanteModalBody').innerHTML = html;
         })
         .catch(error => {
+            console.error('Error en fetch:', error);
             document.getElementById('participanteModalBody').innerHTML = 
                 '<div style="text-align: center; padding: 40px; color: red;">Error al cargar los datos</div>';
         });
