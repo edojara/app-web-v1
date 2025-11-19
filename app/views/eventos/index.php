@@ -311,35 +311,26 @@ const searchProximos = document.getElementById('searchProximos');
 if (searchProximos) {
     searchProximos.addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
-        const rows = document.querySelectorAll('.desktop-table .grid-row');
+        const tables = document.querySelectorAll('.desktop-table');
         
-        // Solo filtrar los eventos próximos (primera tabla)
-        let inProximosSection = false;
-        rows.forEach(row => {
-            const parentSection = row.closest('div').previousElementSibling;
-            if (parentSection && parentSection.textContent.includes('PRÓXIMOS')) {
-                inProximosSection = true;
-            } else if (parentSection && parentSection.textContent.includes('REALIZADOS')) {
-                inProximosSection = false;
-            }
-            
-            if (inProximosSection) {
+        // La primera tabla son los eventos próximos
+        if (tables.length > 0) {
+            const rows = tables[0].querySelectorAll('.grid-row');
+            rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            }
-        });
+                row.style.display = text.includes(searchTerm) ? 'grid' : 'none';
+            });
+        }
     });
     
     searchProximos.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             this.value = '';
-            const rows = document.querySelectorAll('.desktop-table .grid-row');
-            rows.forEach(row => {
-                const parentSection = row.closest('div').previousElementSibling;
-                if (parentSection && parentSection.textContent.includes('PRÓXIMOS')) {
-                    row.style.display = '';
-                }
-            });
+            const tables = document.querySelectorAll('.desktop-table');
+            if (tables.length > 0) {
+                const rows = tables[0].querySelectorAll('.grid-row');
+                rows.forEach(row => row.style.display = 'grid');
+            }
             this.blur();
         }
     });
@@ -357,7 +348,7 @@ if (searchPasados) {
             const rows = tables[1].querySelectorAll('.grid-row');
             rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
+                row.style.display = text.includes(searchTerm) ? 'grid' : 'none';
             });
         }
     });
@@ -368,7 +359,7 @@ if (searchPasados) {
             const tables = document.querySelectorAll('.desktop-table');
             if (tables.length > 1) {
                 const rows = tables[1].querySelectorAll('.grid-row');
-                rows.forEach(row => row.style.display = '');
+                rows.forEach(row => row.style.display = 'grid');
             }
             this.blur();
         }
