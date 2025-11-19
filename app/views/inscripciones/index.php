@@ -112,7 +112,7 @@ function abreviarInstitucion($nombre) {
                                     onmouseover="this.style.background='#d32f2f'" 
                                     onmouseout="this.style.background='#f44336'"
                                     title="Eliminar inscripción">
-                                🗑️
+                                ❌
                             </button>
                         </div>
                     <?php endforeach; ?>
