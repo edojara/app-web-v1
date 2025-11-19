@@ -87,7 +87,13 @@ function abreviarInstitucion($nombre) {
                             <strong><?php echo $index + 1; ?></strong>
                         </div>
                         <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
-                            <strong style="color: #1976d2;"><?php echo htmlspecialchars($inscripcion['nombre_completo']); ?></strong>
+                            <a href="/?url=participantes/view&id=<?php echo $inscripcion['participante_id']; ?>" 
+                               style="color: #1976d2; text-decoration: none; font-weight: bold;"
+                               onmouseover="this.style.textDecoration='underline'"
+                               onmouseout="this.style.textDecoration='none'"
+                               title="Ver detalles del participante">
+                                <?php echo htmlspecialchars($inscripcion['nombre_completo']); ?>
+                            </a>
                         </div>
                         <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
                             <?php echo htmlspecialchars($inscripcion['rut']); ?>
