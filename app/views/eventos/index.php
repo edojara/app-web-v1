@@ -76,6 +76,21 @@
                                 </div>
                             <?php endforeach; ?>
                         </div>
+                        
+                        <!-- Controles de paginación -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 4px;">
+                            <div>
+                                <label for="recordsPerPageProximos">Mostrar: </label>
+                                <select id="recordsPerPageProximos" onchange="changeRecordsPerPageProximos()" class="form-control" style="display: inline-block; width: auto;">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="all">Todos</option>
+                                </select>
+                                <span id="recordsInfoProximos" style="margin-left: 1rem;"></span>
+                            </div>
+                            <div id="paginationButtonsProximos"></div>
+                        </div>
                     </div>
                 <?php endif; ?>
 
@@ -124,6 +139,21 @@
                                     </div>
                                 </div>
                             <?php endforeach; ?>
+                        </div>
+                        
+                        <!-- Controles de paginación -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 4px;">
+                            <div>
+                                <label for="recordsPerPagePasados">Mostrar: </label>
+                                <select id="recordsPerPagePasados" onchange="changeRecordsPerPagePasados()" class="form-control" style="display: inline-block; width: auto;">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="all">Todos</option>
+                                </select>
+                                <span id="recordsInfoPasados" style="margin-left: 1rem;"></span>
+                            </div>
+                            <div id="paginationButtonsPasados"></div>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -365,4 +395,174 @@ if (searchPasados) {
         }
     });
 }
+
+// ========== PAGINACIÓN PARA EVENTOS PRÓXIMOS ==========
+let currentPageProximos = 1;
+let recordsPerPageProximos = 10;
+
+function updateDisplayProximos() {
+    const tables = document.querySelectorAll('.desktop-table');
+    if (tables.length === 0) return;
+    
+    const rows = Array.from(tables[0].querySelectorAll('.grid-row'));
+    const totalRecords = rows.length;
+    
+    // Calcular paginación
+    const totalPages = recordsPerPageProximos === 'all' ? 1 : Math.ceil(totalRecords / recordsPerPageProximos);
+    const startIndex = recordsPerPageProximos === 'all' ? 0 : (currentPageProximos - 1) * recordsPerPageProximos;
+    const endIndex = recordsPerPageProximos === 'all' ? totalRecords : startIndex + recordsPerPageProximos;
+    
+    // Mostrar/ocultar filas
+    rows.forEach((row, index) => {
+        if (index >= startIndex && index < endIndex) {
+            row.style.display = 'grid';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    // Actualizar info
+    const recordsInfo = document.getElementById('recordsInfoProximos');
+    if (recordsInfo) {
+        recordsInfo.textContent = `Mostrando ${startIndex + 1}-${Math.min(endIndex, totalRecords)} de ${totalRecords} eventos`;
+    }
+    
+    // Actualizar botones de paginación
+    const paginationButtons = document.getElementById('paginationButtonsProximos');
+    if (paginationButtons && recordsPerPageProximos !== 'all') {
+        paginationButtons.innerHTML = '';
+        
+        // Botón anterior
+        if (currentPageProximos > 1) {
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = '← Anterior';
+            prevBtn.className = 'btn btn-sm btn-secondary';
+            prevBtn.style.marginRight = '0.5rem';
+            prevBtn.onclick = () => goToPageProximos(currentPageProximos - 1);
+            paginationButtons.appendChild(prevBtn);
+        }
+        
+        // Números de página
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i;
+            pageBtn.className = i === currentPageProximos ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-outline-primary';
+            pageBtn.style.marginRight = '0.25rem';
+            pageBtn.onclick = () => goToPageProximos(i);
+            paginationButtons.appendChild(pageBtn);
+        }
+        
+        // Botón siguiente
+        if (currentPageProximos < totalPages) {
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = 'Siguiente →';
+            nextBtn.className = 'btn btn-sm btn-secondary';
+            nextBtn.style.marginLeft = '0.25rem';
+            nextBtn.onclick = () => goToPageProximos(currentPageProximos + 1);
+            paginationButtons.appendChild(nextBtn);
+        }
+    } else if (paginationButtons) {
+        paginationButtons.innerHTML = '';
+    }
+}
+
+function goToPageProximos(page) {
+    currentPageProximos = page;
+    updateDisplayProximos();
+}
+
+function changeRecordsPerPageProximos() {
+    const select = document.getElementById('recordsPerPageProximos');
+    recordsPerPageProximos = select.value === 'all' ? 'all' : parseInt(select.value);
+    currentPageProximos = 1;
+    updateDisplayProximos();
+}
+
+// ========== PAGINACIÓN PARA EVENTOS PASADOS ==========
+let currentPagePasados = 1;
+let recordsPerPagePasados = 10;
+
+function updateDisplayPasados() {
+    const tables = document.querySelectorAll('.desktop-table');
+    if (tables.length < 2) return;
+    
+    const rows = Array.from(tables[1].querySelectorAll('.grid-row'));
+    const totalRecords = rows.length;
+    
+    // Calcular paginación
+    const totalPages = recordsPerPagePasados === 'all' ? 1 : Math.ceil(totalRecords / recordsPerPagePasados);
+    const startIndex = recordsPerPagePasados === 'all' ? 0 : (currentPagePasados - 1) * recordsPerPagePasados;
+    const endIndex = recordsPerPagePasados === 'all' ? totalRecords : startIndex + recordsPerPagePasados;
+    
+    // Mostrar/ocultar filas
+    rows.forEach((row, index) => {
+        if (index >= startIndex && index < endIndex) {
+            row.style.display = 'grid';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    // Actualizar info
+    const recordsInfo = document.getElementById('recordsInfoPasados');
+    if (recordsInfo) {
+        recordsInfo.textContent = `Mostrando ${startIndex + 1}-${Math.min(endIndex, totalRecords)} de ${totalRecords} eventos`;
+    }
+    
+    // Actualizar botones de paginación
+    const paginationButtons = document.getElementById('paginationButtonsPasados');
+    if (paginationButtons && recordsPerPagePasados !== 'all') {
+        paginationButtons.innerHTML = '';
+        
+        // Botón anterior
+        if (currentPagePasados > 1) {
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = '← Anterior';
+            prevBtn.className = 'btn btn-sm btn-secondary';
+            prevBtn.style.marginRight = '0.5rem';
+            prevBtn.onclick = () => goToPagePasados(currentPagePasados - 1);
+            paginationButtons.appendChild(prevBtn);
+        }
+        
+        // Números de página
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i;
+            pageBtn.className = i === currentPagePasados ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-outline-primary';
+            pageBtn.style.marginRight = '0.25rem';
+            pageBtn.onclick = () => goToPagePasados(i);
+            paginationButtons.appendChild(pageBtn);
+        }
+        
+        // Botón siguiente
+        if (currentPagePasados < totalPages) {
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = 'Siguiente →';
+            nextBtn.className = 'btn btn-sm btn-secondary';
+            nextBtn.style.marginLeft = '0.25rem';
+            nextBtn.onclick = () => goToPagePasados(currentPagePasados + 1);
+            paginationButtons.appendChild(nextBtn);
+        }
+    } else if (paginationButtons) {
+        paginationButtons.innerHTML = '';
+    }
+}
+
+function goToPagePasados(page) {
+    currentPagePasados = page;
+    updateDisplayPasados();
+}
+
+function changeRecordsPerPagePasados() {
+    const select = document.getElementById('recordsPerPagePasados');
+    recordsPerPagePasados = select.value === 'all' ? 'all' : parseInt(select.value);
+    currentPagePasados = 1;
+    updateDisplayPasados();
+}
+
+// Inicializar paginación al cargar la página
+window.addEventListener('DOMContentLoaded', function() {
+    updateDisplayProximos();
+    updateDisplayPasados();
+});
 </script>
