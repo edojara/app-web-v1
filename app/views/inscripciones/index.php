@@ -74,14 +74,13 @@ function abreviarInstitucion($nombre) {
             <h2 style="color: #1976d2; margin-bottom: 15px;">Participantes Inscritos</h2>
             
             <?php if (!empty($inscripciones)): ?>
-                <div style="display: grid; grid-template-columns: 50px 2.5fr 1.2fr 2fr 2fr 1.5fr 1.5fr 100px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="display: grid; grid-template-columns: 50px 2.5fr 1.2fr 2fr 2fr 1.5fr 80px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     <!-- Header -->
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">#</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Nombre Completo</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">RUT</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Institución</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Email</div>
-                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Teléfono</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Fecha Inscripción</div>
                     <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; text-align: center;">Acciones</div>
                     
@@ -112,9 +111,6 @@ function abreviarInstitucion($nombre) {
                         </div>
                         <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">
                             📧 <?php echo htmlspecialchars($inscripcion['email']); ?>
-                        </div>
-                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">
-                            📞 <?php echo htmlspecialchars($inscripcion['telefono']); ?>
                         </div>
                         <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">
                             🗓️ <?php echo date('d/m/Y', strtotime($inscripcion['fecha_inscripcion'])); ?>
