@@ -194,15 +194,15 @@
                 <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
                     <div style="flex: 1;">
                         <label for="create_fecha_inicio" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
-                            Fecha y Hora de Inicio <span style="color: #dc3545;">*</span>
+                            Fecha de Inicio <span style="color: #dc3545;">*</span>
                         </label>
-                        <input type="datetime-local" id="create_fecha_inicio" name="fecha_inicio" class="form-control" required>
+                        <input type="date" id="create_fecha_inicio" name="fecha_inicio" class="form-control" required>
                     </div>
                     <div style="flex: 1;">
                         <label for="create_fecha_termino" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
-                            Fecha y Hora de Término <span style="color: #dc3545;">*</span>
+                            Fecha de Término <span style="color: #dc3545;">*</span>
                         </label>
-                        <input type="datetime-local" id="create_fecha_termino" name="fecha_termino" class="form-control" required>
+                        <input type="date" id="create_fecha_termino" name="fecha_termino" class="form-control" required>
                     </div>
                 </div>
 
@@ -250,15 +250,15 @@
                 <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
                     <div style="flex: 1;">
                         <label for="edit_fecha_inicio" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
-                            Fecha y Hora de Inicio <span style="color: #dc3545;">*</span>
+                            Fecha de Inicio <span style="color: #dc3545;">*</span>
                         </label>
-                        <input type="datetime-local" id="edit_fecha_inicio" name="fecha_inicio" class="form-control" required>
+                        <input type="date" id="edit_fecha_inicio" name="fecha_inicio" class="form-control" required>
                     </div>
                     <div style="flex: 1;">
                         <label for="edit_fecha_termino" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
-                            Fecha y Hora de Término <span style="color: #dc3545;">*</span>
+                            Fecha de Término <span style="color: #dc3545;">*</span>
                         </label>
-                        <input type="datetime-local" id="edit_fecha_termino" name="fecha_termino" class="form-control" required>
+                        <input type="date" id="edit_fecha_termino" name="fecha_termino" class="form-control" required>
                     </div>
                 </div>
 
