@@ -24,7 +24,11 @@ function abreviarInstitucion(nombre) {
 // Aplicar abreviación a elementos con clase .institucion-nombre
 function aplicarAbreviacionInstituciones() {
     document.querySelectorAll('.institucion-nombre').forEach(element => {
-        element.textContent = abreviarInstitucion(element.textContent);
+        const texto = element.textContent || element.innerText;
+        const textoAbreviado = abreviarInstitucion(texto);
+        if (texto !== textoAbreviado) {
+            element.textContent = textoAbreviado;
+        }
     });
 }
 
@@ -38,6 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Aplicar abreviación de instituciones
     aplicarAbreviacionInstituciones();
+    
+    // Observar cambios en el DOM para aplicar abreviación dinámicamente
+    const observer = new MutationObserver(() => {
+        aplicarAbreviacionInstituciones();
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
 });
 
 // Función para confirmar eliminación
