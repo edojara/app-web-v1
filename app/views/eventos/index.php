@@ -1,11 +1,5 @@
 <div class="container-fluid" style="max-width: 98%; padding: 0 1rem;">
     <div class="content-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; margin-top: 1.5rem;">
-        <input 
-            type="text" 
-            id="searchInput" 
-            class="form-control" 
-            placeholder="Buscar por nombre, lugar..." 
-            style="flex: 1; max-width: 50%;">
         <button onclick="openCreateModal()" class="btn btn-primary" style="white-space: nowrap;">
             ➕ Nuevo Evento
         </button>
@@ -38,7 +32,13 @@
             <?php else: ?>
                 <!-- Eventos Próximos -->
                 <?php if (!empty($eventosProximos)): ?>
-                    <h2 style="margin-bottom: 1.5rem; color: #2196f3;">🔔 EVENTOS PRÓXIMOS</h2>
+                    <h2 style="margin-bottom: 1rem; color: #2196f3;">🔔 EVENTOS PRÓXIMOS</h2>
+                    <input 
+                        type="text" 
+                        id="searchProximos" 
+                        class="form-control" 
+                        placeholder="Buscar en eventos próximos..." 
+                        style="margin-bottom: 1rem; max-width: 400px;">
                     <div style="margin-bottom: 3rem;">
                         <!-- Desktop: Grid -->
                         <div class="desktop-table">
@@ -81,7 +81,13 @@
 
                 <!-- Eventos Pasados -->
                 <?php if (!empty($eventosPasados)): ?>
-                    <h2 style="margin-bottom: 1.5rem; color: #757575;">📋 EVENTOS REALIZADOS</h2>
+                    <h2 style="margin-bottom: 1rem; color: #757575;">📋 EVENTOS REALIZADOS</h2>
+                    <input 
+                        type="text" 
+                        id="searchPasados" 
+                        class="form-control" 
+                        placeholder="Buscar en eventos realizados..." 
+                        style="margin-bottom: 1rem; max-width: 400px;">
                     <div>
                         <!-- Desktop: Grid -->
                         <div class="desktop-table">
@@ -300,23 +306,72 @@ document.getElementById('editEventoForm').addEventListener('submit', function(e)
     }
 });
 
-// Filtrado en tiempo real
-document.getElementById('searchInput').addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase();
-    const rows = document.querySelectorAll('tbody tr');
-    
-    rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(searchTerm) ? '' : 'none';
+// Filtrado independiente para eventos próximos
+const searchProximos = document.getElementById('searchProximos');
+if (searchProximos) {
+    searchProximos.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('.desktop-table .grid-row');
+        
+        // Solo filtrar los eventos próximos (primera tabla)
+        let inProximosSection = false;
+        rows.forEach(row => {
+            const parentSection = row.closest('div').previousElementSibling;
+            if (parentSection && parentSection.textContent.includes('PRÓXIMOS')) {
+                inProximosSection = true;
+            } else if (parentSection && parentSection.textContent.includes('REALIZADOS')) {
+                inProximosSection = false;
+            }
+            
+            if (inProximosSection) {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            }
+        });
     });
-});
+    
+    searchProximos.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            this.value = '';
+            const rows = document.querySelectorAll('.desktop-table .grid-row');
+            rows.forEach(row => {
+                const parentSection = row.closest('div').previousElementSibling;
+                if (parentSection && parentSection.textContent.includes('PRÓXIMOS')) {
+                    row.style.display = '';
+                }
+            });
+            this.blur();
+        }
+    });
+}
 
-// Limpiar con Escape
-document.getElementById('searchInput').addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        this.value = '';
-        document.querySelectorAll('tbody tr').forEach(row => row.style.display = '');
-        this.blur();
-    }
-});
+// Filtrado independiente para eventos pasados
+const searchPasados = document.getElementById('searchPasados');
+if (searchPasados) {
+    searchPasados.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const tables = document.querySelectorAll('.desktop-table');
+        
+        // La segunda tabla son los eventos pasados
+        if (tables.length > 1) {
+            const rows = tables[1].querySelectorAll('.grid-row');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+    });
+    
+    searchPasados.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            this.value = '';
+            const tables = document.querySelectorAll('.desktop-table');
+            if (tables.length > 1) {
+                const rows = tables[1].querySelectorAll('.grid-row');
+                rows.forEach(row => row.style.display = '');
+            }
+            this.blur();
+        }
+    });
+}
 </script>
