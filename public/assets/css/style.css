@@ -1230,3 +1230,61 @@ footer a:hover {
         transform: scale(0.95);
     }
 }
+
+/* ============================================
+   CHECK-IN - RESPONSIVE DESIGN
+   ============================================ */
+.desktop-view {
+    display: block;
+}
+
+.mobile-view {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* Header del check-in */
+    .container {
+        padding: 0.5rem !important;
+    }
+    
+    .card {
+        padding: 1rem !important;
+    }
+    
+    /* Selector de fechas - scroll horizontal */
+    .fecha-btn {
+        min-width: 140px !important;
+    }
+    
+    /* Stats cards - ajustar grid */
+    div[style*="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"] {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Ocultar tabla desktop, mostrar cards móvil */
+    .desktop-view {
+        display: none !important;
+    }
+    
+    .mobile-view {
+        display: block !important;
+    }
+    
+    /* Controles de paginación - wrap */
+    .pagination-controls {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+    
+    #paginationButtons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    #paginationButtons .btn {
+        font-size: 12px !important;
+        padding: 6px 10px !important;
+        min-width: 35px !important;
+    }
+}

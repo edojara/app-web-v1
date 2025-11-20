@@ -300,7 +300,8 @@ function renderTable() {
     const endIndex = recordsPerPage === 'all' ? totalRecords : startIndex + parseInt(recordsPerPage);
     const pageData = filteredData.slice(startIndex, endIndex);
     
-    let html = '<div style="display: grid; grid-template-columns: 50px 2.5fr 1fr 2fr 1fr 120px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;">';
+    // Desktop table
+    let html = '<div class="desktop-view" style="display: grid; grid-template-columns: 50px 2.5fr 1fr 2fr 1fr 120px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;">';
     
     // Header
     html += '<div style="background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; padding: 12px; font-weight: 700; border-right: 1px solid rgba(255,255,255,0.2); font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px;">#</div>';
@@ -360,6 +361,58 @@ function renderTable() {
     });
     
     html += '</div>';
+    
+    // Mobile cards
+    html += '<div class="mobile-view" style="display: none;">';
+    
+    pageData.forEach((inscripcion, index) => {
+        const globalIndex = startIndex + index + 1;
+        const institucionAbrev = inscripcion.institucion_nombre ? inscripcion.institucion_nombre.replace('Universidad', 'Univ') : 'Sin institución';
+        const tieneCheckin = inscripcion.tiene_checkin_hoy;
+        
+        html += `<div style="background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 4px solid ${tieneCheckin ? '#2e7d32' : '#1976d2'};">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                <div style="flex: 1;">
+                    <a href="javascript:void(0)" 
+                       onclick="verDetalleParticipante(${inscripcion.participante_id})"
+                       style="color: #2e7d32; text-decoration: none; font-weight: bold; font-size: 1.05rem; display: block; margin-bottom: 0.25rem;">
+                        ${inscripcion.nombre_completo}
+                    </a>
+                    <div style="color: #666; font-size: 0.9rem;">RUT: ${inscripcion.rut}</div>
+                </div>
+                <div style="background: #e3f2fd; color: #1976d2; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-left: 0.5rem;">#${globalIndex}</div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="color: #666; font-size: 0.9rem; min-width: 100px;">🏛️ Institución:</span>
+                    <span style="background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%); padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; color: #1a1a1a; font-weight: 500;">
+                        ${institucionAbrev}
+                    </span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="color: #666; font-size: 0.9rem; min-width: 100px;">📊 Check-ins:</span>
+                    <span style="font-weight: bold; color: #1a1a1a; font-size: 1.1rem;">${inscripcion.total_checkins}</span>
+                </div>
+            </div>
+            
+            <div style="padding-top: 0.75rem; border-top: 1px solid #eee;">
+                ${tieneCheckin ? 
+                    `<div style="text-align: center; background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; padding: 0.75rem; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 4px rgba(46,125,50,0.2);">
+                        ✓ Presente
+                    </div>` :
+                    `<button onclick="registrarCheckin(${inscripcion.id})" 
+                            class="btn btn-primary" 
+                            style="width: 100%; padding: 0.75rem; font-size: 1rem; background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(25,118,210,0.2);">
+                        ✅ Registrar Check-in
+                    </button>`
+                }
+            </div>
+        </div>`;
+    });
+    
+    html += '</div>';
+    
     container.innerHTML = html;
     
     updatePaginationControls(totalPages, totalRecords, startIndex + 1, Math.min(endIndex, totalRecords));
