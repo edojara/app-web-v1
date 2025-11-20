@@ -85,15 +85,15 @@ function abreviarInstitucion($nombre) {
         <div style="background: white; padding: 25px; border-radius: 8px; border: 2px solid #2196f3; margin-bottom: 20px;">
             <h3 style="color: #2196f3; margin-bottom: 15px;">🔍 Check-in Rápido por RUT</h3>
             <div style="display: flex; gap: 10px; align-items: flex-end;">
-                <div style="flex: 1;">
+                <div style="flex: 1; max-width: 500px;">
                     <input type="text" 
                            id="rutBusqueda" 
                            placeholder="Ingrese RUT del participante (ej: 12.345.678-9)" 
                            class="form-control"
-                           style="font-size: 18px; padding: 15px;"
+                           style="font-size: 16px; padding: 12px;"
                            autofocus>
                 </div>
-                <button onclick="buscarYRegistrarCheckin()" class="btn btn-primary" style="padding: 15px 30px; font-size: 16px;">
+                <button onclick="buscarYRegistrarCheckin()" class="btn btn-primary" style="padding: 12px 24px; font-size: 16px;">
                     ✅ Registrar Check-in
                 </button>
             </div>
@@ -111,7 +111,7 @@ function abreviarInstitucion($nombre) {
                     id="searchInput" 
                     class="form-control" 
                     placeholder="Buscar por nombre, RUT o institución..." 
-                    style="max-width: 600px;">
+                    style="max-width: 500px; font-size: 16px; padding: 12px;">
             </div>
             
             <?php if (!empty($inscripciones)): ?>
