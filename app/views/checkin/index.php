@@ -483,7 +483,7 @@ function registrarCheckin(inscripcionId) {
         // Guardar estado actual de la tabla
         sessionStorage.setItem('currentPage', currentPage);
         sessionStorage.setItem('searchTerm', document.getElementById('searchInput').value);
-        sessionStorage.setItem('itemsPerPage', itemsPerPage);
+        sessionStorage.setItem('recordsPerPage', recordsPerPage);
         
         const form = document.createElement('form');
         form.method = 'POST';
@@ -548,7 +548,7 @@ function buscarYRegistrarCheckin() {
             // Guardar estado actual de la tabla
             sessionStorage.setItem('currentPage', currentPage);
             sessionStorage.setItem('searchTerm', document.getElementById('searchInput').value);
-            sessionStorage.setItem('itemsPerPage', itemsPerPage);
+            sessionStorage.setItem('recordsPerPage', recordsPerPage);
             
             setTimeout(() => {
                 location.reload();
@@ -567,7 +567,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Restaurar estado de la tabla si existe
     const savedPage = sessionStorage.getItem('currentPage');
     const savedSearch = sessionStorage.getItem('searchTerm');
-    const savedItemsPerPage = sessionStorage.getItem('itemsPerPage');
+    const savedRecordsPerPage = sessionStorage.getItem('recordsPerPage');
     
     if (savedPage) {
         currentPage = parseInt(savedPage);
@@ -580,10 +580,10 @@ document.addEventListener('DOMContentLoaded', function() {
         sessionStorage.removeItem('searchTerm');
     }
     
-    if (savedItemsPerPage) {
-        itemsPerPage = parseInt(savedItemsPerPage);
-        document.getElementById('itemsPerPage').value = itemsPerPage;
-        sessionStorage.removeItem('itemsPerPage');
+    if (savedRecordsPerPage) {
+        recordsPerPage = savedRecordsPerPage === 'all' ? 'all' : parseInt(savedRecordsPerPage);
+        document.getElementById('recordsPerPage').value = recordsPerPage;
+        sessionStorage.removeItem('recordsPerPage');
     }
     
     const searchInput = document.getElementById('searchInput');
