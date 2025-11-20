@@ -21,7 +21,7 @@ if (empty($url) || $url === 'app-web-v1') {
     $url = 'home';
 }
 
-// DEBUG COMPLETO - Solo para URLs que contengan 'auth'
+// DEBUG COMPLETO - SIEMPRE para cualquier URL con parámetro
 $urlOriginal = $url;
 $url = explode('/', $url);
 
@@ -32,33 +32,43 @@ $controllerFile = CONTROLLERS_PATH . '/' . $controllerName . 'Controller.php';
 // Obtener la acción (por defecto: index)
 $action = isset($url[1]) ? $url[1] : 'index';
 
-// Mostrar debug completo
-if (isset($_GET['url']) && strpos($_GET['url'], 'auth') !== false) {
-    echo "<!DOCTYPE html><html><body>";
-    echo "<h1>DEBUG COMPLETO - Google OAuth</h1>";
+// Mostrar debug SIEMPRE si hay parámetro url
+if (isset($_GET['url'])) {
+    echo "<!DOCTYPE html><html><body style='font-family: monospace; padding: 20px;'>";
+    echo "<h1 style='background: #ffeb3b; padding: 10px;'>🔍 DEBUG COMPLETO - Routing</h1>";
+    echo "<div style='background: #f5f5f5; padding: 15px; margin: 10px 0;'>";
     echo "<h2>1. Parámetros recibidos</h2>";
-    echo "<p><strong>\$_GET['url']:</strong> " . ($_GET['url'] ?? 'NO DEFINIDO') . "</p>";
-    echo "<p><strong>\$urlOriginal:</strong> $urlOriginal</p>";
+    echo "<p><strong>\$_GET['url']:</strong> '<span style='color: blue;'>" . ($_GET['url'] ?? 'NO DEFINIDO') . "</span>'</p>";
+    echo "<p><strong>\$urlOriginal (después de trim):</strong> '<span style='color: blue;'>$urlOriginal</span>'</p>";
+    echo "</div>";
     
-    echo "<h2>2. Después de explode</h2>";
-    echo "<p><strong>\$url array:</strong> <pre>" . print_r($url, true) . "</pre></p>";
-    echo "<p><strong>\$url[0]:</strong> " . ($url[0] ?? 'NO DEFINIDO') . "</p>";
-    echo "<p><strong>\$url[1]:</strong> " . ($url[1] ?? 'NO DEFINIDO') . "</p>";
+    echo "<div style='background: #e3f2fd; padding: 15px; margin: 10px 0;'>";
+    echo "<h2>2. Después de explode('/', \$url)</h2>";
+    echo "<p><strong>\$url array:</strong> <pre style='background: white; padding: 10px;'>" . print_r($url, true) . "</pre></p>";
+    echo "<p><strong>\$url[0]:</strong> '<span style='color: green;'>" . ($url[0] ?? 'NO DEFINIDO') . "</span>'</p>";
+    echo "<p><strong>\$url[1]:</strong> '<span style='color: green;'>" . ($url[1] ?? 'NO DEFINIDO') . "</span>'</p>";
+    echo "</div>";
     
-    echo "<h2>3. Routing</h2>";
-    echo "<p><strong>\$controllerName:</strong> '$controllerName'</p>";
-    echo "<p><strong>\$controllerName (lowercase):</strong> '" . strtolower($controllerName) . "'</p>";
-    echo "<p><strong>¿Es 'auth'?:</strong> " . (strtolower($controllerName) === 'auth' ? 'SÍ ✓' : 'NO ✗') . "</p>";
-    echo "<p><strong>\$action:</strong> $action</p>";
+    echo "<div style='background: #fff3e0; padding: 15px; margin: 10px 0;'>";
+    echo "<h2>3. Routing calculado</h2>";
+    echo "<p><strong>\$controllerName:</strong> '<span style='color: purple; font-weight: bold;'>$controllerName</span>'</p>";
+    echo "<p><strong>strtolower(\$controllerName):</strong> '<span style='color: purple; font-weight: bold;'>" . strtolower($controllerName) . "</span>'</p>";
+    echo "<p><strong>Comparación: strtolower('$controllerName') === 'auth':</strong> <span style='font-size: 20px; font-weight: bold; color: " . (strtolower($controllerName) === 'auth' ? 'green' : 'red') . ";'>" . (strtolower($controllerName) === 'auth' ? 'TRUE ✓' : 'FALSE ✗') . "</span></p>";
+    echo "<p><strong>\$action:</strong> '<span style='color: purple;'>$action</span>'</p>";
+    echo "</div>";
     
-    echo "<h2>4. Autenticación</h2>";
-    echo "<p><strong>¿Está autenticado?:</strong> " . (isset($_SESSION['user_id']) && !empty($_SESSION['user_id']) ? 'SÍ' : 'NO') . "</p>";
+    echo "<div style='background: #ffcdd2; padding: 15px; margin: 10px 0;'>";
+    echo "<h2>4. Estado de autenticación</h2>";
+    $isAuth = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
+    echo "<p><strong>¿Usuario autenticado?:</strong> <span style='font-weight: bold; color: " . ($isAuth ? 'green' : 'red') . ";'>" . ($isAuth ? 'SÍ' : 'NO') . "</span></p>";
+    echo "<p><strong>¿Se va a redirigir?:</strong> <span style='font-weight: bold; color: " . (!$isAuth && strtolower($controllerName) !== 'auth' ? 'red' : 'green') . ";'>" . (!$isAuth && strtolower($controllerName) !== 'auth' ? 'SÍ - VA A REDIRIGIR AL LOGIN' : 'NO - Dejará pasar') . "</span></p>";
+    echo "</div>";
     
-    echo "<hr>";
-    echo "<p>Continuando en 5 segundos...</p>";
+    echo "<hr style='margin: 20px 0; border: 2px solid #000;'>";
+    echo "<p style='font-size: 16px; font-weight: bold;'>⏱️ Continuando en 10 segundos...</p>";
     echo "</body></html>";
     flush();
-    sleep(5);
+    sleep(10);
 }
 
 // Si el usuario no está autenticado, redirigir al login
