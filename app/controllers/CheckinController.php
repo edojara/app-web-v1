@@ -39,12 +39,13 @@ class CheckinController {
             exit;
         }
         
-        // Fecha seleccionada (por defecto hoy)
+        // Fecha seleccionada (por defecto hoy o primera fecha del evento)
         $fecha_seleccionada = $_GET['fecha'] ?? date('Y-m-d');
         
         // Validar que la fecha esté dentro del rango del evento
         if ($fecha_seleccionada < $evento['fecha_inicio'] || $fecha_seleccionada > $evento['fecha_termino']) {
-            $fecha_seleccionada = date('Y-m-d');
+            // Si la fecha actual está fuera del rango, usar la primera fecha del evento
+            $fecha_seleccionada = $evento['fecha_inicio'];
         }
         
         // Obtener todas las inscripciones del evento
