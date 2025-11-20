@@ -24,6 +24,9 @@ function abreviarInstitucion($nombre) {
         </div>
         
         <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
+            <a href="?url=checkin&evento_id=<?php echo $evento_id; ?>" class="btn" style="background: #9c27b0; color: white;">
+                ✅ Panel de Check-in
+            </a>
             <button onclick="openInscribirModal()" class="btn btn-primary">
                 ➕ Inscribir Participantes
             </button>
