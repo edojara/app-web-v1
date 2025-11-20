@@ -56,6 +56,11 @@ class AuthController {
     }
 
     public function googleLogin() {
+        // Limpiar cualquier output previo
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
+        
         if (session_status() === PHP_SESSION_NONE) session_start();
 
         // Cargar credenciales directamente desde .env
