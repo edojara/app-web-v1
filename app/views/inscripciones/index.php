@@ -74,57 +74,35 @@ function abreviarInstitucion($nombre) {
             <h2 style="color: #1976d2; margin-bottom: 15px;">Participantes Inscritos</h2>
             
             <?php if (!empty($inscripciones)): ?>
-                <div style="display: grid; grid-template-columns: 50px 2fr 1fr 2fr 2fr 1.2fr 50px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <!-- Header -->
-                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">#</div>
-                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Nombre Completo</div>
-                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0; white-space: nowrap;">RUT</div>
-                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Institución</div>
-                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Email</div>
-                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Fecha Inscripción</div>
-                    <div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; text-align: center;"></div>
-                    
-                    <?php foreach ($inscripciones as $index => $inscripcion): 
-                        $bgColor = $index % 2 == 0 ? '#f8f9fa' : 'white';
-                    ?>
-                        <!-- Fila <?php echo $index + 1; ?> -->
-                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
-                            <strong><?php echo $index + 1; ?></strong>
+                <!-- Filtro de búsqueda -->
+                <div style="margin-bottom: 15px;">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="form-control" 
+                        placeholder="Buscar por nombre, RUT, institución, email..." 
+                        style="max-width: 600px;">
+                </div>
+            
+                <!-- Contenedor de la tabla (será llenado por JavaScript) -->
+                <div id="tableContainer"></div>
+                
+                <!-- Paginación -->
+                <div class="pagination-container" style="margin-top: 1.5rem;">
+                    <div class="pagination-controls" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <label for="recordsPerPage">Mostrar: </label>
+                            <select id="recordsPerPage" onchange="changeRecordsPerPage()" class="form-control" style="display: inline-block; width: auto;">
+                                <option value="10">10</option>
+                                <option value="20" selected>20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="all">Todos</option>
+                            </select>
+                            <span id="recordsInfo" style="margin-left: 1rem;"></span>
                         </div>
-                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
-                            <a href="javascript:void(0)" 
-                               onclick="verDetalleParticipante(<?php echo $inscripcion['participante_id']; ?>)"
-                               style="color: #1976d2; text-decoration: none; font-weight: bold; cursor: pointer;"
-                               onmouseover="this.style.textDecoration='underline'"
-                               onmouseout="this.style.textDecoration='none'"
-                               title="Ver detalles del participante">
-                                <?php echo htmlspecialchars($inscripcion['nombre_completo']); ?>
-                            </a>
-                        </div>
-                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; white-space: nowrap;">
-                            <?php echo htmlspecialchars($inscripcion['rut']); ?>
-                        </div>
-                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
-                            <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; font-size: 13px;">
-                                <?php echo htmlspecialchars(abreviarInstitucion($inscripcion['institucion_nombre'] ?? 'Sin institución')); ?>
-                            </span>
-                        </div>
-                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">
-                            📧 <?php echo htmlspecialchars($inscripcion['email']); ?>
-                        </div>
-                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">
-                            🗓️ <?php echo date('d/m/Y', strtotime($inscripcion['fecha_inscripcion'])); ?>
-                        </div>
-                        <div style="background: <?php echo $bgColor; ?>; padding: 12px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center;">
-                            <button onclick="confirmarEliminar(<?php echo $inscripcion['id']; ?>, '<?php echo htmlspecialchars($inscripcion['nombre_completo'], ENT_QUOTES); ?>')" 
-                                    style="background: transparent; color: #f44336; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
-                                    onmouseover="this.style.color='#d32f2f'" 
-                                    onmouseout="this.style.color='#f44336'"
-                                    title="Eliminar inscripción">
-                                🗑️
-                            </button>
-                        </div>
-                    <?php endforeach; ?>
+                        <div id="paginationButtons"></div>
+                    </div>
                 </div>
             <?php else: ?>
                 <p style="text-align: center; color: #999; padding: 40px;">
@@ -339,8 +317,34 @@ window.onclick = function(event) {
         closeInscribirModal();
     }
 }
+</script>
 
-// Cerrar modal con tecla ESC
+<style>
+/* Estilos para paginación */
+.pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pagination-controls > div {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+#paginationButtons {
+    display: flex;
+    gap: 0.25rem;
+}
+
+#paginationButtons .btn {
+    min-width: 40px;
+}
+</style>
+
+<script>// Cerrar modal con tecla ESC
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         closeInscribirModal();
@@ -403,6 +407,166 @@ window.addEventListener('click', function(event) {
     const csvModal = document.getElementById('inscribirCSVModal');
     if (event.target == csvModal) {
         closeInscribirCSVModal();
+    }
+});
+
+// ============================================
+// FILTRO Y PAGINACIÓN DE TABLA DE INSCRIPCIONES
+// ============================================
+
+const inscripcionesData = <?php echo json_encode($inscripciones ?? []); ?>;
+let filteredData = [...inscripcionesData];
+let currentPage = 1;
+let recordsPerPage = 20;
+
+// Función para renderizar la tabla
+function renderTable() {
+    const container = document.getElementById('tableContainer');
+    if (!container) return;
+    
+    const totalRecords = filteredData.length;
+    const totalPages = recordsPerPage === 'all' ? 1 : Math.ceil(totalRecords / recordsPerPage);
+    
+    if (currentPage > totalPages && totalPages > 0) {
+        currentPage = totalPages;
+    }
+    
+    const startIndex = recordsPerPage === 'all' ? 0 : (currentPage - 1) * recordsPerPage;
+    const endIndex = recordsPerPage === 'all' ? totalRecords : startIndex + parseInt(recordsPerPage);
+    const pageData = filteredData.slice(startIndex, endIndex);
+    
+    let html = '<div style="display: grid; grid-template-columns: 50px 2fr 1fr 2fr 2fr 1.2fr 50px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">';
+    
+    // Header
+    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">#</div>';
+    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Nombre Completo</div>';
+    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0; white-space: nowrap;">RUT</div>';
+    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Institución</div>';
+    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Email</div>';
+    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Fecha Inscripción</div>';
+    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; text-align: center;"></div>';
+    
+    // Data rows
+    pageData.forEach((inscripcion, index) => {
+        const globalIndex = startIndex + index + 1;
+        const bgColor = index % 2 == 0 ? '#f8f9fa' : 'white';
+        const institucionAbrev = inscripcion.institucion_nombre ? inscripcion.institucion_nombre.replace('Universidad', 'Univ') : 'Sin institución';
+        const fechaFormato = new Date(inscripcion.fecha_inscripcion).toLocaleDateString('es-CL');
+        
+        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;"><strong>${globalIndex}</strong></div>`;
+        
+        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
+            <a href="javascript:void(0)" 
+               onclick="verDetalleParticipante(${inscripcion.participante_id})"
+               style="color: #1976d2; text-decoration: none; font-weight: bold; cursor: pointer;"
+               onmouseover="this.style.textDecoration='underline'"
+               onmouseout="this.style.textDecoration='none'"
+               title="Ver detalles del participante">
+                ${inscripcion.nombre_completo}
+            </a>
+        </div>`;
+        
+        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; white-space: nowrap;">${inscripcion.rut}</div>`;
+        
+        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
+            <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; font-size: 13px;">
+                ${institucionAbrev}
+            </span>
+        </div>`;
+        
+        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">📧 ${inscripcion.email}</div>`;
+        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; font-size: 13px;">🗓️ ${fechaFormato}</div>`;
+        
+        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center;">
+            <button onclick="confirmarEliminar(${inscripcion.id}, '${inscripcion.nombre_completo.replace(/'/g, "\\'")}')" 
+                    style="background: transparent; color: #f44336; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
+                    onmouseover="this.style.color='#d32f2f'" 
+                    onmouseout="this.style.color='#f44336'"
+                    title="Eliminar inscripción">
+                🗑️
+            </button>
+        </div>`;
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+    
+    updatePaginationControls(totalPages, totalRecords, startIndex + 1, Math.min(endIndex, totalRecords));
+}
+
+// Actualizar controles de paginación
+function updatePaginationControls(totalPages, totalRecords, startRecord, endRecord) {
+    const container = document.getElementById('paginationButtons');
+    const infoContainer = document.getElementById('recordsInfo');
+    
+    if (!container) return;
+    
+    infoContainer.textContent = `Mostrando ${startRecord} a ${endRecord} de ${totalRecords} registros`;
+    
+    if (recordsPerPage === 'all' || totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    let html = '';
+    html += `<button class="btn btn-sm btn-outline-primary" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>← Anterior</button>`;
+    
+    const maxButtons = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+    let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+    
+    if (endPage - startPage < maxButtons - 1) {
+        startPage = Math.max(1, endPage - maxButtons + 1);
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        html += `<button class="btn btn-sm ${i === currentPage ? 'btn-primary' : 'btn-outline-primary'}" onclick="goToPage(${i})">${i}</button>`;
+    }
+    
+    html += `<button class="btn btn-sm btn-outline-primary" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Siguiente →</button>`;
+    
+    container.innerHTML = html;
+}
+
+// Ir a una página específica
+function goToPage(page) {
+    currentPage = page;
+    renderTable();
+}
+
+// Cambiar registros por página
+function changeRecordsPerPage() {
+    const select = document.getElementById('recordsPerPage');
+    recordsPerPage = select.value === 'all' ? 'all' : parseInt(select.value);
+    currentPage = 1;
+    renderTable();
+}
+
+// Filtrar inscripciones
+function filterInscripciones() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    
+    filteredData = inscripcionesData.filter(inscripcion => {
+        return inscripcion.nombre_completo.toLowerCase().includes(searchTerm) ||
+               inscripcion.rut.toLowerCase().includes(searchTerm) ||
+               (inscripcion.institucion_nombre && inscripcion.institucion_nombre.toLowerCase().includes(searchTerm)) ||
+               inscripcion.email.toLowerCase().includes(searchTerm);
+    });
+    
+    currentPage = 1;
+    renderTable();
+}
+
+// Event listener para el input de búsqueda
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', filterInscripciones);
+    }
+    
+    // Renderizar tabla inicial
+    if (inscripcionesData.length > 0) {
+        renderTable();
     }
 });
 </script>
