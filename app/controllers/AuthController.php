@@ -227,6 +227,14 @@ class AuthController {
 
     // Aliases para que el router encuentre los métodos con guiones
     public function google_login() {
+        // DEBUG: Mostrar en pantalla que se está ejecutando
+        echo "<!DOCTYPE html><html><body>";
+        echo "<h1>DEBUG: google_login() ejecutándose</h1>";
+        echo "<p>Método alias llamado correctamente</p>";
+        echo "<p>Llamando a googleLogin()...</p>";
+        echo "</body></html>";
+        flush();
+        sleep(2);
         $this->googleLogin();
     }
 
