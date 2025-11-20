@@ -76,6 +76,17 @@ class CheckinController {
             $fechas_evento[] = $fecha->format('Y-m-d');
         }
         
+        // Extraer variables para la vista
+        extract([
+            'evento' => $evento,
+            'evento_id' => $evento_id,
+            'fecha_seleccionada' => $fecha_seleccionada,
+            'inscripciones' => $inscripciones,
+            'fechas_evento' => $fechas_evento,
+            'checkins_hoy' => $checkins_hoy,
+            'total_inscritos' => $total_inscritos
+        ]);
+        
         require_once VIEWS_PATH . '/layout/header.php';
         require_once VIEWS_PATH . '/checkin/index.php';
         require_once VIEWS_PATH . '/layout/footer.php';
