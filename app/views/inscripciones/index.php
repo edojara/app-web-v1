@@ -597,9 +597,18 @@ document.addEventListener('DOMContentLoaded', function() {
                        onchange="previewCSV()"
                        class="form-control"
                        style="padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px;">
-                <small style="color: #666; display: block; margin-top: 8px; font-size: 13px;">
-                    📝 El archivo debe contener un RUT por línea (ej: 12.345.678-9)
-                </small>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                    <small style="color: #666; font-size: 13px;">
+                        📝 El archivo debe contener un RUT por línea (ej: 12.345.678-9)
+                    </small>
+                    <a href="<?php echo APP_URL; ?>/public/assets/ejemplo_ruts.csv" 
+                       download="ejemplo_ruts.csv" 
+                       style="color: #2196f3; text-decoration: none; font-size: 13px; font-weight: 600;"
+                       onmouseover="this.style.textDecoration='underline'"
+                       onmouseout="this.style.textDecoration='none'">
+                        📥 Descargar ejemplo
+                    </a>
+                </div>
             </div>
             
             <div id="csvPreview" style="margin-bottom: 20px;"></div>
