@@ -1125,3 +1125,108 @@ footer a:hover {
         max-width: 90%;
     }
 }
+
+/* ============================================
+   EVENTOS - RESPONSIVE DESIGN
+   ============================================ */
+.desktop-table {
+    display: block;
+}
+
+.mobile-cards {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .desktop-table {
+        display: none;
+    }
+    
+    .mobile-cards {
+        display: block;
+    }
+    
+    .evento-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-left: 4px solid #2196f3;
+    }
+    
+    .evento-card.pasado {
+        opacity: 0.7;
+        border-left-color: #757575;
+    }
+    
+    .evento-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.75rem;
+    }
+    
+    .evento-card-title {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #333;
+        flex: 1;
+    }
+    
+    .evento-card-numero {
+        background: #e3f2fd;
+        color: #2196f3;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-left: 0.5rem;
+    }
+    
+    .evento-card-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .evento-card-row {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .evento-card-label {
+        color: #666;
+        font-size: 0.9rem;
+        min-width: 80px;
+    }
+    
+    .evento-card-value {
+        color: #333;
+        font-size: 0.9rem;
+        flex: 1;
+    }
+    
+    .evento-card-actions {
+        display: flex;
+        gap: 0.5rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid #eee;
+    }
+    
+    .evento-card-actions button {
+        flex: 1;
+        background: transparent;
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.3s;
+    }
+    
+    .evento-card-actions button:active {
+        transform: scale(0.95);
+    }
+}

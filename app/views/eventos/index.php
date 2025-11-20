@@ -85,6 +85,49 @@
                             <?php endforeach; ?>
                         </div>
                         
+                        <!-- Mobile: Cards -->
+                        <div class="mobile-cards">
+                            <?php $numero = 1; ?>
+                            <?php foreach ($eventosProximos as $evento): 
+                                $inicio = new DateTime($evento['fecha_inicio']);
+                                $termino = new DateTime($evento['fecha_termino']);
+                                $dias = $inicio->diff($termino)->days + 1;
+                            ?>
+                                <div class="evento-card" onclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'">
+                                    <div class="evento-card-header">
+                                        <div class="evento-card-title"><?= htmlspecialchars($evento['nombre']) ?></div>
+                                        <div class="evento-card-numero">#<?= $numero++ ?></div>
+                                    </div>
+                                    <div class="evento-card-info">
+                                        <div class="evento-card-row">
+                                            <div class="evento-card-label">📅 Inicio:</div>
+                                            <div class="evento-card-value"><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></div>
+                                        </div>
+                                        <div class="evento-card-row">
+                                            <div class="evento-card-label">📅 Término:</div>
+                                            <div class="evento-card-value"><?= date('d/m/Y', strtotime($evento['fecha_termino'])) ?></div>
+                                        </div>
+                                        <div class="evento-card-row">
+                                            <div class="evento-card-label">⏱️ Duración:</div>
+                                            <div class="evento-card-value"><?= $dias ?> día<?= $dias != 1 ? 's' : '' ?></div>
+                                        </div>
+                                        <div class="evento-card-row">
+                                            <div class="evento-card-label">📍 Lugar:</div>
+                                            <div class="evento-card-value"><?= htmlspecialchars($evento['lugar']) ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="evento-card-actions" onclick="event.stopPropagation();">
+                                        <button onclick="window.location.href='/?url=checkin&evento_id=<?= $evento['id'] ?>';" 
+                                                style="color: #9c27b0; border-color: #9c27b0;" title="Check-in">✅</button>
+                                        <button onclick="window.location.href='/?url=inscripciones&evento_id=<?= $evento['id'] ?>';" 
+                                                style="color: #4caf50; border-color: #4caf50;" title="Inscripciones">👥</button>
+                                        <button onclick="if(confirm('¿Está seguro de eliminar este evento?')) window.location.href='/?url=eventos/delete&id=<?= $evento['id'] ?>';" 
+                                                style="color: #f44336; border-color: #f44336;" title="Eliminar">🗑️</button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        
                         <!-- Controles de paginación -->
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 4px;">
                             <div>
@@ -124,7 +167,7 @@
                                 <div style="text-align: center;">Acciones</div>
                             </div>
                             <?php $numero = 1; ?>
-                            <?php foreach ($eventosProximos as $evento): 
+                            <?php foreach ($eventosPasados as $evento): 
                                 $inicio = new DateTime($evento['fecha_inicio']);
                                 $termino = new DateTime($evento['fecha_termino']);
                                 $dias = $inicio->diff($termino)->days + 1; // +1 para incluir ambos días
@@ -152,6 +195,49 @@
                                            onmouseover="this.style.color='#d32f2f'" 
                                            onmouseout="this.style.color='#f44336'"
                                            title="Eliminar">🗑️</button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        
+                        <!-- Mobile: Cards -->
+                        <div class="mobile-cards">
+                            <?php $numero = 1; ?>
+                            <?php foreach ($eventosPasados as $evento): 
+                                $inicio = new DateTime($evento['fecha_inicio']);
+                                $termino = new DateTime($evento['fecha_termino']);
+                                $dias = $inicio->diff($termino)->days + 1;
+                            ?>
+                                <div class="evento-card pasado" onclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'">
+                                    <div class="evento-card-header">
+                                        <div class="evento-card-title"><?= htmlspecialchars($evento['nombre']) ?></div>
+                                        <div class="evento-card-numero">#<?= $numero++ ?></div>
+                                    </div>
+                                    <div class="evento-card-info">
+                                        <div class="evento-card-row">
+                                            <div class="evento-card-label">📅 Inicio:</div>
+                                            <div class="evento-card-value"><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></div>
+                                        </div>
+                                        <div class="evento-card-row">
+                                            <div class="evento-card-label">📅 Término:</div>
+                                            <div class="evento-card-value"><?= date('d/m/Y', strtotime($evento['fecha_termino'])) ?></div>
+                                        </div>
+                                        <div class="evento-card-row">
+                                            <div class="evento-card-label">⏱️ Duración:</div>
+                                            <div class="evento-card-value"><?= $dias ?> día<?= $dias != 1 ? 's' : '' ?></div>
+                                        </div>
+                                        <div class="evento-card-row">
+                                            <div class="evento-card-label">📍 Lugar:</div>
+                                            <div class="evento-card-value"><?= htmlspecialchars($evento['lugar']) ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="evento-card-actions" onclick="event.stopPropagation();">
+                                        <button onclick="window.location.href='/?url=checkin&evento_id=<?= $evento['id'] ?>';" 
+                                                style="color: #9c27b0; border-color: #9c27b0;" title="Check-in">✅</button>
+                                        <button onclick="window.location.href='/?url=inscripciones&evento_id=<?= $evento['id'] ?>';" 
+                                                style="color: #4caf50; border-color: #4caf50;" title="Inscripciones">👥</button>
+                                        <button onclick="if(confirm('¿Está seguro de eliminar este evento?')) window.location.href='/?url=eventos/delete&id=<?= $evento['id'] ?>';" 
+                                                style="color: #f44336; border-color: #f44336;" title="Eliminar">🗑️</button>
                                     </div>
                                 </div>
                             <?php endforeach; ?>

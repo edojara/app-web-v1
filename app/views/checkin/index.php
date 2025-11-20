@@ -427,8 +427,10 @@ function filterParticipantes() {
 // Registrar check-in individual
 function registrarCheckin(inscripcionId) {
     if (confirm('¿Confirmar check-in para este participante?')) {
-        // Guardar posición de scroll antes de enviar
-        sessionStorage.setItem('scrollPosition', window.scrollY);
+        // Guardar estado actual de la tabla
+        sessionStorage.setItem('currentPage', currentPage);
+        sessionStorage.setItem('searchTerm', document.getElementById('searchInput').value);
+        sessionStorage.setItem('itemsPerPage', itemsPerPage);
         
         const form = document.createElement('form');
         form.method = 'POST';
@@ -490,8 +492,10 @@ function buscarYRegistrarCheckin() {
             `;
             rutInput.value = '';
             
-            // Guardar posición de scroll antes de recargar
-            sessionStorage.setItem('scrollPosition', window.scrollY);
+            // Guardar estado actual de la tabla
+            sessionStorage.setItem('currentPage', currentPage);
+            sessionStorage.setItem('searchTerm', document.getElementById('searchInput').value);
+            sessionStorage.setItem('itemsPerPage', itemsPerPage);
             
             setTimeout(() => {
                 location.reload();
@@ -507,11 +511,26 @@ function buscarYRegistrarCheckin() {
 
 // Event listener para Enter en campo de RUT
 document.addEventListener('DOMContentLoaded', function() {
-    // Restaurar posición de scroll si existe
-    const scrollPosition = sessionStorage.getItem('scrollPosition');
-    if (scrollPosition) {
-        window.scrollTo(0, parseInt(scrollPosition));
-        sessionStorage.removeItem('scrollPosition');
+    // Restaurar estado de la tabla si existe
+    const savedPage = sessionStorage.getItem('currentPage');
+    const savedSearch = sessionStorage.getItem('searchTerm');
+    const savedItemsPerPage = sessionStorage.getItem('itemsPerPage');
+    
+    if (savedPage) {
+        currentPage = parseInt(savedPage);
+        sessionStorage.removeItem('currentPage');
+    }
+    
+    if (savedSearch) {
+        document.getElementById('searchInput').value = savedSearch;
+        filterParticipantes();
+        sessionStorage.removeItem('searchTerm');
+    }
+    
+    if (savedItemsPerPage) {
+        itemsPerPage = parseInt(savedItemsPerPage);
+        document.getElementById('itemsPerPage').value = itemsPerPage;
+        sessionStorage.removeItem('itemsPerPage');
     }
     
     const searchInput = document.getElementById('searchInput');
