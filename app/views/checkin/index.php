@@ -427,6 +427,9 @@ function filterParticipantes() {
 // Registrar check-in individual
 function registrarCheckin(inscripcionId) {
     if (confirm('¿Confirmar check-in para este participante?')) {
+        // Guardar posición de scroll antes de enviar
+        sessionStorage.setItem('scrollPosition', window.scrollY);
+        
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = '?url=checkin/registrar';
@@ -486,6 +489,10 @@ function buscarYRegistrarCheckin() {
                 </div>
             `;
             rutInput.value = '';
+            
+            // Guardar posición de scroll antes de recargar
+            sessionStorage.setItem('scrollPosition', window.scrollY);
+            
             setTimeout(() => {
                 location.reload();
             }, 1500);
@@ -500,6 +507,13 @@ function buscarYRegistrarCheckin() {
 
 // Event listener para Enter en campo de RUT
 document.addEventListener('DOMContentLoaded', function() {
+    // Restaurar posición de scroll si existe
+    const scrollPosition = sessionStorage.getItem('scrollPosition');
+    if (scrollPosition) {
+        window.scrollTo(0, parseInt(scrollPosition));
+        sessionStorage.removeItem('scrollPosition');
+    }
+    
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('keyup', filterParticipantes);
