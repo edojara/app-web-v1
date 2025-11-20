@@ -19,9 +19,16 @@
 
 // Cargar variables de entorno desde .env si existe
 $envFile = dirname(dirname(__FILE__)) . '/.env';
+$googleClientId = '';
+$googleClientSecret = '';
+
 if (file_exists($envFile)) {
     $env = parse_ini_file($envFile);
     if ($env) {
+        $googleClientId = $env['GOOGLE_CLIENT_ID'] ?? '';
+        $googleClientSecret = $env['GOOGLE_CLIENT_SECRET'] ?? '';
+        
+        // También establecer en variables de entorno para compatibilidad
         foreach ($env as $key => $value) {
             if (!getenv($key)) {
                 putenv("$key=$value");
@@ -30,9 +37,17 @@ if (file_exists($envFile)) {
     }
 }
 
-// Google OAuth2 Credentials (desde variables de entorno)
-define('GOOGLE_CLIENT_ID', getenv('GOOGLE_CLIENT_ID') ?: '');
-define('GOOGLE_CLIENT_SECRET', getenv('GOOGLE_CLIENT_SECRET') ?: '');
+// Si no se cargó desde .env, intentar desde variables de entorno del sistema
+if (empty($googleClientId)) {
+    $googleClientId = getenv('GOOGLE_CLIENT_ID') ?: '';
+}
+if (empty($googleClientSecret)) {
+    $googleClientSecret = getenv('GOOGLE_CLIENT_SECRET') ?: '';
+}
+
+// Google OAuth2 Credentials
+define('GOOGLE_CLIENT_ID', $googleClientId);
+define('GOOGLE_CLIENT_SECRET', $googleClientSecret);
 define('GOOGLE_REDIRECT_URI', APP_URL . '/?url=auth/google-callback');
 
 ?>
