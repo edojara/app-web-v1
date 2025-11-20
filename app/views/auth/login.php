@@ -47,7 +47,6 @@
                 </button>
             </form>
 
-            <?php if (defined('GOOGLE_CLIENT_ID') && GOOGLE_CLIENT_ID !== ''): ?>
             <!-- Separador -->
             <div class="login-divider">o continúa con</div>
 
@@ -61,7 +60,6 @@
                 </svg>
                 Continuar con Google
             </a>
-            <?php endif; ?>
         </div>
     </div>
 </body>
