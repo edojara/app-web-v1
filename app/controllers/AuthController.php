@@ -56,23 +56,30 @@ class AuthController {
     }
 
     public function googleLogin() {
-        error_log("DEBUG: googleLogin() ejecutándose");
+        echo "<p>DEBUG 1: Iniciando googleLogin()</p>"; flush();
         
         if (session_status() === PHP_SESSION_NONE) session_start();
+        echo "<p>DEBUG 2: Sesión iniciada</p>"; flush();
 
         // Verificar que las credenciales de Google estén configuradas
+        echo "<p>DEBUG 3: Verificando GOOGLE_CLIENT_ID...</p>"; flush();
+        echo "<p>GOOGLE_CLIENT_ID definido: " . (defined('GOOGLE_CLIENT_ID') ? 'SÍ' : 'NO') . "</p>"; flush();
+        echo "<p>GOOGLE_CLIENT_ID valor: " . (defined('GOOGLE_CLIENT_ID') ? GOOGLE_CLIENT_ID : 'NO DEFINIDO') . "</p>"; flush();
+        
         if (!defined('GOOGLE_CLIENT_ID') || GOOGLE_CLIENT_ID === '') {
-            error_log("DEBUG: GOOGLE_CLIENT_ID vacío o no definido");
+            echo "<p>DEBUG 4: CLIENT_ID vacío, redirigiendo a login</p>"; flush();
             $_SESSION['error'] = 'Google OAuth no está configurado. CLIENT_ID: ' . (defined('GOOGLE_CLIENT_ID') ? GOOGLE_CLIENT_ID : 'NO DEFINIDO');
             header('Location: ?url=auth/login');
             exit;
         }
 
-        error_log("DEBUG: GOOGLE_CLIENT_ID OK, generando URL de autorización");
+        echo "<p>DEBUG 5: CLIENT_ID OK, generando state token</p>"; flush();
 
         // Generar state token para CSRF protection
         $state = bin2hex(random_bytes(16));
         $_SESSION['oauth_state'] = $state;
+        
+        echo "<p>DEBUG 6: State token generado: $state</p>"; flush();
 
         // Parámetros de Google OAuth
         $params = [
@@ -83,8 +90,14 @@ class AuthController {
             'state' => $state,
         ];
 
+        echo "<p>DEBUG 7: Parámetros construidos</p>"; flush();
+        
         $authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
-        error_log("DEBUG: Redirigiendo a Google: " . $authUrl);
+        
+        echo "<p>DEBUG 8: URL de autorización: <a href='$authUrl'>$authUrl</a></p>"; flush();
+        echo "<p>DEBUG 9: Redirigiendo en 3 segundos...</p>"; flush();
+        sleep(3);
+        
         header('Location: ' . $authUrl);
         exit;
     }
