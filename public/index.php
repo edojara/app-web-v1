@@ -44,22 +44,28 @@ $controllerFile = CONTROLLERS_PATH . '/' . $controllerName . 'Controller.php';
 // Obtener la acción (por defecto: index)
 $action = isset($url[1]) ? $url[1] : 'index';
 
-// DEBUG temporal - escribir en archivo
+// DEBUG - Mostrar valores de routing
 if (isset($_GET['url']) && strpos($_GET['url'], 'auth') !== false) {
-    file_put_contents('/tmp/debug_app.log', 
-        date('Y-m-d H:i:s') . " - URL: " . $_GET['url'] . "\n" .
-        "Controller: $controllerName\n" .
-        "Lowercase: " . strtolower($controllerName) . "\n" .
-        "Is auth?: " . (strtolower($controllerName) === 'auth' ? 'YES' : 'NO') . "\n" .
-        "URL array: " . print_r($url, true) . "\n\n",
-        FILE_APPEND
-    );
+    echo "<h2>DEBUG - Routing</h2>";
+    echo "<p><strong>\$url array:</strong> " . print_r($url, true) . "</p>";
+    echo "<p><strong>\$controllerName:</strong> $controllerName</p>";
+    echo "<p><strong>\$controllerName (lowercase):</strong> " . strtolower($controllerName) . "</p>";
+    echo "<p><strong>¿Es 'auth'?:</strong> " . (strtolower($controllerName) === 'auth' ? 'SÍ' : 'NO') . "</p>";
+    echo "<p><strong>\$action:</strong> $action</p>";
+    echo "<p><strong>¿Está autenticado?:</strong> " . (isset($_SESSION['user_id']) ? 'SÍ' : 'NO') . "</p>";
+    flush();
+    sleep(3);
 }
 
 // Si el usuario no está autenticado, redirigir al login
 // EXCEPTO para el controlador Auth (login, registro, OAuth, etc.)
 $isAuthenticated = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
 if (!$isAuthenticated && strtolower($controllerName) !== 'auth') {
+    echo "<p style='color: red;'><strong>REDIRIGIENDO AL LOGIN porque:</strong></p>";
+    echo "<p>- No autenticado: " . (!$isAuthenticated ? 'SÍ' : 'NO') . "</p>";
+    echo "<p>- Controlador no es auth: " . (strtolower($controllerName) !== 'auth' ? 'SÍ' : 'NO') . "</p>";
+    flush();
+    sleep(2);
     header('Location: ' . APP_URL . '/?url=auth/login');
     exit;
 }
