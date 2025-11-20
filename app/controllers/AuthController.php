@@ -102,6 +102,7 @@ class AuthController {
             'response_type' => 'code',
             'scope' => 'openid email profile',
             'state' => $state,
+            'prompt' => 'select_account',  // Mostrar selector de cuentas
         ];
 
         $authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
