@@ -19,14 +19,21 @@ function abreviarInstitucion($nombre) {
             </a>
         </div>
         
-        <div style="text-align: center; margin-bottom: 20px;">
-            <h3 style="color: #666; margin-bottom: 10px;">✅ Check-in de Asistencia</h3>
-            <h1 style="margin-bottom: 10px;"><?php echo htmlspecialchars($evento['nombre']); ?></h1>
-            <p style="color: #666; margin-top: 5px;">
-                📅 <?php echo date('d/m/Y', strtotime($evento['fecha_inicio'])); ?> - 
-                <?php echo date('d/m/Y', strtotime($evento['fecha_termino'])); ?> | 
-                📍 <?php echo htmlspecialchars($evento['lugar']); ?>
-            </p>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 4px 16px; border-radius: 20px; margin-bottom: 12px;">
+                <span style="color: white; font-size: 14px; font-weight: 600;">✅ Check-in de Asistencia</span>
+            </div>
+            <h1 style="margin-bottom: 12px; font-size: 32px; color: #2c3e50;"><?php echo htmlspecialchars($evento['nombre']); ?></h1>
+            <div style="display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 8px; color: #666;">
+                    <span style="font-size: 20px;">📅</span>
+                    <span><?php echo date('d/m/Y', strtotime($evento['fecha_inicio'])); ?> - <?php echo date('d/m/Y', strtotime($evento['fecha_termino'])); ?></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; color: #666;">
+                    <span style="font-size: 20px;">📍</span>
+                    <span><?php echo htmlspecialchars($evento['lugar']); ?></span>
+                </div>
+            </div>
         </div>
 
         <?php if (isset($_SESSION['success'])): ?>
@@ -48,75 +55,131 @@ function abreviarInstitucion($nombre) {
         <?php endif; ?>
 
         <!-- Selector de fecha -->
-        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <label style="font-weight: 600; margin-bottom: 10px; display: block;">Seleccionar fecha del evento:</label>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <div style="background: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+            <h3 style="margin-bottom: 20px; color: #2c3e50; font-size: 20px; display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 24px;">📅</span> Seleccionar Fecha
+            </h3>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                 <?php foreach ($fechas_evento as $fecha): 
                     $es_hoy = $fecha === date('Y-m-d');
                     $es_seleccionada = $fecha === $fecha_seleccionada;
                     $checkins_fecha = $this->checkinModel->contarByEventoYFecha($evento_id, $fecha);
                 ?>
                     <a href="?url=checkin&evento_id=<?php echo $evento_id; ?>&fecha=<?php echo $fecha; ?>" 
-                       class="btn" 
-                       style="<?php echo $es_seleccionada ? 'background: #2196f3; color: white;' : 'background: white;'; ?> position: relative; padding: 12px 20px;">
-                        <?php if ($es_hoy): ?>
-                            <span style="font-size: 11px; display: block; color: <?php echo $es_seleccionada ? '#e3f2fd' : '#2196f3'; ?>;">HOY</span>
-                        <?php endif; ?>
-                        <strong><?php echo date('d/m/Y', strtotime($fecha)); ?></strong>
-                        <br>
-                        <small style="font-size: 12px;"><?php echo $checkins_fecha; ?> check-ins</small>
+                       class="fecha-btn <?php echo $es_seleccionada ? 'active' : ''; ?>"
+                       style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; 
+                              background: <?php echo $es_seleccionada ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'linear-gradient(135deg, #f5f7fa 0%, #e8ebf0 100%)'; ?>; 
+                              color: <?php echo $es_seleccionada ? 'white' : '#2c3e50'; ?>; 
+                              text-decoration: none; 
+                              border-radius: 10px; 
+                              font-weight: 600;
+                              transition: all 0.3s ease;
+                              box-shadow: 0 2px 8px rgba(0,0,0,<?php echo $es_seleccionada ? '0.15' : '0.05'; ?>);
+                              border: 2px solid <?php echo $es_seleccionada ? '#667eea' : 'transparent'; ?>;">
+                        <span style="font-size: 18px;"><?php echo $es_seleccionada ? '✅' : '📆'; ?></span>
+                        <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                            <?php if ($es_hoy): ?>
+                                <span style="font-size: 11px; opacity: 0.85; font-weight: 700; letter-spacing: 0.5px;">HOY</span>
+                            <?php endif; ?>
+                            <span style="font-size: 15px;"><?php echo date('d/m/Y', strtotime($fecha)); ?></span>
+                            <span style="font-size: 12px; opacity: 0.9;"><?php echo $checkins_fecha . ' check-ins'; ?></span>
+                        </div>
                     </a>
                 <?php endforeach; ?>
             </div>
         </div>
 
+        <style>
+        .fecha-btn:not(.active):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
+            background: linear-gradient(135deg, #e8ebf0 0%, #d5dae1 100%) !important;
+        }
+        </style>
+
         <!-- Resumen del día -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
-            <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 20px; border-radius: 8px; border-left: 4px solid #2196f3;">
-                <div style="font-size: 14px; color: #1976d2; margin-bottom: 5px;">Total Inscritos</div>
-                <div style="font-size: 32px; font-weight: bold; color: #1976d2;"><?php echo $total_inscritos; ?></div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 25px; border-radius: 12px; border-left: 5px solid #2196f3; box-shadow: 0 4px 12px rgba(33,150,243,0.2); transition: all 0.3s ease;" class="stat-card">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <div style="font-size: 14px; color: #1565c0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Total Inscritos</div>
+                    <span style="font-size: 28px;">👥</span>
+                </div>
+                <div style="font-size: 36px; font-weight: bold; color: #1565c0;"><?php echo $total_inscritos; ?></div>
             </div>
-            <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding: 20px; border-radius: 8px; border-left: 4px solid #4caf50;">
-                <div style="font-size: 14px; color: #2e7d32; margin-bottom: 5px;">Check-ins Realizados</div>
-                <div style="font-size: 32px; font-weight: bold; color: #2e7d32;"><?php echo $checkins_hoy; ?></div>
+            <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding: 25px; border-radius: 12px; border-left: 5px solid #4caf50; box-shadow: 0 4px 12px rgba(76,175,80,0.2); transition: all 0.3s ease;" class="stat-card">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <div style="font-size: 14px; color: #2e7d32; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Check-ins Realizados</div>
+                    <span style="font-size: 28px;">✅</span>
+                </div>
+                <div style="font-size: 36px; font-weight: bold; color: #2e7d32;"><?php echo $checkins_hoy; ?></div>
             </div>
-            <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 20px; border-radius: 8px; border-left: 4px solid #ff9800;">
-                <div style="font-size: 14px; color: #e65100; margin-bottom: 5px;">Pendientes</div>
-                <div style="font-size: 32px; font-weight: bold; color: #e65100;"><?php echo $total_inscritos - $checkins_hoy; ?></div>
+            <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 25px; border-radius: 12px; border-left: 5px solid #ff9800; box-shadow: 0 4px 12px rgba(255,152,0,0.2); transition: all 0.3s ease;" class="stat-card">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <div style="font-size: 14px; color: #e65100; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Pendientes</div>
+                    <span style="font-size: 28px;">⏳</span>
+                </div>
+                <div style="font-size: 36px; font-weight: bold; color: #e65100;"><?php echo $total_inscritos - $checkins_hoy; ?></div>
             </div>
         </div>
 
+        <style>
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+        }
+        </style>
+
         <!-- Búsqueda rápida por RUT -->
-        <div style="background: white; padding: 25px; border-radius: 8px; border: 2px solid #2196f3; margin-bottom: 20px;">
-            <h3 style="color: #2196f3; margin-bottom: 15px;">🔍 Check-in Rápido por RUT</h3>
-            <div style="display: flex; gap: 10px; align-items: flex-end;">
+        <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 30px; border-top: 4px solid #667eea;">
+            <h3 style="color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 20px;">
+                <span style="font-size: 24px;">🔍</span> Check-in Rápido por RUT
+            </h3>
+            <div style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
                 <div style="flex: 1; max-width: 500px;">
                     <input type="text" 
                            id="rutBusqueda" 
                            placeholder="Ingrese RUT del participante (ej: 12.345.678-9)" 
                            class="form-control"
-                           style="font-size: 16px; padding: 12px;"
+                           style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05);"
+                           onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102,126,234,0.1)'"
+                           onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.05)'"
                            autofocus>
                 </div>
-                <button onclick="buscarYRegistrarCheckin()" class="btn btn-primary" style="padding: 12px 24px; font-size: 16px;">
+                <button onclick="buscarYRegistrarCheckin()" 
+                        class="btn btn-primary btn-checkin-rapido"
+                        style="padding: 12px 28px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 16px; box-shadow: 0 4px 12px rgba(102,126,234,0.3); white-space: nowrap;">
                     ✅ Registrar Check-in
                 </button>
             </div>
             <div id="resultadoBusqueda" style="margin-top: 15px;"></div>
         </div>
 
+        <style>
+        .btn-checkin-rapido:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102,126,234,0.4) !important;
+        }
+        .btn-checkin-rapido:active {
+            transform: translateY(0);
+        }
+        </style>
+
         <!-- Lista de participantes -->
-        <div style="margin-top: 20px;">
-            <h2 style="color: #1976d2; margin-bottom: 15px;">Lista de Participantes</h2>
+        <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+            <h2 style="color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 24px;">
+                <span style="font-size: 28px;">📋</span> Lista de Participantes
+            </h2>
             
             <!-- Filtro de búsqueda -->
-            <div style="margin-bottom: 15px;">
+            <div style="margin-bottom: 20px;">
                 <input 
                     type="text" 
                     id="searchInput" 
                     class="form-control" 
-                    placeholder="Buscar por nombre, RUT o institución..." 
-                    style="max-width: 500px; font-size: 16px; padding: 12px;">
+                    placeholder="🔍 Buscar por nombre, RUT o institución..." 
+                    style="max-width: 500px; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05);"
+                    onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102,126,234,0.1)'"
+                    onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.05)'">
             </div>
             
             <?php if (!empty($inscripciones)): ?>
@@ -124,18 +187,21 @@ function abreviarInstitucion($nombre) {
                 <div id="tableContainer"></div>
                 
                 <!-- Paginación -->
-                <div class="pagination-container" style="margin-top: 1.5rem;">
-                    <div class="pagination-controls" style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <label for="recordsPerPage">Mostrar: </label>
-                            <select id="recordsPerPage" onchange="changeRecordsPerPage()" class="form-control" style="display: inline-block; width: auto;">
+                <div class="pagination-container" style="margin-top: 25px;">
+                    <div class="pagination-controls" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <label for="recordsPerPage" style="color: #555; font-weight: 600;">Mostrar: </label>
+                            <select id="recordsPerPage" 
+                                    onchange="changeRecordsPerPage()" 
+                                    class="form-control" 
+                                    style="display: inline-block; width: auto; padding: 8px 32px 8px 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; background: white; cursor: pointer; transition: all 0.3s ease;">
                                 <option value="10">10</option>
                                 <option value="20" selected>20</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                                 <option value="all">Todos</option>
                             </select>
-                            <span id="recordsInfo" style="margin-left: 1rem;"></span>
+                            <span id="recordsInfo" style="color: #666; font-size: 14px;"></span>
                         </div>
                         <div id="paginationButtons"></div>
                     </div>
@@ -166,11 +232,47 @@ function abreviarInstitucion($nombre) {
 
 #paginationButtons {
     display: flex;
-    gap: 0.25rem;
+    gap: 8px;
 }
 
 #paginationButtons .btn {
     min-width: 40px;
+    padding: 8px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+    color: #555;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#paginationButtons .btn:hover:not(.disabled) {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+    transform: translateY(-1px);
+}
+
+#paginationButtons .btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+}
+
+#paginationButtons .btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Estilos globales para botones de registrar en tabla */
+.btn-registrar:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(102,126,234,0.4) !important;
+}
+
+.btn-registrar:active {
+    transform: translateY(0);
 }
 </style>
 
@@ -198,59 +300,59 @@ function renderTable() {
     const endIndex = recordsPerPage === 'all' ? totalRecords : startIndex + parseInt(recordsPerPage);
     const pageData = filteredData.slice(startIndex, endIndex);
     
-    let html = '<div style="display: grid; grid-template-columns: 50px 2.5fr 1fr 2fr 1fr 120px; gap: 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">';
+    let html = '<div style="display: grid; grid-template-columns: 50px 2.5fr 1fr 2fr 1fr 120px; gap: 0; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;">';
     
     // Header
-    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">#</div>';
-    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Nombre Completo</div>';
-    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">RUT</div>';
-    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0;">Institución</div>';
-    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; border-right: 1px solid #1565c0; text-align: center;">Check-ins</div>';
-    html += '<div style="background: #1976d2; color: white; padding: 12px; font-weight: 600; text-align: center;">Estado Hoy</div>';
+    html += '<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 12px; font-weight: 700; border-right: 1px solid rgba(255,255,255,0.2); font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px;">#</div>';
+    html += '<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 12px; font-weight: 700; border-right: 1px solid rgba(255,255,255,0.2); font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px;">Nombre Completo</div>';
+    html += '<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 12px; font-weight: 700; border-right: 1px solid rgba(255,255,255,0.2); font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px;">RUT</div>';
+    html += '<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 12px; font-weight: 700; border-right: 1px solid rgba(255,255,255,0.2); font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px;">Institución</div>';
+    html += '<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 12px; font-weight: 700; border-right: 1px solid rgba(255,255,255,0.2); text-align: center; font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px;">Check-ins</div>';
+    html += '<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 12px; font-weight: 700; text-align: center; font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px;">Estado Hoy</div>';
     
     // Data rows
     pageData.forEach((inscripcion, index) => {
         const globalIndex = startIndex + index + 1;
-        const bgColor = index % 2 == 0 ? '#f8f9fa' : 'white';
+        const bgColor = index % 2 == 0 ? '#fafbfc' : 'white';
         const institucionAbrev = inscripcion.institucion_nombre ? inscripcion.institucion_nombre.replace('Universidad', 'Univ') : 'Sin institución';
         const tieneCheckin = inscripcion.tiene_checkin_hoy;
         
-        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;"><strong>${globalIndex}</strong></div>`;
+        html += `<div style="background: ${bgColor}; padding: 14px 12px; border-bottom: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; display: flex; align-items: center; font-weight: 600; color: #666;">${globalIndex}</div>`;
         
-        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
+        html += `<div style="background: ${bgColor}; padding: 14px 12px; border-bottom: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; display: flex; align-items: center;">
             <a href="javascript:void(0)" 
                onclick="verDetalleParticipante(${inscripcion.participante_id})"
-               style="color: #1976d2; text-decoration: none; font-weight: bold; cursor: pointer;"
-               onmouseover="this.style.textDecoration='underline'"
-               onmouseout="this.style.textDecoration='none'"
+               style="color: #667eea; text-decoration: none; font-weight: 600; cursor: pointer; transition: all 0.2s ease;"
+               onmouseover="this.style.color='#764ba2'; this.style.textDecoration='underline'"
+               onmouseout="this.style.color='#667eea'; this.style.textDecoration='none'"
                title="Ver detalles del participante">
                 ${inscripcion.nombre_completo}
             </a>
         </div>`;
         
-        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">${inscripcion.rut}</div>`;
+        html += `<div style="background: ${bgColor}; padding: 14px 12px; border-bottom: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; display: flex; align-items: center; color: #555;">${inscripcion.rut}</div>`;
         
-        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center;">
-            <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; font-size: 13px;">
+        html += `<div style="background: ${bgColor}; padding: 14px 12px; border-bottom: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; display: flex; align-items: center;">
+            <span style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 6px 10px; border-radius: 6px; font-size: 13px; color: #1565c0; font-weight: 500;">
                 ${institucionAbrev}
             </span>
         </div>`;
         
-        html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center;">
-            <span style="font-weight: bold; color: #2196f3;">${inscripcion.total_checkins}</span>
+        html += `<div style="background: ${bgColor}; padding: 14px 12px; border-bottom: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: center;">
+            <span style="font-weight: 700; font-size: 16px; color: #667eea;">${inscripcion.total_checkins}</span>
         </div>`;
         
         if (tieneCheckin) {
-            html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center;">
-                <span style="background: #4caf50; color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600;">
-                    ✓ Presente
+            html += `<div style="background: ${bgColor}; padding: 14px 12px; border-bottom: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: center;">
+                <span style="background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%); color: white; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(76,175,80,0.3);">
+                    <span style="font-size: 14px;">✓</span> Presente
                 </span>
             </div>`;
         } else {
-            html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center;">
+            html += `<div style="background: ${bgColor}; padding: 14px 12px; border-bottom: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: center;">
                 <button onclick="registrarCheckin(${inscripcion.id})" 
-                        class="btn btn-primary" 
-                        style="padding: 6px 12px; font-size: 13px;">
+                        class="btn btn-primary btn-registrar" 
+                        style="padding: 8px 14px; font-size: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 6px rgba(102,126,234,0.3);">
                     ✅ Registrar
                 </button>
             </div>`;
