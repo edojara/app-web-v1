@@ -45,8 +45,15 @@ class CheckinController {
             exit;
         }
         
-        // Fecha seleccionada - si no viene en GET, usar la primera fecha del evento (solo la parte de fecha, sin hora)
-        $fecha_seleccionada = isset($_GET['fecha']) ? $_GET['fecha'] : date('Y-m-d', strtotime($evento['fecha_inicio']));
+        // Fecha seleccionada - si no viene en GET, usar la primera fecha del evento
+        // Siempre extraer solo la parte de fecha (sin hora) para asegurar consistencia
+        if (isset($_GET['fecha'])) {
+            // Si viene fecha en GET, extraer solo la parte de fecha (por si incluye hora)
+            $fecha_seleccionada = date('Y-m-d', strtotime($_GET['fecha']));
+        } else {
+            // Si no viene fecha, usar la primera fecha del evento
+            $fecha_seleccionada = date('Y-m-d', strtotime($evento['fecha_inicio']));
+        }
         
         // Validar que la fecha esté dentro del rango del evento
         $fecha_inicio_solo = date('Y-m-d', strtotime($evento['fecha_inicio']));
