@@ -9,15 +9,14 @@ function abreviarInstitucion($nombre) {
 ?>
 <div class="container">
     <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <a href="?url=inscripciones&evento_id=<?php echo $evento_id; ?>" 
+        <div style="display: flex; justify-content: flex-start; margin-bottom: 15px;">
+            <a href="?url=eventos" 
                style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: #f5f5f5; color: #333; text-decoration: none; border-radius: 6px; font-weight: 500; transition: all 0.3s; border: 1px solid #e0e0e0;"
                onmouseover="this.style.background='#e0e0e0'; this.style.transform='translateX(-4px)'"
                onmouseout="this.style.background='#f5f5f5'; this.style.transform='translateX(0)'">
                 <span style="font-size: 18px;">←</span>
-                <span>Volver a Inscripciones</span>
+                <span>Volver a Eventos</span>
             </a>
-            <a href="?url=eventos" class="btn">📋 Ver Eventos</a>
         </div>
         
         <div style="text-align: center; margin-bottom: 20px;">
