@@ -42,7 +42,7 @@
                     <div style="margin-bottom: 3rem;">
                         <!-- Desktop: Grid -->
                         <div class="desktop-table">
-                            <div class="grid-header" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 160px; gap: 0.75rem; padding: 0.75rem; background: #f8f9fa; font-weight: 600; border-bottom: 2px solid #dee2e6;">
+                            <div class="grid-header" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 200px; gap: 0.75rem; padding: 0.75rem; background: #f8f9fa; font-weight: 600; border-bottom: 2px solid #dee2e6;">
                                 <div>#</div>
                                 <div>Nombre</div>
                                 <div>Fecha Inicio</div>
@@ -57,7 +57,7 @@
                                 $termino = new DateTime($evento['fecha_termino']);
                                 $dias = $inicio->diff($termino)->days;
                             ?>
-                                <div class="grid-row" ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 160px; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; cursor: pointer; align-items: center;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='white'">
+                                <div class="grid-row" ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 200px; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; cursor: pointer; align-items: center;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='white'">
                                     <div><?= $numero++ ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><strong><?= htmlspecialchars($evento['nombre']) ?></strong></div>
                                     <div><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></div>
@@ -65,6 +65,11 @@
                                     <div style="text-align: center;"><?= $dias == 0 ? '1' : $dias ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= htmlspecialchars($evento['lugar']) ?></div>
                                     <div onclick="event.stopPropagation();" ondblclick="event.stopPropagation();" style="display: flex; gap: 5px; justify-content: center;">
+                                        <button onclick="event.stopPropagation(); window.location.href='/?url=checkin&evento_id=<?= $evento['id'] ?>';" 
+                                           style="background: transparent; color: #9c27b0; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
+                                           onmouseover="this.style.color='#7b1fa2'" 
+                                           onmouseout="this.style.color='#9c27b0'"
+                                           title="Check-in">✅</button>
                                         <button onclick="event.stopPropagation(); window.location.href='/?url=inscripciones&evento_id=<?= $evento['id'] ?>';" 
                                            style="background: transparent; color: #4caf50; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
                                            onmouseover="this.style.color='#388e3c'" 
@@ -109,7 +114,7 @@
                     <div>
                         <!-- Desktop: Grid -->
                         <div class="desktop-table">
-                            <div class="grid-header" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 160px; gap: 0.75rem; padding: 0.75rem; background: #f8f9fa; font-weight: 600; border-bottom: 2px solid #dee2e6;">
+                            <div class="grid-header" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 200px; gap: 0.75rem; padding: 0.75rem; background: #f8f9fa; font-weight: 600; border-bottom: 2px solid #dee2e6;">
                                 <div>#</div>
                                 <div>Nombre</div>
                                 <div>Fecha Inicio</div>
@@ -124,7 +129,7 @@
                                 $termino = new DateTime($evento['fecha_termino']);
                                 $dias = $inicio->diff($termino)->days;
                             ?>
-                                <div class="grid-row" ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 160px; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; cursor: pointer; align-items: center; opacity: 0.7;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='white'">
+                                <div class="grid-row" ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 200px; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; cursor: pointer; align-items: center; opacity: 0.7;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='white'">
                                     <div><?= $numero++ ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><strong><?= htmlspecialchars($evento['nombre']) ?></strong></div>
                                     <div><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></div>
@@ -132,6 +137,11 @@
                                     <div style="text-align: center;"><?= $dias == 0 ? '1' : $dias ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= htmlspecialchars($evento['lugar']) ?></div>
                                     <div onclick="event.stopPropagation();" ondblclick="event.stopPropagation();" style="display: flex; gap: 5px; justify-content: center;">
+                                        <button onclick="event.stopPropagation(); window.location.href='/?url=checkin&evento_id=<?= $evento['id'] ?>';" 
+                                           style="background: transparent; color: #9c27b0; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
+                                           onmouseover="this.style.color='#7b1fa2'" 
+                                           onmouseout="this.style.color='#9c27b0'"
+                                           title="Check-in">✅</button>
                                         <button onclick="event.stopPropagation(); window.location.href='/?url=inscripciones&evento_id=<?= $evento['id'] ?>';" 
                                            style="background: transparent; color: #4caf50; border: none; padding: 8px 12px; cursor: pointer; font-size: 20px; transition: color 0.3s;"
                                            onmouseover="this.style.color='#388e3c'" 
