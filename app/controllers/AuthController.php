@@ -56,6 +56,9 @@ class AuthController {
     }
 
     public function googleLogin() {
+        // DEBUG: Verificar que se está llamando este método
+        die("DEBUG: googleLogin() se está ejecutando correctamente!");
+        
         if (session_status() === PHP_SESSION_NONE) session_start();
 
         // Cargar credenciales directamente desde .env
