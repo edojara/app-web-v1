@@ -13,6 +13,20 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Obtener la URL solicitada
 $url = isset($_GET['url']) ? $_GET['url'] : 'home';
+
+// DEBUG - Mostrar en pantalla si es auth
+if (strpos($url, 'auth') !== false) {
+    echo "<!DOCTYPE html><html><body>";
+    echo "<h1>DEBUG - Parámetros recibidos</h1>";
+    echo "<p><strong>\$_GET['url']:</strong> " . ($_GET['url'] ?? 'NO DEFINIDO') . "</p>";
+    echo "<p><strong>\$url (original):</strong> $url</p>";
+    echo "<hr>";
+    echo "<p>Continuando procesamiento...</p>";
+    echo "</body></html>";
+    flush();
+    sleep(2);
+}
+
 $url = rtrim($url, '/');
 $url = trim($url);
 
