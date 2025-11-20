@@ -62,12 +62,27 @@ class AuthController {
         $envFile = dirname(dirname(dirname(__FILE__))) . '/.env';
         
         if (!file_exists($envFile)) {
-            die('Error: Archivo .env no encontrado');
+            die('Error: Archivo .env no encontrado en: ' . $envFile);
         }
         
-        $env = parse_ini_file($envFile);
-        if (!$env) {
-            die('Error: No se pudo leer el archivo .env');
+        // Leer .env línea por línea
+        $envContent = file_get_contents($envFile);
+        if ($envContent === false) {
+            die('Error: No se pudo leer el contenido de .env');
+        }
+        
+        $lines = explode("\n", $envContent);
+        $env = [];
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line) || $line[0] === '#') continue;
+            
+            $parts = explode('=', $line, 2);
+            if (count($parts) === 2) {
+                $key = trim($parts[0]);
+                $value = trim($parts[1]);
+                $env[$key] = $value;
+            }
         }
         
         $clientId = $env['GOOGLE_CLIENT_ID'] ?? '';
