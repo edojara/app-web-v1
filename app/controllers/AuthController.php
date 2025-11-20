@@ -58,41 +58,29 @@ class AuthController {
     public function googleLogin() {
         if (session_status() === PHP_SESSION_NONE) session_start();
 
-        echo '<div style="background: red; color: white; padding: 50px; font-size: 24px;">';
-        echo '<h1>DEBUG googleLogin()</h1>';
-        
-        // Cargar credenciales directamente desde .env
+        // Cargar credenciales de .env
         $envFile = dirname(dirname(dirname(__FILE__))) . '/.env';
-        echo '<p>envFile: ' . $envFile . '</p>';
-        echo '<p>¿Existe? ' . (file_exists($envFile) ? 'SÍ' : 'NO') . '</p>';
         
-        $clientId = '';
-        $clientSecret = '';
-        
-        if (file_exists($envFile)) {
-            $env = parse_ini_file($envFile);
-            echo '<p>¿parse_ini_file OK? ' . ($env ? 'SÍ' : 'NO') . '</p>';
-            if ($env) {
-                $clientId = $env['GOOGLE_CLIENT_ID'] ?? '';
-                $clientSecret = $env['GOOGLE_CLIENT_SECRET'] ?? '';
-                echo '<p>CLIENT_ID: ' . substr($clientId, 0, 20) . '...</p>';
-            }
+        if (!file_exists($envFile)) {
+            die('Error: Archivo .env no encontrado');
         }
-
-        // Verificar que las credenciales estén disponibles
+        
+        $env = parse_ini_file($envFile);
+        if (!$env) {
+            die('Error: No se pudo leer el archivo .env');
+        }
+        
+        $clientId = $env['GOOGLE_CLIENT_ID'] ?? '';
+        
         if (empty($clientId)) {
-            echo '<p style="color: yellow;">CLIENT_ID ESTÁ VACÍO - VA A REDIRIGIR AL LOGIN</p>';
-            echo '</div>';
-            sleep(3);
-            echo '<script>window.location.href = "?url=auth/login";</script>';
-            exit;
+            die('Error: GOOGLE_CLIENT_ID no está configurado en .env');
         }
 
-        // Generar state token para CSRF protection
+        // Generar state token
         $state = bin2hex(random_bytes(16));
         $_SESSION['oauth_state'] = $state;
 
-        // Parámetros de Google OAuth
+        // Construir URL de Google OAuth
         $params = [
             'client_id' => $clientId,
             'redirect_uri' => APP_URL . '/?url=auth/google-callback',
@@ -103,14 +91,22 @@ class AuthController {
 
         $authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
         
-        echo '<p>URL de Google: ' . htmlspecialchars(substr($authUrl, 0, 100)) . '...</p>';
-        echo '<p style="color: lime;">VA A REDIRIGIR A GOOGLE EN 3 SEGUNDOS</p>';
-        echo '</div>';
-        sleep(3);
-        
-        // Usar JavaScript para redirect ya que puede haber output previo
-        echo '<script>window.location.href = "' . htmlspecialchars($authUrl, ENT_QUOTES, 'UTF-8') . '";</script>';
-        echo '<p>Redirigiendo a Google...</p>';
+        // Redirect con JavaScript (funciona siempre)
+        ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Redirigiendo a Google...</title>
+        </head>
+        <body>
+            <p>Redirigiendo a Google para autenticación...</p>
+            <script>
+                window.location.href = <?php echo json_encode($authUrl); ?>;
+            </script>
+        </body>
+        </html>
+        <?php
         exit;
     }
 

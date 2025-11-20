@@ -42,28 +42,6 @@ if (!$isAuthenticated && strtolower($controllerName) !== 'auth') {
 // Convertir guiones a guiones bajos (google-login -> google_login)
 $action = str_replace('-', '_', $action);
 
-// DEBUG: Mostrar qué se va a ejecutar
-if (strtolower($controllerName) === 'auth' && $action === 'google_login') {
-    echo '<div style="background: orange; padding: 30px; font-size: 20px;">';
-    echo '<h1>DEBUG ANTES DE EJECUTAR MÉTODO</h1>';
-    echo '<p>Controlador: ' . $controllerName . '</p>';
-    echo '<p>Archivo: ' . $controllerFile . '</p>';
-    echo '<p>¿Existe archivo? ' . (file_exists($controllerFile) ? 'SÍ' : 'NO') . '</p>';
-    echo '<p>Acción: ' . $action . '</p>';
-    echo '<p>Clase: ' . $controllerName . 'Controller</p>';
-    if (file_exists($controllerFile)) {
-        require_once $controllerFile;
-        $className = $controllerName . 'Controller';
-        echo '<p>¿Existe clase? ' . (class_exists($className) ? 'SÍ' : 'NO') . '</p>';
-        if (class_exists($className)) {
-            $controller = new $className();
-            echo '<p>¿Existe método ' . $action . '? ' . (method_exists($controller, $action) ? 'SÍ' : 'NO') . '</p>';
-        }
-    }
-    echo '</div>';
-    sleep(3);
-}
-
 // Verificar si el controlador existe
 if (file_exists($controllerFile)) {
     require_once $controllerFile;
