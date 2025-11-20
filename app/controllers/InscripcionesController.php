@@ -292,4 +292,62 @@ class InscripcionesController {
         header("Location: ?url=inscripciones&evento_id=$evento_id");
         exit;
     }
+    
+    /**
+     * Exportar inscripciones del evento a CSV
+     */
+    public function export() {
+        if (!isset($_GET['evento_id'])) {
+            header('Location: ?url=eventos');
+            exit;
+        }
+        
+        $evento_id = $_GET['evento_id'];
+        $evento = $this->eventoModel->getById($evento_id);
+        
+        if (!$evento) {
+            $_SESSION['error'] = 'Evento no encontrado';
+            header('Location: ?url=eventos');
+            exit;
+        }
+        
+        $inscripciones = $this->inscripcionModel->getByEvento($evento_id);
+        
+        // Configurar headers para descarga CSV
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="inscripciones_' . date('Y-m-d_His') . '.csv"');
+        
+        // Crear salida
+        $output = fopen('php://output', 'w');
+        
+        // BOM para UTF-8
+        fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+        
+        // Encabezados
+        fputcsv($output, [
+            'N°',
+            'Nombre Completo',
+            'RUT',
+            'Email',
+            'Teléfono',
+            'Institución',
+            'Fecha Inscripción'
+        ]);
+        
+        // Datos
+        foreach ($inscripciones as $index => $inscripcion) {
+            fputcsv($output, [
+                $index + 1,
+                $inscripcion['nombre_completo'],
+                $inscripcion['rut'],
+                $inscripcion['email'],
+                $inscripcion['telefono'],
+                $inscripcion['institucion_nombre'] ?? 'Sin institución',
+                date('d/m/Y H:i', strtotime($inscripcion['fecha_inscripcion']))
+            ]);
+        }
+        
+        fclose($output);
+        exit;
+    }
 }

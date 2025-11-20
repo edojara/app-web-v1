@@ -30,6 +30,9 @@ function abreviarInstitucion($nombre) {
             <button onclick="openInscribirCSVModal()" class="btn" style="background: #27ae60; color: white;">
                 📄 Inscripción Masiva (CSV)
             </button>
+            <a href="?url=inscripciones/export&evento_id=<?php echo $evento_id; ?>" class="btn" style="background: #f39c12; color: white;">
+                📥 Exportar Lista
+            </a>
         </div>
 
         <?php if (isset($_SESSION['success'])): ?>
