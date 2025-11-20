@@ -27,15 +27,16 @@ $url = explode('/', $url);
 $controllerName = isset($url[0]) && $url[0] != '' ? ucfirst($url[0]) : 'Home';
 $controllerFile = CONTROLLERS_PATH . '/' . $controllerName . 'Controller.php';
 
-// Si el usuario no está autenticado, redirigir al login (excepto para el controlador Auth)
+// Obtener la acción (por defecto: index)
+$action = isset($url[1]) ? $url[1] : 'index';
+
+// Si el usuario no está autenticado, redirigir al login
+// EXCEPTO para el controlador Auth (login, registro, OAuth, etc.)
 $isAuthenticated = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
 if (!$isAuthenticated && strtolower($controllerName) !== 'auth') {
     header('Location: ' . APP_URL . '/?url=auth/login');
     exit;
 }
-
-// Obtener la acción (por defecto: index)
-$action = isset($url[1]) ? $url[1] : 'index';
 
 // Convertir guiones a guiones bajos (google-login -> google_login)
 $action = str_replace('-', '_', $action);
