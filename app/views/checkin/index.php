@@ -268,7 +268,7 @@ function abreviarInstitucion($nombre) {
 /* Estilos globales para botones de registrar en tabla */
 .btn-registrar:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(46,125,50,0.4) !important;
+    box-shadow: 0 4px 10px rgba(25,118,210,0.4) !important;
 }
 
 .btn-registrar:active {
@@ -352,7 +352,7 @@ function renderTable() {
             html += `<div style="background: ${bgColor}; padding: 12px; border-bottom: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: center;">
                 <button onclick="registrarCheckin(${inscripcion.id})" 
                         class="btn btn-primary btn-registrar" 
-                        style="padding: 6px 12px; font-size: 12px; background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(46,125,50,0.2);">
+                        style="padding: 6px 12px; font-size: 12px; background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%); color: white; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(25,118,210,0.2);">
                     ✅ Registrar
                 </button>
             </div>`;
