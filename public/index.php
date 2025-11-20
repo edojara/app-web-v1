@@ -29,12 +29,6 @@ $controllerFile = CONTROLLERS_PATH . '/' . $controllerName . 'Controller.php';
 
 // Si el usuario no está autenticado, redirigir al login (excepto para el controlador Auth)
 $isAuthenticated = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
-
-// DEBUG temporal
-if (strtolower($controllerName) === 'auth') {
-    error_log("DEBUG: Accediendo a AuthController - Action: " . ($url[1] ?? 'index'));
-}
-
 if (!$isAuthenticated && strtolower($controllerName) !== 'auth') {
     header('Location: ' . APP_URL . '/?url=auth/login');
     exit;
