@@ -58,6 +58,13 @@ class AuthController {
     public function googleLogin() {
         if (session_status() === PHP_SESSION_NONE) session_start();
 
+        // Verificar que las credenciales de Google estén configuradas
+        if (!defined('GOOGLE_CLIENT_ID') || GOOGLE_CLIENT_ID === '') {
+            $_SESSION['error'] = 'Google OAuth no está configurado correctamente.';
+            header('Location: ?url=auth/login');
+            exit;
+        }
+
         // Generar state token para CSRF protection
         $state = bin2hex(random_bytes(16));
         $_SESSION['oauth_state'] = $state;
