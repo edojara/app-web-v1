@@ -30,6 +30,18 @@ $controllerFile = CONTROLLERS_PATH . '/' . $controllerName . 'Controller.php';
 // Obtener la acción (por defecto: index)
 $action = isset($url[1]) ? $url[1] : 'index';
 
+// DEBUG temporal - escribir en archivo
+if (isset($_GET['url']) && strpos($_GET['url'], 'auth') !== false) {
+    file_put_contents('/tmp/debug_app.log', 
+        date('Y-m-d H:i:s') . " - URL: " . $_GET['url'] . "\n" .
+        "Controller: $controllerName\n" .
+        "Lowercase: " . strtolower($controllerName) . "\n" .
+        "Is auth?: " . (strtolower($controllerName) === 'auth' ? 'YES' : 'NO') . "\n" .
+        "URL array: " . print_r($url, true) . "\n\n",
+        FILE_APPEND
+    );
+}
+
 // Si el usuario no está autenticado, redirigir al login
 // EXCEPTO para el controlador Auth (login, registro, OAuth, etc.)
 $isAuthenticated = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
