@@ -13,20 +13,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Obtener la URL solicitada
 $url = isset($_GET['url']) ? $_GET['url'] : 'home';
-
-// DEBUG - Mostrar en pantalla si es auth
-if (strpos($url, 'auth') !== false) {
-    echo "<!DOCTYPE html><html><body>";
-    echo "<h1>DEBUG - Parámetros recibidos</h1>";
-    echo "<p><strong>\$_GET['url']:</strong> " . ($_GET['url'] ?? 'NO DEFINIDO') . "</p>";
-    echo "<p><strong>\$url (original):</strong> $url</p>";
-    echo "<hr>";
-    echo "<p>Continuando procesamiento...</p>";
-    echo "</body></html>";
-    flush();
-    sleep(2);
-}
-
 $url = rtrim($url, '/');
 $url = trim($url);
 
@@ -35,6 +21,8 @@ if (empty($url) || $url === 'app-web-v1') {
     $url = 'home';
 }
 
+// DEBUG COMPLETO - Solo para URLs que contengan 'auth'
+$urlOriginal = $url;
 $url = explode('/', $url);
 
 // Obtener el controlador (por defecto: Home)
@@ -44,17 +32,33 @@ $controllerFile = CONTROLLERS_PATH . '/' . $controllerName . 'Controller.php';
 // Obtener la acción (por defecto: index)
 $action = isset($url[1]) ? $url[1] : 'index';
 
-// DEBUG - Mostrar valores de routing
+// Mostrar debug completo
 if (isset($_GET['url']) && strpos($_GET['url'], 'auth') !== false) {
-    echo "<h2>DEBUG - Routing</h2>";
-    echo "<p><strong>\$url array:</strong> " . print_r($url, true) . "</p>";
-    echo "<p><strong>\$controllerName:</strong> $controllerName</p>";
-    echo "<p><strong>\$controllerName (lowercase):</strong> " . strtolower($controllerName) . "</p>";
-    echo "<p><strong>¿Es 'auth'?:</strong> " . (strtolower($controllerName) === 'auth' ? 'SÍ' : 'NO') . "</p>";
+    echo "<!DOCTYPE html><html><body>";
+    echo "<h1>DEBUG COMPLETO - Google OAuth</h1>";
+    echo "<h2>1. Parámetros recibidos</h2>";
+    echo "<p><strong>\$_GET['url']:</strong> " . ($_GET['url'] ?? 'NO DEFINIDO') . "</p>";
+    echo "<p><strong>\$urlOriginal:</strong> $urlOriginal</p>";
+    
+    echo "<h2>2. Después de explode</h2>";
+    echo "<p><strong>\$url array:</strong> <pre>" . print_r($url, true) . "</pre></p>";
+    echo "<p><strong>\$url[0]:</strong> " . ($url[0] ?? 'NO DEFINIDO') . "</p>";
+    echo "<p><strong>\$url[1]:</strong> " . ($url[1] ?? 'NO DEFINIDO') . "</p>";
+    
+    echo "<h2>3. Routing</h2>";
+    echo "<p><strong>\$controllerName:</strong> '$controllerName'</p>";
+    echo "<p><strong>\$controllerName (lowercase):</strong> '" . strtolower($controllerName) . "'</p>";
+    echo "<p><strong>¿Es 'auth'?:</strong> " . (strtolower($controllerName) === 'auth' ? 'SÍ ✓' : 'NO ✗') . "</p>";
     echo "<p><strong>\$action:</strong> $action</p>";
-    echo "<p><strong>¿Está autenticado?:</strong> " . (isset($_SESSION['user_id']) ? 'SÍ' : 'NO') . "</p>";
+    
+    echo "<h2>4. Autenticación</h2>";
+    echo "<p><strong>¿Está autenticado?:</strong> " . (isset($_SESSION['user_id']) && !empty($_SESSION['user_id']) ? 'SÍ' : 'NO') . "</p>";
+    
+    echo "<hr>";
+    echo "<p>Continuando en 5 segundos...</p>";
+    echo "</body></html>";
     flush();
-    sleep(3);
+    sleep(5);
 }
 
 // Si el usuario no está autenticado, redirigir al login
