@@ -55,14 +55,14 @@
                             <?php foreach ($eventosProximos as $evento): 
                                 $inicio = new DateTime($evento['fecha_inicio']);
                                 $termino = new DateTime($evento['fecha_termino']);
-                                $dias = $inicio->diff($termino)->days;
+                                $dias = $inicio->diff($termino)->days + 1; // +1 para incluir ambos días
                             ?>
                                 <div class="grid-row" ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 200px; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; cursor: pointer; align-items: center;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='white'">
                                     <div><?= $numero++ ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><strong><?= htmlspecialchars($evento['nombre']) ?></strong></div>
                                     <div><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></div>
                                     <div><?= date('d/m/Y', strtotime($evento['fecha_termino'])) ?></div>
-                                    <div style="text-align: center;"><?= $dias == 0 ? '1' : $dias ?></div>
+                                    <div style="text-align: center;"><?= $dias ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= htmlspecialchars($evento['lugar']) ?></div>
                                     <div onclick="event.stopPropagation();" ondblclick="event.stopPropagation();" style="display: flex; gap: 5px; justify-content: center;">
                                         <button onclick="event.stopPropagation(); window.location.href='/?url=checkin&evento_id=<?= $evento['id'] ?>';" 
@@ -124,17 +124,17 @@
                                 <div style="text-align: center;">Acciones</div>
                             </div>
                             <?php $numero = 1; ?>
-                            <?php foreach ($eventosPasados as $evento): 
+                            <?php foreach ($eventosProximos as $evento): 
                                 $inicio = new DateTime($evento['fecha_inicio']);
                                 $termino = new DateTime($evento['fecha_termino']);
-                                $dias = $inicio->diff($termino)->days;
+                                $dias = $inicio->diff($termino)->days + 1; // +1 para incluir ambos días
                             ?>
                                 <div class="grid-row" ondblclick="window.location.href='/?url=eventos/view&id=<?= $evento['id'] ?>'" style="display: grid; grid-template-columns: 50px 3fr 1.5fr 1.5fr 0.8fr 2fr 200px; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; cursor: pointer; align-items: center; opacity: 0.7;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='white'">
                                     <div><?= $numero++ ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><strong><?= htmlspecialchars($evento['nombre']) ?></strong></div>
                                     <div><?= date('d/m/Y', strtotime($evento['fecha_inicio'])) ?></div>
                                     <div><?= date('d/m/Y', strtotime($evento['fecha_termino'])) ?></div>
-                                    <div style="text-align: center;"><?= $dias == 0 ? '1' : $dias ?></div>
+                                    <div style="text-align: center;"><?= $dias ?></div>
                                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= htmlspecialchars($evento['lugar']) ?></div>
                                     <div onclick="event.stopPropagation();" ondblclick="event.stopPropagation();" style="display: flex; gap: 5px; justify-content: center;">
                                         <button onclick="event.stopPropagation(); window.location.href='/?url=checkin&evento_id=<?= $evento['id'] ?>';" 
