@@ -59,16 +59,11 @@ function abreviarInstitucion($nombre) {
             <h3 style="margin-bottom: 15px; color: #1a1a1a; font-size: 18px; display: flex; align-items: center; gap: 8px;">
                 <span style="font-size: 22px;">📅</span> Seleccionar Fecha
             </h3>
-            <div style="background: yellow; padding: 10px; margin: 10px 0; border: 2px solid red;">
-                <strong>DEBUG:</strong> fecha_seleccionada = "<?php echo $fecha_seleccionada; ?>"
-            </div>
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                 <?php foreach ($fechas_evento as $fecha): 
                     $es_hoy = $fecha === date('Y-m-d');
                     $es_seleccionada = ($fecha === $fecha_seleccionada);
                     $checkins_fecha = $this->checkinModel->contarByEventoYFecha($evento_id, $fecha);
-                    
-                    echo "<!-- Debug: fecha='$fecha', fecha_seleccionada='$fecha_seleccionada', es_seleccionada=" . ($es_seleccionada ? 'SI' : 'NO') . " -->";
                 ?>
                     <a href="?url=checkin&evento_id=<?php echo $evento_id; ?>&fecha=<?php echo $fecha; ?>" 
                        class="fecha-btn <?php echo $es_seleccionada ? 'active' : ''; ?>"
