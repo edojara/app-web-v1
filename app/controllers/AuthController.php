@@ -58,6 +58,10 @@ class AuthController {
     public function googleLogin() {
         if (session_status() === PHP_SESSION_NONE) session_start();
 
+        // DEBUG: Verificar que las credenciales se están cargando
+        error_log("GOOGLE_CLIENT_ID definido: " . (defined('GOOGLE_CLIENT_ID') ? 'SI' : 'NO'));
+        error_log("GOOGLE_CLIENT_ID valor: " . (defined('GOOGLE_CLIENT_ID') ? GOOGLE_CLIENT_ID : 'N/A'));
+
         // Verificar que las credenciales de Google estén configuradas
         if (!defined('GOOGLE_CLIENT_ID') || GOOGLE_CLIENT_ID === '') {
             $_SESSION['error'] = 'Google OAuth no está configurado correctamente.';
