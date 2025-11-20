@@ -601,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <small style="color: #666; font-size: 13px;">
                         📝 El archivo debe contener un RUT por línea (ej: 12.345.678-9)
                     </small>
-                    <a href="<?php echo APP_URL; ?>/public/assets/ejemplo_ruts.csv" 
+                    <a href="<?php echo APP_URL; ?>/assets/ejemplo_ruts.csv" 
                        download="ejemplo_ruts.csv" 
                        style="color: #2196f3; text-decoration: none; font-size: 13px; font-weight: 600;"
                        onmouseover="this.style.textDecoration='underline'"
