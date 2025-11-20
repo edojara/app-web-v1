@@ -68,7 +68,9 @@ class CheckinController {
             $fechas_evento[] = $fecha->format('Y-m-d');
         }
         
+        require_once VIEWS_PATH . '/layout/header.php';
         require_once VIEWS_PATH . '/checkin/index.php';
+        require_once VIEWS_PATH . '/layout/footer.php';
     }
     
     /**
