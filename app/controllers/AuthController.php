@@ -56,14 +56,19 @@ class AuthController {
     }
 
     public function googleLogin() {
+        error_log("DEBUG: googleLogin() ejecutándose");
+        
         if (session_status() === PHP_SESSION_NONE) session_start();
 
         // Verificar que las credenciales de Google estén configuradas
         if (!defined('GOOGLE_CLIENT_ID') || GOOGLE_CLIENT_ID === '') {
+            error_log("DEBUG: GOOGLE_CLIENT_ID vacío o no definido");
             $_SESSION['error'] = 'Google OAuth no está configurado. CLIENT_ID: ' . (defined('GOOGLE_CLIENT_ID') ? GOOGLE_CLIENT_ID : 'NO DEFINIDO');
             header('Location: ?url=auth/login');
             exit;
         }
+
+        error_log("DEBUG: GOOGLE_CLIENT_ID OK, generando URL de autorización");
 
         // Generar state token para CSRF protection
         $state = bin2hex(random_bytes(16));
@@ -79,6 +84,7 @@ class AuthController {
         ];
 
         $authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
+        error_log("DEBUG: Redirigiendo a Google: " . $authUrl);
         header('Location: ' . $authUrl);
         exit;
     }
