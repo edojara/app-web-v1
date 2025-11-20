@@ -74,6 +74,20 @@ if (isset($_GET['url'])) {
 // Si el usuario no está autenticado, redirigir al login
 // EXCEPTO para el controlador Auth (login, registro, OAuth, etc.)
 $isAuthenticated = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
+
+// DEBUG ADICIONAL
+echo "<div style='background: yellow; padding: 20px; margin: 20px; border: 5px solid red;'>";
+echo "<h2>DEBUG ANTES DE VERIFICAR AUTH</h2>";
+echo "<p>\$controllerName = '<strong>" . $controllerName . "</strong>'</p>";
+echo "<p>strtolower(\$controllerName) = '<strong>" . strtolower($controllerName) . "</strong>'</p>";
+echo "<p>strtolower(\$controllerName) === 'auth' = " . (strtolower($controllerName) === 'auth' ? '<strong style=\"color:green;\">TRUE</strong>' : '<strong style=\"color:red;\">FALSE</strong>') . "</p>";
+echo "<p>strtolower(\$controllerName) !== 'auth' = " . (strtolower($controllerName) !== 'auth' ? '<strong style=\"color:red;\">TRUE (va a redirigir)</strong>' : '<strong style=\"color:green;\">FALSE (NO redirige)</strong>') . "</p>";
+echo "<p>\$isAuthenticated = " . ($isAuthenticated ? 'TRUE' : 'FALSE') . "</p>";
+echo "<p>Condición completa: !isAuthenticated && !== 'auth' = " . (!$isAuthenticated && strtolower($controllerName) !== 'auth' ? '<strong style=\"color:red; font-size:24px;\">TRUE - ENTRARÁ AL IF</strong>' : '<strong style=\"color:green; font-size:24px;\">FALSE - NO ENTRARÁ AL IF</strong>') . "</p>";
+echo "</div>";
+flush();
+sleep(5);
+
 if (!$isAuthenticated && strtolower($controllerName) !== 'auth') {
     echo "<p style='color: red;'><strong>REDIRIGIENDO AL LOGIN porque:</strong></p>";
     echo "<p>- No autenticado: " . (!$isAuthenticated ? 'SÍ' : 'NO') . "</p>";
