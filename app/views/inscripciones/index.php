@@ -369,7 +369,7 @@ function previewCSV() {
     const preview = document.getElementById('csvPreview');
     
     if (!file) {
-        preview.innerHTML = '<p style="color: #999;">No hay archivo seleccionado</p>';
+        preview.innerHTML = '';
         return;
     }
     
@@ -378,21 +378,27 @@ function previewCSV() {
         const text = e.target.result;
         const lines = text.split('\n').filter(line => line.trim());
         
-        let html = '<div style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 10px;">';
-        html += '<strong>Vista previa del archivo (' + lines.length + ' líneas):</strong><br><br>';
-        html += '<div style="max-height: 200px; overflow-y: auto; background: white; padding: 10px; border-radius: 4px;">';
+        let html = '<div style="background: #f8f9fa; padding: 18px; border-radius: 8px; border: 1px solid #e0e0e0;">';
+        html += '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">';
+        html += '<span style="font-size: 20px;">📋</span>';
+        html += '<strong style="color: #333; font-size: 15px;">Vista previa del archivo (' + lines.length + ' RUTs encontrados)</strong>';
+        html += '</div>';
+        html += '<div style="max-height: 250px; overflow-y: auto; background: white; padding: 12px; border-radius: 6px; border: 1px solid #e0e0e0;">';
         
         lines.slice(0, 20).forEach((line, index) => {
             const rut = line.trim();
             if (rut) {
-                html += '<div style="padding: 4px; border-bottom: 1px solid #eee;">';
-                html += (index + 1) + '. ' + rut;
+                html += '<div style="padding: 8px 10px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 10px;">';
+                html += '<span style="color: #999; font-size: 13px; min-width: 30px;">' + (index + 1) + '.</span>';
+                html += '<span style="font-family: monospace; color: #333;">' + rut + '</span>';
                 html += '</div>';
             }
         });
         
         if (lines.length > 20) {
-            html += '<div style="padding: 8px; color: #666; font-style: italic;">... y ' + (lines.length - 20) + ' más</div>';
+            html += '<div style="padding: 12px 10px; color: #666; font-style: italic; text-align: center; background: #f8f9fa; border-radius: 4px; margin-top: 8px;">';
+            html += '... y ' + (lines.length - 20) + ' RUTs más';
+            html += '</div>';
         }
         
         html += '</div></div>';
@@ -573,41 +579,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- Modal para inscripción masiva CSV -->
 <div id="inscribirCSVModal" class="modal">
-    <div class="modal-content" style="max-width: 600px;">
+    <div class="modal-content" style="max-width: 650px;">
         <div class="modal-header">
             <h2>📄 Inscripción Masiva desde CSV</h2>
             <span class="close" onclick="closeInscribirCSVModal()">&times;</span>
         </div>
-        <form method="POST" action="?url=inscripciones/importCSV" enctype="multipart/form-data">
+        <form method="POST" action="?url=inscripciones/importCSV" enctype="multipart/form-data" style="padding: 25px;">
             <input type="hidden" name="evento_id" value="<?php echo $evento_id; ?>">
             
-            <div class="form-group">
-                <label>Archivo CSV con RUTs:</label>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Archivo CSV con RUTs:</label>
                 <input type="file" 
                        id="csvFile" 
                        name="csv_file" 
                        accept=".csv,.txt" 
                        required
                        onchange="previewCSV()"
-                       class="form-control">
-                <small style="color: #666; display: block; margin-top: 5px;">
+                       class="form-control"
+                       style="padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px;">
+                <small style="color: #666; display: block; margin-top: 8px; font-size: 13px;">
                     📝 El archivo debe contener un RUT por línea (ej: 12.345.678-9)
                 </small>
             </div>
             
-            <div id="csvPreview"></div>
+            <div id="csvPreview" style="margin-bottom: 20px;"></div>
             
-            <div class="form-group">
-                <label>Observaciones (opcional):</label>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Observaciones (opcional):</label>
                 <textarea name="observaciones" 
                           class="form-control" 
-                          rows="2" 
-                          placeholder="Observaciones generales para todas las inscripciones..."></textarea>
+                          rows="3" 
+                          placeholder="Observaciones generales para todas las inscripciones..."
+                          style="padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; resize: vertical;"></textarea>
             </div>
             
-            <div style="background: #e3f2fd; padding: 12px; border-radius: 4px; margin: 15px 0;">
-                <strong style="color: #1976d2;">ℹ️ Formato del archivo CSV:</strong>
-                <ul style="margin: 8px 0 0 20px; color: #666;">
+            <div style="background: #e3f2fd; padding: 18px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #2196f3;">
+                <strong style="color: #1976d2; font-size: 15px;">ℹ️ Formato del archivo CSV:</strong>
+                <ul style="margin: 12px 0 0 25px; color: #555; line-height: 1.8;">
                     <li>Un RUT por línea</li>
                     <li>Formato: 12.345.678-9 o 12345678-9</li>
                     <li>Se ignorarán líneas vacías</li>
@@ -615,9 +623,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 </ul>
             </div>
             
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">📤 Importar e Inscribir</button>
-                <button type="button" onclick="closeInscribirCSVModal()" class="btn">Cancelar</button>
+            <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                <button type="button" onclick="closeInscribirCSVModal()" class="btn" style="padding: 10px 20px;">Cancelar</button>
+                <button type="submit" class="btn btn-primary" style="padding: 10px 20px;">📤 Importar e Inscribir</button>
             </div>
         </form>
     </div>
