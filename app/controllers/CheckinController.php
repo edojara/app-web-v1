@@ -45,8 +45,8 @@ class CheckinController {
             exit;
         }
         
-        // Fecha seleccionada
-        $fecha_seleccionada = $_GET['fecha'];
+        // Fecha seleccionada - si no viene en GET, usar la primera fecha del evento
+        $fecha_seleccionada = isset($_GET['fecha']) ? $_GET['fecha'] : $evento['fecha_inicio'];
         
         // Validar que la fecha esté dentro del rango del evento
         if ($fecha_seleccionada < $evento['fecha_inicio'] || $fecha_seleccionada > $evento['fecha_termino']) {
