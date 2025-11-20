@@ -56,11 +56,6 @@ class AuthController {
     }
 
     public function googleLogin() {
-        // Limpiar cualquier output previo
-        if (ob_get_level()) {
-            ob_end_clean();
-        }
-        
         if (session_status() === PHP_SESSION_NONE) session_start();
 
         // Cargar credenciales directamente desde .env
@@ -79,7 +74,7 @@ class AuthController {
         // Verificar que las credenciales estén disponibles
         if (empty($clientId)) {
             $_SESSION['error'] = 'Google OAuth no está configurado correctamente.';
-            header('Location: ?url=auth/login');
+            echo '<script>window.location.href = "?url=auth/login";</script>';
             exit;
         }
 
@@ -97,7 +92,13 @@ class AuthController {
         ];
 
         $authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
-        header('Location: ' . $authUrl);
+        
+        // Usar JavaScript para redirect ya que puede haber output previo
+        echo '<!DOCTYPE html>';
+        echo '<html><head><meta charset="UTF-8"></head><body>';
+        echo '<script>window.location.href = "' . htmlspecialchars($authUrl, ENT_QUOTES, 'UTF-8') . '";</script>';
+        echo '<p>Redirigiendo a Google...</p>';
+        echo '</body></html>';
         exit;
     }
 
