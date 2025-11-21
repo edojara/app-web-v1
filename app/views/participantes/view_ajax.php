@@ -25,9 +25,20 @@
         <span><?= htmlspecialchars($participante['telefono']) ?></span>
     </div>
 
-    <div class="info-item" style="padding: 10px; background: #f8f9fa; border-radius: 4px; grid-column: 1 / -1;">
+    <div class="info-item" style="padding: 10px; background: #f8f9fa; border-radius: 4px;">
         <strong style="display: block; margin-bottom: 5px; color: #666;">Email:</strong>
         <span><?= htmlspecialchars($participante['email']) ?></span>
+    </div>
+
+    <div class="info-item" style="padding: 10px; background: #f8f9fa; border-radius: 4px; grid-column: 1 / -1;">
+        <strong style="display: block; margin-bottom: 5px; color: #666;">Cargo:</strong>
+        <span>
+            <?php if ($participante['cargo']): ?>
+                <?= htmlspecialchars($participante['cargo']) ?>
+            <?php else: ?>
+                <span class="text-muted">No especificado</span>
+            <?php endif; ?>
+        </span>
     </div>
 </div>
 
