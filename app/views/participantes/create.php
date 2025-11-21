@@ -83,6 +83,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="cargo">Cargo</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="cargo" 
+                                   name="cargo" 
+                                   value="<?= htmlspecialchars($_POST['cargo'] ?? '') ?>"
+                                   maxlength="100"
+                                   placeholder="Ej: Profesor, Director, Coordinador">
+                            <small class="form-text text-muted">Cargo o función del participante</small>
+                        </div>
+
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">
                                 💾 Guardar Participante
                             </button>

@@ -61,15 +61,16 @@ class Participante {
      */
     public function create($data) {
         $stmt = $this->conn->prepare("INSERT INTO " . $this->table . " 
-                                       (institucion_id, nombre_completo, rut, telefono, email) 
-                                       VALUES (?, ?, ?, ?, ?)");
+                                       (institucion_id, nombre_completo, rut, telefono, email, cargo) 
+                                       VALUES (?, ?, ?, ?, ?, ?)");
         
-        $stmt->bind_param("issss", 
+        $stmt->bind_param("isssss", 
             $data['institucion_id'],
             $data['nombre_completo'],
             $data['rut'],
             $data['telefono'],
-            $data['email']
+            $data['email'],
+            $data['cargo']
         );
         
         if ($stmt->execute()) {
@@ -87,15 +88,17 @@ class Participante {
                                            nombre_completo = ?, 
                                            rut = ?, 
                                            telefono = ?,
-                                           email = ?
+                                           email = ?,
+                                           cargo = ?
                                        WHERE id = ?");
         
-        $stmt->bind_param("issssi",
+        $stmt->bind_param("isssssi",
             $data['institucion_id'],
             $data['nombre_completo'],
             $data['rut'],
             $data['telefono'],
             $data['email'],
+            $data['cargo'],
             $id
         );
         

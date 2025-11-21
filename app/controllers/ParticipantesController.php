@@ -63,7 +63,8 @@ class ParticipantesController {
             'nombre_completo' => trim($_POST['nombre_completo']),
             'rut' => trim($_POST['rut']),
             'telefono' => trim($_POST['telefono'] ?? ''),
-            'email' => trim($_POST['email'] ?? '')
+            'email' => trim($_POST['email'] ?? ''),
+            'cargo' => trim($_POST['cargo'] ?? '')
         ];
 
         $participanteId = $this->participanteModel->create($data);
@@ -180,7 +181,8 @@ class ParticipantesController {
             'nombre_completo' => trim($_POST['nombre_completo']),
             'rut' => trim($_POST['rut']),
             'telefono' => trim($_POST['telefono'] ?? ''),
-            'email' => trim($_POST['email'] ?? '')
+            'email' => trim($_POST['email'] ?? ''),
+            'cargo' => trim($_POST['cargo'] ?? '')
         ];
 
         if ($this->participanteModel->update($id, $data)) {
@@ -255,7 +257,7 @@ class ParticipantesController {
         fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
         
         // Encabezados
-        fputcsv($output, ['Nombre Completo', 'RUT', 'Teléfono', 'Institución']);
+        fputcsv($output, ['Nombre Completo', 'RUT', 'Teléfono', 'Email', 'Cargo', 'Institución']);
         
         // Datos
         foreach ($participantes as $participante) {
@@ -263,6 +265,8 @@ class ParticipantesController {
                 $participante['nombre_completo'],
                 $participante['rut'],
                 $participante['telefono'] ?? '',
+                $participante['email'] ?? '',
+                $participante['cargo'] ?? '',
                 $participante['institucion_nombre'] ?? ''
             ]);
         }
@@ -321,8 +325,8 @@ class ParticipantesController {
         while (($data = fgetcsv($handle)) !== false) {
             $linea++;
             
-            // Validar que tenga al menos 4 columnas (nombre, rut, telefono, institucion)
-            if (count($data) < 4) {
+            // Validar que tenga al menos 6 columnas (nombre, rut, telefono, email, cargo, institucion)
+            if (count($data) < 6) {
                 $errores[] = "Línea $linea: Datos incompletos";
                 continue;
             }
@@ -330,7 +334,9 @@ class ParticipantesController {
             $nombre_completo = trim($data[0]);
             $rut = trim($data[1]);
             $telefono = trim($data[2] ?? '');
-            $institucion_nombre = trim($data[3]);
+            $email = trim($data[3] ?? '');
+            $cargo = trim($data[4] ?? '');
+            $institucion_nombre = trim($data[5]);
 
             // Validar campos requeridos
             if (empty($nombre_completo) || empty($rut) || empty($institucion_nombre)) {
@@ -356,7 +362,9 @@ class ParticipantesController {
                 'institucion_id' => $institucion['id'],
                 'nombre_completo' => $nombre_completo,
                 'rut' => $rut,
-                'telefono' => $telefono
+                'telefono' => $telefono,
+                'email' => $email,
+                'cargo' => $cargo
             ];
 
             $participanteId = $this->participanteModel->create($participanteData);

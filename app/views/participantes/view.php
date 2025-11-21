@@ -86,6 +86,17 @@
                         </div>
 
                         <div class="info-item">
+                            <strong>Cargo:</strong>
+                            <span>
+                                <?php if ($participante['cargo']): ?>
+                                    <?= htmlspecialchars($participante['cargo']) ?>
+                                <?php else: ?>
+                                    <span class="text-muted">No especificado</span>
+                                <?php endif; ?>
+                            </span>
+                        </div>
+
+                        <div class="info-item">
                             <strong>Fecha de Registro:</strong>
                             <span><?= date('d/m/Y H:i', strtotime($participante['created_at'])) ?></span>
                         </div>
