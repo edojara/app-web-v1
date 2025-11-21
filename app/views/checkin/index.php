@@ -650,23 +650,13 @@ function generarPDFCredencial(inscripcionId) {
     
     const dispositivo = detectarDispositivo();
     
-    // Mostrar instrucciones según el dispositivo
-    if (dispositivo === 'android') {
-        console.log('📱 Dispositivo Android detectado');
-    } else if (dispositivo === 'ios') {
-        console.log('📱 Dispositivo iOS detectado');
-    } else {
-        console.log('💻 Dispositivo Desktop detectado');
-    }
-    
-    // Crear ventana de impresión con el diseño de la credencial
-    const ventanaImpresion = window.open('', '', 'width=800,height=600');
-    
+    // Crear el HTML de la credencial
     const contenidoHTML = `
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Credencial - ${inscripcion.nombre_completo}</title>
             <style>
                 @page {
@@ -793,31 +783,27 @@ function generarPDFCredencial(inscripcionId) {
                     Generado: ${new Date().toLocaleString('es-CL')}
                 </div>
             </div>
+            <script>
+                window.onload = function() {
+                    setTimeout(function() {
+                        window.print();
+                    }, 100);
+                };
+            </script>
         </body>
         </html>
     `;
     
-    ventanaImpresion.document.write(contenidoHTML);
-    ventanaImpresion.document.close();
+    // Crear blob y URL
+    const blob = new Blob([contenidoHTML], { type: 'text/html' });
+    const blobURL = URL.createObjectURL(blob);
     
-    // Esperar a que se cargue y luego imprimir
-    setTimeout(() => {
-        try {
-            ventanaImpresion.focus();
-            ventanaImpresion.print();
-            
-            // En móviles, no cerrar la ventana automáticamente
-            if (dispositivo === 'desktop') {
-                // Solo en desktop cerrar después de imprimir
-                setTimeout(() => {
-                    ventanaImpresion.close();
-                }, 500);
-            }
-        } catch(e) {
-            console.error('Error al imprimir:', e);
-            alert('Por favor, use Ctrl+P o Cmd+P para imprimir la credencial');
-        }
-    }, 500);
+    // Abrir en nueva ventana
+    const ventanaImpresion = window.open(blobURL, '_blank', 'width=800,height=600');
+    
+    if (!ventanaImpresion) {
+        alert('⚠️ Por favor, permite los popups para imprimir la credencial.\n\nVe a la configuración del navegador y habilita los popups para este sitio.');
+    }
 }
 
 // Cerrar modal de confirmación
