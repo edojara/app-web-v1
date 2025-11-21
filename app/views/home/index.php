@@ -9,52 +9,56 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
         
         <!-- Eventos Próximos -->
-        <div style="background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
-                <span style="font-size: 2.5rem;">🔔</span>
-                <div>
-                    <div style="font-size: 0.875rem; opacity: 0.9;">Eventos Próximos</div>
-                    <div style="font-size: 2.5rem; font-weight: bold; line-height: 1;"><?= $eventosProximos ?></div>
+        <a href="/?url=eventos" style="text-decoration: none;">
+            <div style="background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                    <span style="font-size: 2.5rem;">🔔</span>
+                    <div>
+                        <div style="font-size: 0.875rem; opacity: 0.9;">Eventos Próximos</div>
+                        <div style="font-size: 2.5rem; font-weight: bold; line-height: 1;"><?= $eventosProximos ?></div>
+                    </div>
                 </div>
             </div>
-            <a href="/?url=eventos" style="color: white; text-decoration: none; font-size: 0.875rem; opacity: 0.9;">Ver todos →</a>
-        </div>
+        </a>
 
         <!-- Eventos Realizados -->
-        <div style="background: linear-gradient(135deg, #757575 0%, #616161 100%); color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
-                <span style="font-size: 2.5rem;">📋</span>
-                <div>
-                    <div style="font-size: 0.875rem; opacity: 0.9;">Eventos Realizados</div>
-                    <div style="font-size: 2.5rem; font-weight: bold; line-height: 1;"><?= $eventosRealizados ?></div>
+        <a href="/?url=eventos" style="text-decoration: none;">
+            <div style="background: linear-gradient(135deg, #757575 0%, #616161 100%); color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                    <span style="font-size: 2.5rem;">📋</span>
+                    <div>
+                        <div style="font-size: 0.875rem; opacity: 0.9;">Eventos Realizados</div>
+                        <div style="font-size: 2.5rem; font-weight: bold; line-height: 1;"><?= $eventosRealizados ?></div>
+                    </div>
                 </div>
             </div>
-            <a href="/?url=eventos" style="color: white; text-decoration: none; font-size: 0.875rem; opacity: 0.9;">Ver historial →</a>
-        </div>
+        </a>
 
         <!-- Total Instituciones -->
-        <div style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
-                <span style="font-size: 2.5rem;">🏛️</span>
-                <div>
-                    <div style="font-size: 0.875rem; opacity: 0.9;">Instituciones</div>
-                    <div style="font-size: 2.5rem; font-weight: bold; line-height: 1;"><?= $totalInstituciones ?></div>
+        <a href="/?url=instituciones" style="text-decoration: none;">
+            <div style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                    <span style="font-size: 2.5rem;">🏛️</span>
+                    <div>
+                        <div style="font-size: 0.875rem; opacity: 0.9;">Instituciones</div>
+                        <div style="font-size: 2.5rem; font-weight: bold; line-height: 1;"><?= $totalInstituciones ?></div>
+                    </div>
                 </div>
             </div>
-            <a href="/?url=instituciones" style="color: white; text-decoration: none; font-size: 0.875rem; opacity: 0.9;">Administrar →</a>
-        </div>
+        </a>
 
         <!-- Total Participantes -->
-        <div style="background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
-                <span style="font-size: 2.5rem;">👥</span>
-                <div>
-                    <div style="font-size: 0.875rem; opacity: 0.9;">Participantes</div>
-                    <div style="font-size: 2.5rem; font-weight: bold; line-height: 1;"><?= $totalParticipantes ?></div>
+        <a href="/?url=participantes" style="text-decoration: none;">
+            <div style="background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                    <span style="font-size: 2.5rem;">👥</span>
+                    <div>
+                        <div style="font-size: 0.875rem; opacity: 0.9;">Participantes</div>
+                        <div style="font-size: 2.5rem; font-weight: bold; line-height: 1;"><?= $totalParticipantes ?></div>
+                    </div>
                 </div>
             </div>
-            <a href="/?url=participantes" style="color: white; text-decoration: none; font-size: 0.875rem; opacity: 0.9;">Administrar →</a>
-        </div>
+        </a>
     </div>
 
     <!-- Sección de indicadores adicionales -->
