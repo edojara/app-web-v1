@@ -801,15 +801,23 @@ function generarPDFCredencial(inscripcionId) {
     ventanaImpresion.document.close();
     
     // Esperar a que se cargue y luego imprimir
-    ventanaImpresion.onload = function() {
-        setTimeout(() => {
+    setTimeout(() => {
+        try {
+            ventanaImpresion.focus();
             ventanaImpresion.print();
-            // Cerrar la ventana después de imprimir (o cancelar)
-            setTimeout(() => {
-                ventanaImpresion.close();
-            }, 100);
-        }, 250);
-    };
+            
+            // En móviles, no cerrar la ventana automáticamente
+            if (dispositivo === 'desktop') {
+                // Solo en desktop cerrar después de imprimir
+                setTimeout(() => {
+                    ventanaImpresion.close();
+                }, 500);
+            }
+        } catch(e) {
+            console.error('Error al imprimir:', e);
+            alert('Por favor, use Ctrl+P o Cmd+P para imprimir la credencial');
+        }
+    }, 500);
 }
 
 // Cerrar modal de confirmación
