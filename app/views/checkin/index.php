@@ -215,6 +215,60 @@ function abreviarInstitucion($nombre) {
     </div>
 </div>
 
+<!-- Modal de confirmación de check-in -->
+<div id="modalConfirmacionCheckin" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px);">
+    <div style="background-color: white; margin: 5% auto; padding: 0; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); animation: modalSlideIn 0.3s ease;">
+        <div style="background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; padding: 1.5rem; border-radius: 12px 12px 0 0; display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 2rem;">✅</span>
+            <h2 style="margin: 0; font-size: 1.5rem; font-weight: 600;">Confirmar Check-in</h2>
+        </div>
+        <div style="padding: 2rem;">
+            <div id="datosParticipante" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #2e7d32;">
+                <!-- Los datos se llenarán dinámicamente -->
+            </div>
+            
+            <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+                <p style="margin: 0; color: #856404; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.5rem;">⚠️</span>
+                    <span>¿Confirma que desea registrar el check-in para este participante?</span>
+                </p>
+            </div>
+            
+            <!-- Checkbox para impresión (preparado para futuro) -->
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: #e3f2fd; border-radius: 8px; display: none;" id="opcionImpresion">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 0.95rem; color: #1565c0;">
+                    <input type="checkbox" id="imprimirCredencial" style="width: 18px; height: 18px; cursor: pointer;">
+                    <span>🖨️ Imprimir credencial de acreditación</span>
+                </label>
+            </div>
+            
+            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button onclick="cerrarModalConfirmacion()" 
+                        style="padding: 12px 24px; background: #e0e0e0; color: #333; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 15px;">
+                    Cancelar
+                </button>
+                <button onclick="confirmarCheckin()" 
+                        style="padding: 12px 24px; background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 15px; box-shadow: 0 2px 8px rgba(46,125,50,0.3);">
+                    ✅ Confirmar y Acreditar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+
 <style>
 /* Estilos para paginación */
 .pagination-controls {
@@ -477,39 +531,102 @@ function filterParticipantes() {
     renderTable();
 }
 
+// Variable global para almacenar el ID de inscripción temporalmente
+let inscripcionIdTemporal = null;
+
 // Registrar check-in individual
 function registrarCheckin(inscripcionId) {
-    if (confirm('¿Confirmar check-in para este participante?')) {
-        // Guardar estado actual de la tabla
-        sessionStorage.setItem('currentPage', currentPage);
-        sessionStorage.setItem('searchTerm', document.getElementById('searchInput').value);
-        sessionStorage.setItem('recordsPerPage', recordsPerPage);
+    // Buscar los datos del participante
+    const inscripcion = inscripcionesData.find(i => i.id === inscripcionId);
+    
+    if (!inscripcion) {
+        alert('No se encontraron los datos del participante');
+        return;
+    }
+    
+    // Guardar el ID para usarlo después
+    inscripcionIdTemporal = inscripcionId;
+    
+    // Mostrar los datos en el modal
+    const datosHTML = `
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <div style="background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold;">
+                ${inscripcion.nombre_completo.charAt(0)}
+            </div>
+            <div style="flex: 1;">
+                <div style="font-size: 1.2rem; font-weight: 700; color: #1a1a1a; margin-bottom: 4px;">
+                    ${inscripcion.nombre_completo}
+                </div>
+            </div>
+        </div>
         
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '?url=checkin/registrar';
-        
-        const inputInscripcion = document.createElement('input');
-        inputInscripcion.type = 'hidden';
-        inputInscripcion.name = 'inscripcion_id';
-        inputInscripcion.value = inscripcionId;
-        
-        const inputEvento = document.createElement('input');
-        inputEvento.type = 'hidden';
-        inputEvento.name = 'evento_id';
-        inputEvento.value = eventoId;
-        
-        const inputFecha = document.createElement('input');
-        inputFecha.type = 'hidden';
-        inputFecha.name = 'fecha';
-        inputFecha.value = fechaSeleccionada;
-        
-        form.appendChild(inputInscripcion);
-        form.appendChild(inputEvento);
-        form.appendChild(inputFecha);
-        
-        document.body.appendChild(form);
-        form.submit();
+        <div style="display: grid; gap: 12px;">
+            <div style="display: flex; gap: 8px;">
+                <span style="color: #666; font-weight: 600; min-width: 100px;">📋 RUT:</span>
+                <span style="color: #1a1a1a; font-weight: 500;">${inscripcion.rut}</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <span style="color: #666; font-weight: 600; min-width: 100px;">🏛️ Institución:</span>
+                <span style="color: #1a1a1a; font-weight: 500;">${inscripcion.institucion_nombre || 'Sin institución'}</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <span style="color: #666; font-weight: 600; min-width: 100px;">📊 Check-ins:</span>
+                <span style="color: #1a1a1a; font-weight: 700; font-size: 1.1rem;">${inscripcion.total_checkins}</span>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('datosParticipante').innerHTML = datosHTML;
+    document.getElementById('modalConfirmacionCheckin').style.display = 'block';
+}
+
+// Confirmar el check-in desde el modal
+function confirmarCheckin() {
+    if (!inscripcionIdTemporal) return;
+    
+    // Guardar estado actual de la tabla
+    sessionStorage.setItem('currentPage', currentPage);
+    sessionStorage.setItem('searchTerm', document.getElementById('searchInput').value);
+    sessionStorage.setItem('recordsPerPage', recordsPerPage);
+    
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '?url=checkin/registrar';
+    
+    const inputInscripcion = document.createElement('input');
+    inputInscripcion.type = 'hidden';
+    inputInscripcion.name = 'inscripcion_id';
+    inputInscripcion.value = inscripcionIdTemporal;
+    
+    const inputEvento = document.createElement('input');
+    inputEvento.type = 'hidden';
+    inputEvento.name = 'evento_id';
+    inputEvento.value = eventoId;
+    
+    const inputFecha = document.createElement('input');
+    inputFecha.type = 'hidden';
+    inputFecha.name = 'fecha';
+    inputFecha.value = fechaSeleccionada;
+    
+    form.appendChild(inputInscripcion);
+    form.appendChild(inputEvento);
+    form.appendChild(inputFecha);
+    
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// Cerrar modal de confirmación
+function cerrarModalConfirmacion() {
+    document.getElementById('modalConfirmacionCheckin').style.display = 'none';
+    inscripcionIdTemporal = null;
+}
+
+// Cerrar modal al hacer clic fuera
+window.onclick = function(event) {
+    const modal = document.getElementById('modalConfirmacionCheckin');
+    if (event.target == modal) {
+        cerrarModalConfirmacion();
     }
 }
 
