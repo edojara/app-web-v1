@@ -234,10 +234,10 @@ function abreviarInstitucion($nombre) {
                 </p>
             </div>
             
-            <!-- Checkbox para impresión (preparado para futuro) -->
-            <div style="margin-bottom: 1.5rem; padding: 1rem; background: #e3f2fd; border-radius: 8px; display: none;" id="opcionImpresion">
+            <!-- Checkbox para impresión -->
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: #e3f2fd; border-radius: 8px;" id="opcionImpresion">
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 0.95rem; color: #1565c0;">
-                    <input type="checkbox" id="imprimirCredencial" style="width: 18px; height: 18px; cursor: pointer;">
+                    <input type="checkbox" id="imprimirCredencial" checked style="width: 18px; height: 18px; cursor: pointer;">
                     <span>🖨️ Imprimir credencial de acreditación</span>
                 </label>
             </div>
@@ -584,6 +584,14 @@ function registrarCheckin(inscripcionId) {
 function confirmarCheckin() {
     if (!inscripcionIdTemporal) return;
     
+    // Verificar si se debe imprimir
+    const debeImprimir = document.getElementById('imprimirCredencial').checked;
+    
+    if (debeImprimir) {
+        // Generar e imprimir PDF antes de enviar el formulario
+        generarPDFCredencial(inscripcionIdTemporal);
+    }
+    
     // Guardar estado actual de la tabla
     sessionStorage.setItem('currentPage', currentPage);
     sessionStorage.setItem('searchTerm', document.getElementById('searchInput').value);
@@ -614,6 +622,176 @@ function confirmarCheckin() {
     
     document.body.appendChild(form);
     form.submit();
+}
+
+// Generar PDF de credencial
+function generarPDFCredencial(inscripcionId) {
+    const inscripcion = inscripcionesData.find(i => i.id === inscripcionId);
+    if (!inscripcion) return;
+    
+    // Crear ventana de impresión con el diseño de la credencial
+    const ventanaImpresion = window.open('', '', 'width=800,height=600');
+    
+    const contenidoHTML = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Credencial - ${inscripcion.nombre_completo}</title>
+            <style>
+                @page {
+                    size: A6 landscape;
+                    margin: 0;
+                }
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                body {
+                    font-family: 'Arial', sans-serif;
+                    width: 148mm;
+                    height: 105mm;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: #f5f5f5;
+                }
+                .credencial {
+                    width: 140mm;
+                    height: 97mm;
+                    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+                    border: 3px solid #2e7d32;
+                    border-radius: 12px;
+                    padding: 20px;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    position: relative;
+                }
+                .header {
+                    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+                    color: white;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-bottom: 15px;
+                    text-align: center;
+                }
+                .header h1 {
+                    font-size: 24px;
+                    margin-bottom: 5px;
+                }
+                .header p {
+                    font-size: 14px;
+                    opacity: 0.9;
+                }
+                .contenido {
+                    padding: 10px;
+                }
+                .nombre {
+                    font-size: 28px;
+                    font-weight: bold;
+                    color: #1a1a1a;
+                    margin-bottom: 15px;
+                    text-align: center;
+                    text-transform: uppercase;
+                }
+                .datos {
+                    display: grid;
+                    gap: 10px;
+                    margin-bottom: 15px;
+                }
+                .dato {
+                    display: flex;
+                    padding: 8px;
+                    background: #f8f9fa;
+                    border-left: 4px solid #2e7d32;
+                    border-radius: 4px;
+                }
+                .dato-label {
+                    font-weight: bold;
+                    color: #666;
+                    min-width: 120px;
+                }
+                .dato-valor {
+                    color: #1a1a1a;
+                    font-weight: 500;
+                }
+                .footer {
+                    position: absolute;
+                    bottom: 15px;
+                    left: 20px;
+                    right: 20px;
+                    text-align: center;
+                    font-size: 12px;
+                    color: #666;
+                    padding-top: 10px;
+                    border-top: 2px solid #e0e0e0;
+                }
+                .checkmark {
+                    position: absolute;
+                    top: 20px;
+                    right: 20px;
+                    font-size: 48px;
+                    color: #2e7d32;
+                }
+                @media print {
+                    body {
+                        background: white;
+                    }
+                    .credencial {
+                        box-shadow: none;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="credencial">
+                <div class="checkmark">✅</div>
+                <div class="header">
+                    <h1>ACREDITACIÓN</h1>
+                    <p><?php echo htmlspecialchars($evento['nombre']); ?></p>
+                </div>
+                <div class="contenido">
+                    <div class="nombre">${inscripcion.nombre_completo}</div>
+                    <div class="datos">
+                        <div class="dato">
+                            <div class="dato-label">RUT:</div>
+                            <div class="dato-valor">${inscripcion.rut}</div>
+                        </div>
+                        <div class="dato">
+                            <div class="dato-label">Institución:</div>
+                            <div class="dato-valor">${inscripcion.institucion_nombre || 'Sin institución'}</div>
+                        </div>
+                        <div class="dato">
+                            <div class="dato-label">Fecha:</div>
+                            <div class="dato-valor"><?php echo date('d/m/Y', strtotime($fecha_seleccionada)); ?></div>
+                        </div>
+                        <div class="dato">
+                            <div class="dato-label">Lugar:</div>
+                            <div class="dato-valor"><?php echo htmlspecialchars($evento['lugar']); ?></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    Sistema de Acreditación | Generado: ${new Date().toLocaleString('es-CL')}
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    ventanaImpresion.document.write(contenidoHTML);
+    ventanaImpresion.document.close();
+    
+    // Esperar a que se cargue y luego imprimir
+    ventanaImpresion.onload = function() {
+        setTimeout(() => {
+            ventanaImpresion.print();
+            // Cerrar la ventana después de imprimir (o cancelar)
+            setTimeout(() => {
+                ventanaImpresion.close();
+            }, 100);
+        }, 250);
+    };
 }
 
 // Cerrar modal de confirmación
