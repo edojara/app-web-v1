@@ -75,7 +75,14 @@
                             };
                         ?>;">
                             <div style="font-size: 24px; font-weight: bold; color: #424242; min-width: 40px; text-align: center;">
-                                <?php echo $index + 1; ?>
+                                <?php 
+                                    echo match($index) {
+                                        0 => '🥇',
+                                        1 => '🥈',
+                                        2 => '🥉',
+                                        default => ($index + 1)
+                                    };
+                                ?>
                             </div>
                             <div style="flex: 1; padding: 0 20px;">
                                 <div class="institucion-nombre" style="font-weight: 600; color: #212121; font-size: 16px;">
