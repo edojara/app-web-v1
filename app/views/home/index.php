@@ -59,9 +59,9 @@
 
     <!-- Sección de indicadores adicionales -->
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
-        <!-- Top 5 Instituciones con más participantes -->
+        <!-- Top 5 Instituciones con más asistencia -->
         <div class="card">
-            <h2 style="color: #1976d2; margin-bottom: 20px;">🏆 Top 5 Instituciones con Más Participantes</h2>
+            <h2 style="color: #1976d2; margin-bottom: 20px;">🏆 Top 5 Instituciones con Más Asistencia</h2>
             
             <?php if (!empty($topInstituciones)): ?>
                 <div style="max-width: 100%;">
@@ -75,22 +75,32 @@
                             };
                         ?>;">
                             <div style="font-size: 24px; font-weight: bold; color: #424242; min-width: 40px; text-align: center;">
-                                <?php echo $index + 1; ?>
+                                <?php 
+                                    echo match($index) {
+                                        0 => '🥇',
+                                        1 => '🥈',
+                                        2 => '🥉',
+                                        default => ($index + 1)
+                                    };
+                                ?>
                             </div>
                             <div style="flex: 1; padding: 0 20px;">
                                 <div class="institucion-nombre" style="font-weight: 600; color: #212121; font-size: 16px;">
                                     <?php echo htmlspecialchars($institucion['nombre']); ?>
                                 </div>
+                                <div style="font-size: 12px; color: #757575; margin-top: 4px;">
+                                    Check-ins registrados
+                                </div>
                             </div>
-                            <div style="background: #1976d2; color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 18px;">
-                                <?php echo $institucion['total_participantes']; ?>
+                            <div style="background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 18px; box-shadow: 0 2px 4px rgba(46,125,50,0.3);">
+                                <?php echo number_format($institucion['total_asistencias']); ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
                 <p style="text-align: center; color: #757575; padding: 20px;">
-                    No hay datos disponibles
+                    📊 No hay datos de asistencia disponibles aún
                 </p>
             <?php endif; ?>
         </div>
