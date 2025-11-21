@@ -784,8 +784,7 @@ function generarPDFCredencial(inscripcionId) {
                 </div>
             </div>
             <script>
-                // Intentar imprimir automáticamente
-                let printAttempted = false;
+                var printAttempted = false;
                 
                 window.onload = function() {
                     setTimeout(function() {
@@ -798,7 +797,6 @@ function generarPDFCredencial(inscripcionId) {
                         }
                     }, 300);
                     
-                    // Si después de 1 segundo no se abrió el diálogo, mostrar botón
                     setTimeout(function() {
                         if (!printAttempted) {
                             mostrarBotonImprimir();
@@ -807,13 +805,13 @@ function generarPDFCredencial(inscripcionId) {
                 };
                 
                 function mostrarBotonImprimir() {
-                    const boton = document.createElement('div');
-                    boton.innerHTML = '<button onclick="window.print()" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 15px 30px; background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(46,125,50,0.4);">🖨️ Imprimir Credencial</button>';
+                    var boton = document.createElement('div');
+                    boton.innerHTML = '<button onclick="window.print()" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 15px 30px; background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(46,125,50,0.4);">🖨️ Imprimir Credencial<' + '/button>';
                     document.body.appendChild(boton);
                 }
-            </script>
-        </body>
-        </html>
+            <` + `/script>
+        <` + `/body>
+        <` + `/html>
     `;
     
     // Crear blob y URL
