@@ -660,48 +660,42 @@ function generarPDFCredencial(inscripcionId) {
                 .credencial {
                     width: 140mm;
                     height: 97mm;
-                    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+                    background: white;
                     border: 3px solid #2e7d32;
-                    border-radius: 12px;
-                    padding: 20px;
+                    border-radius: 8px;
+                    padding: 25px;
                     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
                     position: relative;
                 }
-                .header {
-                    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
-                    color: white;
-                    padding: 15px;
-                    border-radius: 8px;
-                    margin-bottom: 15px;
+                .evento-titulo {
                     text-align: center;
-                }
-                .header h1 {
-                    font-size: 24px;
-                    margin-bottom: 5px;
-                }
-                .header p {
-                    font-size: 14px;
-                    opacity: 0.9;
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #2e7d32;
+                    margin-bottom: 20px;
+                    padding-bottom: 10px;
+                    border-bottom: 2px solid #2e7d32;
                 }
                 .contenido {
                     padding: 10px;
                 }
                 .nombre {
-                    font-size: 28px;
+                    font-size: 32px;
                     font-weight: bold;
                     color: #1a1a1a;
-                    margin-bottom: 15px;
+                    margin-bottom: 25px;
                     text-align: center;
                     text-transform: uppercase;
+                    letter-spacing: 0.5px;
                 }
                 .datos {
                     display: grid;
-                    gap: 10px;
+                    gap: 12px;
                     margin-bottom: 15px;
                 }
                 .dato {
                     display: flex;
-                    padding: 8px;
+                    padding: 10px;
                     background: #f8f9fa;
                     border-left: 4px solid #2e7d32;
                     border-radius: 4px;
@@ -709,7 +703,7 @@ function generarPDFCredencial(inscripcionId) {
                 .dato-label {
                     font-weight: bold;
                     color: #666;
-                    min-width: 120px;
+                    min-width: 100px;
                 }
                 .dato-valor {
                     color: #1a1a1a;
@@ -718,19 +712,19 @@ function generarPDFCredencial(inscripcionId) {
                 .footer {
                     position: absolute;
                     bottom: 15px;
-                    left: 20px;
-                    right: 20px;
+                    left: 25px;
+                    right: 25px;
                     text-align: center;
-                    font-size: 12px;
-                    color: #666;
-                    padding-top: 10px;
-                    border-top: 2px solid #e0e0e0;
+                    font-size: 10px;
+                    color: #999;
+                    padding-top: 8px;
+                    border-top: 1px solid #e0e0e0;
                 }
                 .checkmark {
                     position: absolute;
-                    top: 20px;
-                    right: 20px;
-                    font-size: 48px;
+                    top: 25px;
+                    right: 25px;
+                    font-size: 42px;
                     color: #2e7d32;
                 }
                 @media print {
@@ -739,6 +733,7 @@ function generarPDFCredencial(inscripcionId) {
                     }
                     .credencial {
                         box-shadow: none;
+                        border: 2px solid #2e7d32;
                     }
                 }
             </style>
@@ -746,10 +741,7 @@ function generarPDFCredencial(inscripcionId) {
         <body>
             <div class="credencial">
                 <div class="checkmark">✅</div>
-                <div class="header">
-                    <h1>ACREDITACIÓN</h1>
-                    <p><?php echo htmlspecialchars($evento['nombre']); ?></p>
-                </div>
+                <div class="evento-titulo"><?php echo htmlspecialchars($evento['nombre']); ?></div>
                 <div class="contenido">
                     <div class="nombre">${inscripcion.nombre_completo}</div>
                     <div class="datos">
@@ -765,18 +757,10 @@ function generarPDFCredencial(inscripcionId) {
                             <div class="dato-label">Cargo:</div>
                             <div class="dato-valor">${inscripcion.cargo || 'Sin especificar'}</div>
                         </div>
-                        <div class="dato">
-                            <div class="dato-label">Fecha:</div>
-                            <div class="dato-valor"><?php echo date('d/m/Y', strtotime($fecha_seleccionada)); ?></div>
-                        </div>
-                        <div class="dato">
-                            <div class="dato-label">Lugar:</div>
-                            <div class="dato-valor"><?php echo htmlspecialchars($evento['lugar']); ?></div>
-                        </div>
                     </div>
                 </div>
                 <div class="footer">
-                    Sistema de Acreditación | Generado: ${new Date().toLocaleString('es-CL')}
+                    Generado: ${new Date().toLocaleString('es-CL')}
                 </div>
             </div>
         </body>
