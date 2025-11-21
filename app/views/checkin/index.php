@@ -33,6 +33,10 @@ function abreviarInstitucion($nombre) {
                     <span style="font-size: 20px;">📍</span>
                     <span style="font-size: 15px;"><?php echo htmlspecialchars($evento['lugar']); ?></span>
                 </div>
+                <div id="indicadorDispositivo" style="display: flex; align-items: center; gap: 8px; padding: 4px 12px; background: #e3f2fd; border-radius: 12px; font-size: 13px; color: #1976d2;">
+                    <span id="iconoDispositivo">📱</span>
+                    <span id="nombreDispositivo">Detectando...</span>
+                </div>
             </div>
         </div>
 
@@ -624,10 +628,36 @@ function confirmarCheckin() {
     form.submit();
 }
 
+// Detectar tipo de dispositivo
+function detectarDispositivo() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    
+    if (/android/.test(userAgent)) {
+        return 'android';
+    } else if (/iphone|ipad|ipod/.test(userAgent)) {
+        return 'ios';
+    } else if (/mobile/.test(userAgent)) {
+        return 'mobile';
+    } else {
+        return 'desktop';
+    }
+}
+
 // Generar PDF de credencial
 function generarPDFCredencial(inscripcionId) {
     const inscripcion = inscripcionesData.find(i => i.id === inscripcionId);
     if (!inscripcion) return;
+    
+    const dispositivo = detectarDispositivo();
+    
+    // Mostrar instrucciones según el dispositivo
+    if (dispositivo === 'android') {
+        console.log('📱 Dispositivo Android detectado');
+    } else if (dispositivo === 'ios') {
+        console.log('📱 Dispositivo iOS detectado');
+    } else {
+        console.log('💻 Dispositivo Desktop detectado');
+    }
     
     // Crear ventana de impresión con el diseño de la credencial
     const ventanaImpresion = window.open('', '', 'width=800,height=600');
@@ -847,6 +877,29 @@ function buscarYRegistrarCheckin() {
 
 // Event listener para Enter en campo de RUT
 document.addEventListener('DOMContentLoaded', function() {
+    // Detectar y mostrar el tipo de dispositivo
+    const dispositivo = detectarDispositivo();
+    const iconoElem = document.getElementById('iconoDispositivo');
+    const nombreElem = document.getElementById('nombreDispositivo');
+    
+    switch(dispositivo) {
+        case 'android':
+            iconoElem.textContent = '📱';
+            nombreElem.textContent = 'Android';
+            break;
+        case 'ios':
+            iconoElem.textContent = '📱';
+            nombreElem.textContent = 'iPhone/iPad';
+            break;
+        case 'mobile':
+            iconoElem.textContent = '📱';
+            nombreElem.textContent = 'Móvil';
+            break;
+        default:
+            iconoElem.textContent = '💻';
+            nombreElem.textContent = 'PC/Laptop';
+    }
+    
     // Restaurar estado de la tabla si existe
     const savedPage = sessionStorage.getItem('currentPage');
     const savedSearch = sessionStorage.getItem('searchTerm');
