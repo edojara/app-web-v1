@@ -59,19 +59,55 @@
 
     <!-- Sección de indicadores adicionales -->
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
-        <!-- Top 5 Instituciones con más asistencia -->
+        <!-- Top 5 Instituciones con más participantes -->
         <div class="card">
-            <h2 style="color: #1976d2; margin-bottom: 20px;">🏆 Top 5 Instituciones con Más Asistencia</h2>
+            <h2 style="color: #1976d2; margin-bottom: 20px;">🏆 Top 5 Instituciones con Más Participantes</h2>
             
-            <?php if (!empty($topInstituciones)): ?>
+            <?php if (!empty($topInstitucionesParticipantes)): ?>
                 <div style="max-width: 100%;">
-                    <?php foreach ($topInstituciones as $index => $institucion): ?>
+                    <?php foreach ($topInstitucionesParticipantes as $index => $institucion): ?>
                         <div style="display: flex; align-items: center; padding: 15px; margin-bottom: 10px; background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%); border-radius: 8px; border-left: 4px solid <?php 
                             echo match($index) {
                                 0 => '#ffd700',  // Oro
                                 1 => '#c0c0c0',  // Plata
                                 2 => '#cd7f32',  // Bronce
                                 default => '#1976d2'  // Azul
+                            };
+                        ?>;">
+                            <div style="font-size: 24px; font-weight: bold; color: #424242; min-width: 40px; text-align: center;">
+                                <?php echo $index + 1; ?>
+                            </div>
+                            <div style="flex: 1; padding: 0 20px;">
+                                <div class="institucion-nombre" style="font-weight: 600; color: #212121; font-size: 16px;">
+                                    <?php echo htmlspecialchars($institucion['nombre']); ?>
+                                </div>
+                            </div>
+                            <div style="background: #1976d2; color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 18px;">
+                                <?php echo number_format($institucion['total_participantes']); ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p style="text-align: center; color: #757575; padding: 20px;">
+                    No hay datos disponibles
+                </p>
+            <?php endif; ?>
+        </div>
+
+        <!-- Top 5 Instituciones con más asistencia -->
+        <div class="card">
+            <h2 style="color: #2e7d32; margin-bottom: 20px;">✅ Top 5 Instituciones con Más Asistencia</h2>
+            
+            <?php if (!empty($topInstitucionesAsistencia)): ?>
+                <div style="max-width: 100%;">
+                    <?php foreach ($topInstitucionesAsistencia as $index => $institucion): ?>
+                        <div style="display: flex; align-items: center; padding: 15px; margin-bottom: 10px; background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%); border-radius: 8px; border-left: 4px solid <?php 
+                            echo match($index) {
+                                0 => '#ffd700',  // Oro
+                                1 => '#c0c0c0',  // Plata
+                                2 => '#cd7f32',  // Bronce
+                                default => '#2e7d32'  // Verde
                             };
                         ?>;">
                             <div style="font-size: 24px; font-weight: bold; color: #424242; min-width: 40px; text-align: center;">
@@ -103,14 +139,6 @@
                     📊 No hay datos de asistencia disponibles aún
                 </p>
             <?php endif; ?>
-        </div>
-
-        <!-- Segundo indicador (placeholder) -->
-        <div class="card">
-            <h2 style="color: #1976d2; margin-bottom: 20px;">📊 Indicador 2</h2>
-            <p style="text-align: center; color: #757575; padding: 20px;">
-                Contenido del segundo indicador
-            </p>
         </div>
     </div>
 </div>
