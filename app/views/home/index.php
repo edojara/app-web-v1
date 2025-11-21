@@ -131,9 +131,6 @@
                                 <div class="institucion-nombre" style="font-weight: 600; color: #212121; font-size: 16px;">
                                     <?php echo htmlspecialchars($institucion['nombre']); ?>
                                 </div>
-                                <div style="font-size: 12px; color: #757575; margin-top: 4px;">
-                                    Check-ins registrados
-                                </div>
                             </div>
                             <div style="background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 18px; box-shadow: 0 2px 4px rgba(46,125,50,0.3);">
                                 <?php echo number_format($institucion['total_asistencias']); ?>
