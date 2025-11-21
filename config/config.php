@@ -4,7 +4,7 @@
  */
 
 // Datos de la aplicación
-define('APP_NAME', 'App Web LAMP');
+define('APP_NAME', 'Acreditación');
 define('APP_VERSION', '1.0.0');
 
 // ⚙️ CONFIGURACIÓN DE DOMINIO - Cambiar aquí para diferentes ambientes
