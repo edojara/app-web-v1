@@ -660,7 +660,7 @@ function generarPDFCredencial(inscripcionId) {
             <title>Credencial - ${inscripcion.nombre_completo}</title>
             <style>
                 @page {
-                    size: A6 landscape;
+                    size: 85.6mm 53.98mm;
                     margin: 0;
                 }
                 * {
@@ -670,81 +670,84 @@ function generarPDFCredencial(inscripcionId) {
                 }
                 body {
                     font-family: 'Arial', sans-serif;
-                    width: 148mm;
-                    height: 105mm;
+                    width: 85.6mm;
+                    height: 53.98mm;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     background: #f5f5f5;
                 }
                 .credencial {
-                    width: 140mm;
-                    height: 97mm;
+                    width: 85.6mm;
+                    height: 53.98mm;
                     background: white;
-                    border: 3px solid #2e7d32;
-                    border-radius: 8px;
-                    padding: 25px;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    border: 2px solid #2e7d32;
+                    border-radius: 4px;
+                    padding: 8px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
                     position: relative;
                 }
                 .evento-titulo {
                     text-align: center;
-                    font-size: 18px;
+                    font-size: 9px;
                     font-weight: 600;
                     color: #2e7d32;
-                    margin-bottom: 20px;
-                    padding-bottom: 10px;
-                    border-bottom: 2px solid #2e7d32;
+                    margin-bottom: 6px;
+                    padding-bottom: 4px;
+                    border-bottom: 1px solid #2e7d32;
                 }
                 .contenido {
-                    padding: 10px;
+                    padding: 4px;
                 }
                 .nombre {
-                    font-size: 32px;
+                    font-size: 14px;
                     font-weight: bold;
                     color: #1a1a1a;
-                    margin-bottom: 25px;
+                    margin-bottom: 8px;
                     text-align: center;
                     text-transform: uppercase;
-                    letter-spacing: 0.5px;
+                    letter-spacing: 0.3px;
+                    line-height: 1.2;
                 }
                 .datos {
                     display: grid;
-                    gap: 12px;
-                    margin-bottom: 15px;
+                    gap: 4px;
+                    margin-bottom: 6px;
                 }
                 .dato {
                     display: flex;
-                    padding: 10px;
+                    padding: 3px 5px;
                     background: #f8f9fa;
-                    border-left: 4px solid #2e7d32;
-                    border-radius: 4px;
+                    border-left: 2px solid #2e7d32;
+                    border-radius: 2px;
                 }
                 .dato-label {
                     font-weight: bold;
                     color: #666;
-                    min-width: 100px;
+                    min-width: 45px;
+                    font-size: 8px;
                 }
                 .dato-valor {
                     color: #1a1a1a;
                     font-weight: 500;
+                    font-size: 8px;
                 }
                 .footer {
                     position: absolute;
-                    bottom: 15px;
-                    left: 25px;
-                    right: 25px;
+                    bottom: 5px;
+                    left: 8px;
+                    right: 8px;
                     text-align: center;
-                    font-size: 10px;
+                    font-size: 6px;
                     color: #999;
-                    padding-top: 8px;
+                    padding-top: 3px;
                     border-top: 1px solid #e0e0e0;
                 }
                 .checkmark {
                     position: absolute;
-                    top: 25px;
-                    right: 25px;
-                    font-size: 42px;
+                    top: 8px;
+                    right: 8px;
+                    font-size: 18px;
                     color: #2e7d32;
                 }
                 @media print {
