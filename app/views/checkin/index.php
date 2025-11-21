@@ -762,6 +762,10 @@ function generarPDFCredencial(inscripcionId) {
                             <div class="dato-valor">${inscripcion.institucion_nombre || 'Sin institución'}</div>
                         </div>
                         <div class="dato">
+                            <div class="dato-label">Cargo:</div>
+                            <div class="dato-valor">${inscripcion.cargo || 'Sin especificar'}</div>
+                        </div>
+                        <div class="dato">
                             <div class="dato-label">Fecha:</div>
                             <div class="dato-valor"><?php echo date('d/m/Y', strtotime($fecha_seleccionada)); ?></div>
                         </div>

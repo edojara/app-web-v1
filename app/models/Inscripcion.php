@@ -31,7 +31,7 @@ class Inscripcion {
      */
     public function getByEvento($evento_id) {
         $sql = "SELECT i.*, 
-                       p.nombre_completo, p.rut, p.email, p.telefono,
+                       p.nombre_completo, p.rut, p.email, p.telefono, p.cargo,
                        inst.nombre as institucion_nombre,
                        u.name as usuario_nombre
                 FROM inscripciones i
